@@ -7,12 +7,12 @@
 import React from 'react';
 import SplitPane from 'react-split-pane';
 import MonacoEditor from 'react-monaco-editor';
-import format from './images/format.png';
 import sample from './sample';
 import logo from './images/JSONata-white-38.png';
 import docs from './images/docs-white-32.png';
 import docspercipio from './images/docs-white-percipio.png';
 import jsonataMode from './jsonataMode';
+import _ from 'lodash';
 
 class Exerciser extends React.Component {
   constructor(props) {
@@ -20,6 +20,8 @@ class Exerciser extends React.Component {
     this.state = {
       json: JSON.stringify(sample.Metadata.json, null, 2),
       jsonata: sample.Metadata.jsonata,
+      baseconfig: JSON.stringify(sample.Metadata.baseconfig || {}, null, 2),
+      customerconfig: JSON.stringify(sample.Metadata.customerconfig || {}, null, 2),
       result: '',
     };
   }
@@ -53,6 +55,20 @@ class Exerciser extends React.Component {
     });
   }
 
+  baseconfigEditorDidMount(editor, monaco) {
+    console.log('editorDidMount', editor);
+    this.monaco = monaco;
+    this.baseconfigEditor = editor;
+    editor.decorations = [];
+  }
+
+  customerconfigEditorDidMount(editor, monaco) {
+    console.log('editorDidMount', editor);
+    this.monaco = monaco;
+    this.customerconfigEditor = editor;
+    editor.decorations = [];
+  }
+
   onChangeData(newValue, e) {
     this.setState({ json: newValue });
     console.log('onChangeData', newValue, e);
@@ -69,9 +85,35 @@ class Exerciser extends React.Component {
     this.clearMarkers();
   }
 
+  onChangeBaseconfig(newValue, e) {
+    this.setState({ baseconfig: newValue });
+    console.log('onChangeBaseconfig', newValue, e);
+    clearTimeout(this.timer);
+    this.timer = setTimeout(this.eval.bind(this), 500);
+    this.clearMarkers();
+  }
+
+  onChangeCustomerconfig(newValue, e) {
+    this.setState({ customerconfig: newValue });
+    console.log('onChangeCustomerconfig', newValue, e);
+    clearTimeout(this.timer);
+    this.timer = setTimeout(this.eval.bind(this), 500);
+    this.clearMarkers();
+  }
+
   format() {
     const formatted = JSON.stringify(JSON.parse(this.state.json), null, 2);
     this.setState({ json: formatted });
+  }
+
+  formatbaseconfig() {
+    const formatted = JSON.stringify(JSON.parse(this.state.baseconfig), null, 2);
+    this.setState({ baseconfig: formatted });
+  }
+
+  formatcustomerconfig() {
+    const formatted = JSON.stringify(JSON.parse(this.state.customerconfig), null, 2);
+    this.setState({ customerconfig: formatted });
   }
 
   loadJSONata() {
@@ -95,6 +137,8 @@ class Exerciser extends React.Component {
     this.setState({
       json: JSON.stringify(data.json, null, 2),
       jsonata: data.jsonata,
+      baseconfig: JSON.stringify(data.baseconfig || {}, null, 2),
+      customerconfig: JSON.stringify(data.customerconfig || {}, null, 2),
     });
     clearTimeout(this.timer);
     this.timer = setTimeout(this.eval.bind(this), 100);
@@ -102,7 +146,7 @@ class Exerciser extends React.Component {
   }
 
   eval() {
-    let input, jsonataResult;
+    let input, jsonataResult, baseconfig, customerconfig, binding;
 
     if (typeof window.jsonataExtended === 'undefined') {
       this.timer = setTimeout(this.eval.bind(this), 500);
@@ -125,8 +169,41 @@ class Exerciser extends React.Component {
     }
 
     try {
+      baseconfig = JSON.parse(this.state.baseconfig);
+    } catch (err) {
+      console.log(err);
+      this.setState({ result: 'ERROR IN BASE CONFIGURATION DATA: ' + err.message });
+      const pos = err.message.indexOf('at position ');
+      console.log('pos=', pos);
+      if (pos !== -1) {
+        console.log(err);
+        const start = parseInt(err.message.substr(pos + 12)) + 1;
+        this.errorMarker(start, start + 1, this.baseconfigEditor, this.state.baseconfig);
+      }
+      return;
+    }
+
+    try {
+      customerconfig = JSON.parse(this.state.customerconfig);
+    } catch (err) {
+      console.log(err);
+      this.setState({ result: 'ERROR IN CUSTOMER CONFIGURATION DATA: ' + err.message });
+      const pos = err.message.indexOf('at position ');
+      console.log('pos=', pos);
+      if (pos !== -1) {
+        console.log(err);
+        const start = parseInt(err.message.substr(pos + 12)) + 1;
+        this.errorMarker(start, start + 1, this.customerconfigEditor, this.state.customerconfig);
+      }
+      return;
+    }
+
+    binding = _.merge({}, baseconfig, customerconfig);
+    // binding = {};
+
+    try {
       if (this.state.jsonata !== '') {
-        jsonataResult = this.evalJsonata(input);
+        jsonataResult = this.evalJsonata(input, binding);
         this.setState({ result: jsonataResult });
       }
     } catch (err) {
@@ -177,9 +254,17 @@ class Exerciser extends React.Component {
       []
     );
     this.jsonEditor.decorations = this.jsonEditor.deltaDecorations(this.jsonEditor.decorations, []);
+    this.baseconfigEditor.decorations = this.baseconfigEditor.deltaDecorations(
+      this.baseconfigEditor.decorations,
+      []
+    );
+    this.customerconfigEditor.decorations = this.customerconfigEditor.deltaDecorations(
+      this.customerconfigEditor.decorations,
+      []
+    );
   }
 
-  evalJsonata(input) {
+  evalJsonata(input, binding) {
     const expr = window.jsonataExtended(this.state.jsonata);
 
     expr.assign('trace', function (arg) {
@@ -190,7 +275,7 @@ class Exerciser extends React.Component {
       this.timeboxExpression(expr, 3000, 500);
     }
 
-    let pathresult = expr.evaluate(input);
+    let pathresult = expr.evaluate(input, binding);
     if (typeof pathresult === 'undefined') {
       pathresult = '** no match **';
     } else {
@@ -288,32 +373,106 @@ class Exerciser extends React.Component {
         </header>
 
         <SplitPane split="vertical" minSize={100} defaultSize={'50%'}>
-          <div className="pane">
-            <MonacoEditor
-              language="json"
-              theme="jsonataTheme"
-              value={this.state.json}
-              options={options}
-              onChange={this.onChangeData.bind(this)}
-              editorDidMount={this.jsonEditorDidMount.bind(this)}
-            />
-            <div id="json-label" className="label">
-              JSON
-            </div>
-            <img
-              src={format}
-              id="json-format"
-              title="Format"
-              onClick={this.format.bind(this)}
-              alt={'Format'}
-            />
-            <select id="sample-data" onChange={this.changeSample.bind(this)}>
-              <option value="Metadata">Metadata</option>
-              <option value="LearnerActivity">Learner Activity</option>
-            </select>
-          </div>
           <SplitPane split="horizontal" minSize={50} defaultSize={'50%'}>
             <div className="pane">
+              <div id="banner">
+                <div id="banner-strip" className="bannerpart">
+                  <div id="banner1">Source Data</div>
+                  <div id="banner4" className="bannerlink" onClick={this.format.bind(this)}>
+                    Format JSON
+                  </div>
+                </div>
+              </div>
+              <MonacoEditor
+                language="json"
+                theme="jsonataTheme"
+                value={this.state.json}
+                options={options}
+                onChange={this.onChangeData.bind(this)}
+                editorDidMount={this.jsonEditorDidMount.bind(this)}
+              />
+
+              <select id="sample-data" onChange={this.changeSample.bind(this)}>
+                <option value="Metadata">Metadata</option>
+                <option value="LearnerActivity">Learner Activity</option>
+              </select>
+            </div>
+            <div className="pane">
+              <div id="banner">
+                <div id="banner-strip" className="bannerpart">
+                  <div id="banner1">Results</div>
+                </div>
+              </div>
+              <MonacoEditor
+                language="json"
+                theme="jsonataTheme"
+                value={this.state.result}
+                options={{
+                  lineNumbers: 'off',
+                  minimap: { enabled: false },
+                  automaticLayout: true,
+                  contextmenu: false,
+                  scrollBeyondLastLine: false,
+                  readOnly: true,
+                  extraEditorClassName: 'result-pane',
+                }}
+              />
+            </div>
+          </SplitPane>
+          <SplitPane split="horizontal" minSize={50} defaultSize={'50%'}>
+            <SplitPane split="vertical" minSize={100} defaultSize={'50%'}>
+              <div className="pane">
+                <div id="banner">
+                  <div id="banner-strip" className="bannerpart">
+                    <div id="banner1">Base Configuration</div>
+                    <div
+                      id="banner4"
+                      className="bannerlink"
+                      onClick={this.formatbaseconfig.bind(this)}
+                    >
+                      Format JSON
+                    </div>
+                  </div>
+                </div>
+                <MonacoEditor
+                  language="json"
+                  theme="jsonataTheme"
+                  value={this.state.baseconfig}
+                  options={options}
+                  onChange={this.onChangeBaseconfig.bind(this)}
+                  editorDidMount={this.baseconfigEditorDidMount.bind(this)}
+                />
+              </div>
+              <div className="pane">
+                <div id="banner">
+                  <div id="banner-strip" className="bannerpart">
+                    <div id="banner1">Customer Configuration</div>
+                    <div
+                      id="banner4"
+                      className="bannerlink"
+                      onClick={this.formatcustomerconfig.bind(this)}
+                    >
+                      Format JSON
+                    </div>
+                  </div>
+                </div>
+                <MonacoEditor
+                  language="json"
+                  theme="jsonataTheme"
+                  value={this.state.customerconfig}
+                  options={options}
+                  onChange={this.onChangeCustomerconfig.bind(this)}
+                  editorDidMount={this.customerconfigEditorDidMount.bind(this)}
+                />
+              </div>
+            </SplitPane>
+
+            <div className="pane">
+              <div id="banner">
+                <div id="banner-strip" className="bannerpart">
+                  <div id="banner1">Transform</div>
+                </div>
+              </div>
               <MonacoEditor
                 language="jsonata"
                 theme="jsonataTheme"
@@ -324,20 +483,6 @@ class Exerciser extends React.Component {
                 editorDidMount={this.jsonataEditorDidMount.bind(this)}
               />
             </div>
-            <MonacoEditor
-              language="json"
-              theme="jsonataTheme"
-              value={this.state.result}
-              options={{
-                lineNumbers: 'off',
-                minimap: { enabled: false },
-                automaticLayout: true,
-                contextmenu: false,
-                scrollBeyondLastLine: false,
-                readOnly: true,
-                extraEditorClassName: 'result-pane',
-              }}
-            />
           </SplitPane>
         </SplitPane>
       </div>

@@ -1254,6 +1254,8 @@ export default {
             'sabaKeywords': $sabaKeywordsArray($)
       }
   )`,
+    baseconfig: {},
+    customerconfig: {},
   },
   LearnerActivity: {
     json: [
@@ -1800,5 +1802,7 @@ export default {
           'accessCount': totalAccess ? $number(totalAccess) : null
       }
   )`,
+    baseconfig: {},
+    customerconfig: {},
   },
 };

@@ -117,6 +117,10 @@ textarea, .pane {
     text-align: right;
 }
 
+.bannerlink {
+    cursor: pointer;
+}
+
 #banner4 img {
     height: 23px;
     padding-top: 2px;
@@ -179,6 +183,22 @@ textarea, .pane {
 }
 
 #json-format {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    height: 17px;
+    z-index: 10;
+}
+
+#jsonatabinding-format {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    height: 17px;
+    z-index: 10;
+}
+
+#jsonatacustomerbinding-format {
     position: absolute;
     top: 20px;
     right: 20px;
