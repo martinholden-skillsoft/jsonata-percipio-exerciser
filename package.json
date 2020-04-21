@@ -1,6 +1,6 @@
 {
     "name": "jsonata-percipio-exerciser",
-    "version": "0.0.0",
+    "version": "0.1.0",
     "private": true,
     "author": "Martin Holden &lt;martin.holden@skillsoft.com&gt;",
     "license": "MIT",
@@ -98,7 +98,8 @@
         ],
         "rules": {
             "max-len": [
-                "warn", {
+                "warn",
+                {
                     "code": 100,
                     "tabWidth": 2,
                     "comments": 100,
