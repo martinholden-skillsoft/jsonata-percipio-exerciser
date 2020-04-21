@@ -18,10 +18,10 @@ class Exerciser extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      json: JSON.stringify(sample.Metadata.json, null, 2),
-      jsonata: sample.Metadata.jsonata,
-      baseconfig: JSON.stringify(sample.Metadata.baseconfig || {}, null, 2),
-      customerconfig: JSON.stringify(sample.Metadata.customerconfig || {}, null, 2),
+      json: JSON.stringify(sample.DegreedMetadata.json, null, 2),
+      jsonata: sample.DegreedMetadata.jsonata,
+      baseconfig: JSON.stringify(sample.DegreedMetadata.baseconfig || {}, null, 2),
+      customerconfig: JSON.stringify(sample.DegreedMetadata.customerconfig || {}, null, 2),
       result: '',
     };
   }
@@ -393,6 +393,9 @@ class Exerciser extends React.Component {
               />
 
               <select id="sample-data" onChange={this.changeSample.bind(this)}>
+                <option value="DegreedMetadata">Degreed - Metadata</option>
+                <option value="SabaCloudMetadata">SabaCloud - Metadata</option>
+                <option value="SuccessFactorsMetadata">Successfactors - Metadata</option>
                 <option value="Metadata">Metadata</option>
                 <option value="LearnerActivity">Learner Activity</option>
               </select>
