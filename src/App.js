@@ -1,27 +1,23 @@
-/**
- * © Copyright IBM Corp. 2020 All Rights Reserved
- *   Project name: JSONata
- *   This project is licensed under the MIT License, see LICENSE
- */
-
 import React, { Component } from 'react';
-import './exerciser.css';
-import { BrowserRouter, Route } from 'react-router-dom';
-import Exerciser from './Exerciser';
-class App extends Component {
-  loadData({ match }) {
-    return <Exerciser data={match ? match.params.id : null} />;
-  }
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './exerciserbootstrap.css';
+import ExerciserBootstrap from './ExerciserBootstrap';
+import MainNav from './MainNav';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
+class App extends Component {
   render() {
     return (
-      <BrowserRouter basename={process.env.PUBLIC_URL}>
-        <div className="App">
-          <main>
-            <Route path="/:id" children={this.loadData} />
-          </main>
-        </div>
-      </BrowserRouter>
+      <Container fluid>
+        <MainNav />
+        <Row>
+          <Col>
+            <ExerciserBootstrap />
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }

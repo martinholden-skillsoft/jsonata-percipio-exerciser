@@ -42,8 +42,5 @@ export default function (monaco) {
       { token: 'jsonata-variable', foreground: 'ff4000' },
       { token: 'jsonata-names', foreground: '0000c0' },
     ],
-    colors: {
-      'editor.background': '#fffffb',
-    },
   });
 }
