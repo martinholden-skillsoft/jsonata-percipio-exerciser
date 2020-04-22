@@ -6,14 +6,12 @@
 
 import React from 'react';
 import SplitPane from 'react-split-pane';
-import MonacoEditor from 'react-monaco-editor';
 import sample from './sample';
 import logo from './images/JSONata-white-38.png';
 import docs from './images/docs-white-32.png';
 import docspercipio from './images/docs-white-percipio.png';
-import jsonataMode from './jsonataMode';
 import _ from 'lodash';
-import ReactResizeDetector from 'react-resize-detector';
+import EnhancedMonacoEditor from './EnhancedEditor';
 
 class Exerciser extends React.Component {
   constructor(props) {
@@ -32,54 +30,28 @@ class Exerciser extends React.Component {
     this.eval();
   }
 
-  jsonEditorDidMount(editor) {
-    console.log('editorDidMount', editor);
+  jsonEditorDidMount(editor, monaco) {
     this.jsonEditor = editor;
-    editor.decorations = [];
-    //editor.focus();
   }
 
   jsonataEditorDidMount(editor, monaco) {
-    console.log('editorDidMount', editor);
-    this.monaco = monaco;
     this.jsonataEditor = editor;
-    editor.decorations = [];
-
-    editor.addAction({
-      id: 'jsonata-lambda',
-      label: 'Lambda',
-      keybindings: [monaco.KeyCode.F11],
-      run: function (ed) {
-        ed.trigger('keyboard', 'type', { text: 'λ' });
-        return null;
-      },
-    });
   }
 
   baseconfigEditorDidMount(editor, monaco) {
-    console.log('editorDidMount', editor);
-    this.monaco = monaco;
     this.baseconfigEditor = editor;
-    editor.decorations = [];
   }
 
   customerconfigEditorDidMount(editor, monaco) {
-    console.log('editorDidMount', editor);
-    this.monaco = monaco;
     this.customerconfigEditor = editor;
-    editor.decorations = [];
   }
 
   resultsEditorDidMount(editor, monaco) {
-    console.log('editorDidMount', editor);
-    this.monaco = monaco;
     this.resultsEditor = editor;
-    editor.decorations = [];
   }
 
   onChangeData(newValue, e) {
     this.setState({ json: newValue });
-    console.log('onChangeData', newValue, e);
     clearTimeout(this.timer);
     this.timer = setTimeout(this.eval.bind(this), 500);
     this.clearMarkers();
@@ -87,7 +59,6 @@ class Exerciser extends React.Component {
 
   onChangeExpression(newValue, e) {
     this.setState({ jsonata: newValue });
-    console.log('onChangeExpression', newValue, e);
     clearTimeout(this.timer);
     this.timer = setTimeout(this.eval.bind(this), 500);
     this.clearMarkers();
@@ -95,7 +66,6 @@ class Exerciser extends React.Component {
 
   onChangeBaseconfig(newValue, e) {
     this.setState({ baseconfig: newValue });
-    console.log('onChangeBaseconfig', newValue, e);
     clearTimeout(this.timer);
     this.timer = setTimeout(this.eval.bind(this), 500);
     this.clearMarkers();
@@ -103,7 +73,6 @@ class Exerciser extends React.Component {
 
   onChangeCustomerconfig(newValue, e) {
     this.setState({ customerconfig: newValue });
-    console.log('onChangeCustomerconfig', newValue, e);
     clearTimeout(this.timer);
     this.timer = setTimeout(this.eval.bind(this), 500);
     this.clearMarkers();
@@ -139,9 +108,7 @@ class Exerciser extends React.Component {
   }
 
   changeSample(event) {
-    console.log(event.target.value);
     const data = sample[event.target.value];
-    console.log(data);
     this.setState({
       json: JSON.stringify(data.json, null, 2),
       jsonata: data.jsonata,
@@ -164,45 +131,24 @@ class Exerciser extends React.Component {
     try {
       input = JSON.parse(this.state.json);
     } catch (err) {
-      console.log(err);
-      this.setState({ result: 'ERROR IN INPUT DATA: ' + err.message });
-      const pos = err.message.indexOf('at position ');
-      console.log('pos=', pos);
-      if (pos !== -1) {
-        console.log(err);
-        const start = parseInt(err.message.substr(pos + 12)) + 1;
-        this.errorMarker(start, start + 1, this.jsonEditor, this.state.json);
-      }
+      this.setState({ result: 'ERROR IN INPUT JSON DATA: ' + err.message });
+      this.jsonEditor.addErrorDecorationFromErr(err);
       return;
     }
 
     try {
       baseconfig = JSON.parse(this.state.baseconfig);
     } catch (err) {
-      console.log(err);
-      this.setState({ result: 'ERROR IN BASE CONFIGURATION DATA: ' + err.message });
-      const pos = err.message.indexOf('at position ');
-      console.log('pos=', pos);
-      if (pos !== -1) {
-        console.log(err);
-        const start = parseInt(err.message.substr(pos + 12)) + 1;
-        this.errorMarker(start, start + 1, this.baseconfigEditor, this.state.baseconfig);
-      }
+      this.setState({ result: 'ERROR IN BASE CONFIGURATION JSON DATA: ' + err.message });
+      this.baseconfigEditor.addErrorDecorationFromErr(err);
       return;
     }
 
     try {
       customerconfig = JSON.parse(this.state.customerconfig);
     } catch (err) {
-      console.log(err);
-      this.setState({ result: 'ERROR IN CUSTOMER CONFIGURATION DATA: ' + err.message });
-      const pos = err.message.indexOf('at position ');
-      console.log('pos=', pos);
-      if (pos !== -1) {
-        console.log(err);
-        const start = parseInt(err.message.substr(pos + 12)) + 1;
-        this.errorMarker(start, start + 1, this.customerconfigEditor, this.state.customerconfig);
-      }
+      this.setState({ result: 'ERROR IN CUSTOMER CONFIGURATION JSON DATA: ' + err.message });
+      this.customerconfigEditor.addErrorDecorationFromErr(err);
       return;
     }
 
@@ -216,60 +162,15 @@ class Exerciser extends React.Component {
       }
     } catch (err) {
       this.setState({ result: err.message || String(err) });
-      console.log(err);
-      const end = err.position + 1;
-      const start = end - (err.token ? err.token.length : 1);
-      this.errorMarker(start, end, this.jsonataEditor, this.state.jsonata);
+      this.jsonataEditor.addErrorDecorationFromErr(err);
     }
   }
 
-  errorMarker(start, end, editor, buffer) {
-    const resolve = (offset) => {
-      let line = 1;
-      let column = 1;
-      let position = 1;
-      while (position < offset) {
-        if (buffer.charAt(position) === '\n') {
-          line++;
-          column = 0;
-        } else {
-          column++;
-        }
-        position++;
-      }
-      return { line, column };
-    };
-    const from = resolve(start);
-    const to = resolve(end);
-    editor.decorations = editor.deltaDecorations(editor.decorations, [
-      {
-        range: new this.monaco.Range(from.line, from.column, to.line, to.column),
-        options: { inlineClassName: 'jsonataErrorMarker' },
-      },
-      {
-        range: new this.monaco.Range(from.line, 1, to.line, 1),
-        options: {
-          isWholeLine: true,
-          linesDecorationsClassName: 'jsonataErrorMargin',
-        },
-      },
-    ]);
-  }
-
   clearMarkers() {
-    this.jsonataEditor.decorations = this.jsonataEditor.deltaDecorations(
-      this.jsonataEditor.decorations,
-      []
-    );
-    this.jsonEditor.decorations = this.jsonEditor.deltaDecorations(this.jsonEditor.decorations, []);
-    this.baseconfigEditor.decorations = this.baseconfigEditor.deltaDecorations(
-      this.baseconfigEditor.decorations,
-      []
-    );
-    this.customerconfigEditor.decorations = this.customerconfigEditor.deltaDecorations(
-      this.customerconfigEditor.decorations,
-      []
-    );
+    this.jsonataEditor.clearDecorations();
+    this.jsonEditor.clearDecorations();
+    this.baseconfigEditor.clearDecorations();
+    this.customerconfigEditor.clearDecorations();
   }
 
   evalJsonata(input, binding) {
@@ -410,24 +311,14 @@ class Exerciser extends React.Component {
                 </div>
               </div>
               <div className="paneeditor">
-                <ReactResizeDetector
-                  handleWidth
-                  handleHeight
-                  onResize={() => {
-                    if (this.jsonEditor) {
-                      this.jsonEditor.layout();
-                    }
-                  }}
-                >
-                  <MonacoEditor
-                    language="json"
-                    theme="jsonataTheme"
-                    value={this.state.json}
-                    options={options}
-                    onChange={this.onChangeData.bind(this)}
-                    editorDidMount={this.jsonEditorDidMount.bind(this)}
-                  />
-                </ReactResizeDetector>
+                <EnhancedMonacoEditor
+                  language="json"
+                  theme="jsonataTheme"
+                  value={this.state.json}
+                  options={options}
+                  onChange={this.onChangeData.bind(this)}
+                  editorDidMount={this.jsonEditorDidMount.bind(this)}
+                />
               </div>
             </div>
             <div className="subpane">
@@ -437,23 +328,13 @@ class Exerciser extends React.Component {
                 </div>
               </div>
               <div className="paneeditor">
-                <ReactResizeDetector
-                  handleWidth
-                  handleHeight
-                  onResize={() => {
-                    if (this.resultsEditor) {
-                      this.resultsEditor.layout();
-                    }
-                  }}
-                >
-                  <MonacoEditor
-                    language="json"
-                    theme="jsonataTheme"
-                    value={this.state.result}
-                    options={resultsoptions}
-                    editorDidMount={this.resultsEditorDidMount.bind(this)}
-                  />
-                </ReactResizeDetector>
+                <EnhancedMonacoEditor
+                  language="json"
+                  theme="jsonataTheme"
+                  value={this.state.result}
+                  options={resultsoptions}
+                  editorDidMount={this.resultsEditorDidMount.bind(this)}
+                />
               </div>
             </div>
           </SplitPane>
@@ -472,24 +353,14 @@ class Exerciser extends React.Component {
                   </div>
                 </div>
                 <div className="paneeditor">
-                  <ReactResizeDetector
-                    handleWidth
-                    handleHeight
-                    onResize={() => {
-                      if (this.baseconfigEditor) {
-                        this.baseconfigEditor.layout();
-                      }
-                    }}
-                  >
-                    <MonacoEditor
-                      language="json"
-                      theme="jsonataTheme"
-                      value={this.state.baseconfig}
-                      options={options}
-                      onChange={this.onChangeBaseconfig.bind(this)}
-                      editorDidMount={this.baseconfigEditorDidMount.bind(this)}
-                    />
-                  </ReactResizeDetector>
+                  <EnhancedMonacoEditor
+                    language="json"
+                    theme="jsonataTheme"
+                    value={this.state.baseconfig}
+                    options={options}
+                    onChange={this.onChangeBaseconfig.bind(this)}
+                    editorDidMount={this.baseconfigEditorDidMount.bind(this)}
+                  />
                 </div>
               </div>
               <div className="subpane">
@@ -505,24 +376,14 @@ class Exerciser extends React.Component {
                   </div>
                 </div>
                 <div className="paneeditor">
-                  <ReactResizeDetector
-                    handleWidth
-                    handleHeight
-                    onResize={() => {
-                      if (this.customerconfigEditor) {
-                        this.customerconfigEditor.layout();
-                      }
-                    }}
-                  >
-                    <MonacoEditor
-                      language="json"
-                      theme="jsonataTheme"
-                      value={this.state.customerconfig}
-                      options={options}
-                      onChange={this.onChangeCustomerconfig.bind(this)}
-                      editorDidMount={this.customerconfigEditorDidMount.bind(this)}
-                    />
-                  </ReactResizeDetector>
+                  <EnhancedMonacoEditor
+                    language="json"
+                    theme="jsonataTheme"
+                    value={this.state.customerconfig}
+                    options={options}
+                    onChange={this.onChangeCustomerconfig.bind(this)}
+                    editorDidMount={this.customerconfigEditorDidMount.bind(this)}
+                  />
                 </div>
               </div>
             </SplitPane>
@@ -533,25 +394,14 @@ class Exerciser extends React.Component {
                 </div>
               </div>
               <div className="paneeditor">
-                <ReactResizeDetector
-                  handleWidth
-                  handleHeight
-                  onResize={() => {
-                    if (this.jsonataEditor) {
-                      this.jsonataEditor.layout();
-                    }
-                  }}
-                >
-                  <MonacoEditor
-                    language="jsonata"
-                    theme="jsonataTheme"
-                    value={this.state.jsonata}
-                    options={options}
-                    onChange={this.onChangeExpression.bind(this)}
-                    editorWillMount={jsonataMode.bind(this)}
-                    editorDidMount={this.jsonataEditorDidMount.bind(this)}
-                  />
-                </ReactResizeDetector>
+                <EnhancedMonacoEditor
+                  language="jsonata"
+                  theme="jsonataTheme"
+                  value={this.state.jsonata}
+                  options={options}
+                  onChange={this.onChangeExpression.bind(this)}
+                  editorDidMount={this.jsonataEditorDidMount.bind(this)}
+                />
               </div>
             </div>
           </SplitPane>
