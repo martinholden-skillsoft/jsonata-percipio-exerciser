@@ -80,14 +80,65 @@ textarea, .pane {
     justify-content: space-between;
 }
 
+.subpane {
+    width: 100%;
+    height: 100%;
+    resize: none;
+    font-size: 13px;
+}
+
+.panebanner {
+    height: 10%;
+    position: relative;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 96%;
+    margin: 0% 2% 0% 2%;
+    font-family: "Source Sans Pro",  sans-serif;
+    font-weight: normal;
+    color: white;
+    background-color: #285154;
+    overflow: hidden;
+    overflow-y: hidden; /* Hide vertical scrollbar */
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+}
+
+.panebanner-strip {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    position: relative;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    height: 20px;
+}
+
+.paneeditor {
+    height: 88%;
+}
+
+.panebannerright {
+    text-align: right;
+}
+
+.panebannerpart {
+    float: left;
+    width: 100%;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
 #logo {
     float: left;
     width: 4%;
     position: relative;
     top: 50%;
     transform: translateY(-50%);
-
 }
+
+
 
 .bannerpart {
     float: left;
@@ -132,10 +183,6 @@ textarea, .pane {
     height: 20px;
 }
 
-#permalink {
-  float: right;
-}
-
 .src {
     padding-left: 5px;
     position: relative;
@@ -177,55 +224,8 @@ textarea, .pane {
     color: darkslategrey;
 }
 
-#version-label {
-    top: 45px;
-    font-size: small;
-}
-
-#json-format {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    height: 17px;
-    z-index: 10;
-}
-
-#jsonatabinding-format {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    height: 17px;
-    z-index: 10;
-}
-
-#jsonatacustomerbinding-format {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    height: 17px;
-    z-index: 10;
-}
-
-#sample-data, #version-select {
-    position: absolute;
-    top: 45px;
-    right: 20px;
-    height: 20px;
-    z-index: 10;
-}
-
-#version-select {
-    right: 40px;
-}
-
 .res {
     height: 80%;
-}
-
-#mode {
-    position: relative;
-    float: right;
-    margin-bottom: 0px;
 }
 
 .template {
@@ -245,56 +245,6 @@ input {
     font-weight: lighter;
     font-size: medium;
     width: 100%;
-}
-
-.modalDialog {
-    position: fixed;
-    font-family: "Source Sans Pro",  sans-serif;
-    font-weight: lighter;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.6);
-    -webkit-transition: opacity 400ms ease-in;
-    -moz-transition: opacity 400ms ease-in;
-    transition: opacity 400ms ease-in;
-    pointer-events: none;
-}
-.modalDialog:target {
-    opacity:1;
-    pointer-events: auto;
-}
-.modalDialog > div {
-    width: 400px;
-    position: relative;
-    margin: 10% auto;
-    padding: 5px 20px 13px 20px;
-    border-radius: 10px;
-    background: #fff;
-    background: -moz-linear-gradient(#fff, #999);
-    background: -webkit-linear-gradient(#fff, #999);
-    background: -o-linear-gradient(#fff, #999);
-}
-.close {
-    background: #606061;
-    color: #FFFFFF;
-    line-height: 25px;
-    position: absolute;
-    right: 0px;
-    text-align: center;
-    top: 0px;
-    width: 24px;
-    border-radius: 10px;
-    z-index: 99999;
-    text-decoration: none;
-    font-weight: bold;
-    -moz-box-shadow: 1px 1px 3px #000;
-    -webkit-box-shadow: 1px 1px 3px #000;
-    box-shadow: 1px 1px 3px #000;
-}
-.close:hover {
-    background: #285154;
 }
 
 .Resizer {
@@ -353,11 +303,11 @@ input {
 }
 
 .monaco-editor {
-    height: 100%;
+    height: 90%;
 }
 
 .react-monaco-editor-container {
-    position: absolute;
+    position: relative;
 }
 
 .ReactModal__Overlay {

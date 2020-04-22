@@ -13,6 +13,7 @@ import docs from './images/docs-white-32.png';
 import docspercipio from './images/docs-white-percipio.png';
 import jsonataMode from './jsonataMode';
 import _ from 'lodash';
+import ReactResizeDetector from 'react-resize-detector';
 
 class Exerciser extends React.Component {
   constructor(props) {
@@ -66,6 +67,13 @@ class Exerciser extends React.Component {
     console.log('editorDidMount', editor);
     this.monaco = monaco;
     this.customerconfigEditor = editor;
+    editor.decorations = [];
+  }
+
+  resultsEditorDidMount(editor, monaco) {
+    console.log('editorDidMount', editor);
+    this.monaco = monaco;
+    this.resultsEditor = editor;
     editor.decorations = [];
   }
 
@@ -343,6 +351,16 @@ class Exerciser extends React.Component {
       extraEditorClassName: 'editor-pane',
     };
 
+    const resultsoptions = {
+      lineNumbers: 'off',
+      minimap: { enabled: false },
+      automaticLayout: true,
+      contextmenu: false,
+      scrollBeyondLastLine: false,
+      readOnly: true,
+      extraEditorClassName: 'result-pane',
+    };
+
     return (
       <div className="App">
         <header className="App-header">
@@ -371,120 +389,170 @@ class Exerciser extends React.Component {
             </div>
           </div>
         </header>
-
         <SplitPane split="vertical" minSize={100} defaultSize={'50%'}>
           <SplitPane split="horizontal" minSize={50} defaultSize={'50%'}>
-            <div className="pane">
-              <div id="banner">
-                <div id="banner-strip" className="bannerpart">
-                  <div id="banner1">Source Data</div>
-                  <div id="banner4" className="bannerlink" onClick={this.format.bind(this)}>
+            <div className="subpane">
+              <div className="panebanner">
+                <div className=" panebanner-strip panebannerpart">
+                  <div>Source Data</div>
+                  <div className="panebannerright bannerlink">
+                    <select id="sample-data" onChange={this.changeSample.bind(this)}>
+                      <option value="DegreedMetadata">Degreed - Metadata</option>
+                      <option value="SabaCloudMetadata">SabaCloud - Metadata</option>
+                      <option value="SuccessFactorsMetadata">Successfactors - Metadata</option>
+                      <option value="Metadata">Metadata</option>
+                      <option value="LearnerActivity">Learner Activity</option>
+                    </select>
+                  </div>
+                  <div className="panebannerright bannerlink" onClick={this.format.bind(this)}>
                     Format JSON
                   </div>
                 </div>
               </div>
-              <MonacoEditor
-                language="json"
-                theme="jsonataTheme"
-                value={this.state.json}
-                options={options}
-                onChange={this.onChangeData.bind(this)}
-                editorDidMount={this.jsonEditorDidMount.bind(this)}
-              />
-
-              <select id="sample-data" onChange={this.changeSample.bind(this)}>
-                <option value="DegreedMetadata">Degreed - Metadata</option>
-                <option value="SabaCloudMetadata">SabaCloud - Metadata</option>
-                <option value="SuccessFactorsMetadata">Successfactors - Metadata</option>
-                <option value="Metadata">Metadata</option>
-                <option value="LearnerActivity">Learner Activity</option>
-              </select>
+              <div className="paneeditor">
+                <ReactResizeDetector
+                  handleWidth
+                  handleHeight
+                  onResize={() => {
+                    if (this.jsonEditor) {
+                      this.jsonEditor.layout();
+                    }
+                  }}
+                >
+                  <MonacoEditor
+                    language="json"
+                    theme="jsonataTheme"
+                    value={this.state.json}
+                    options={options}
+                    onChange={this.onChangeData.bind(this)}
+                    editorDidMount={this.jsonEditorDidMount.bind(this)}
+                  />
+                </ReactResizeDetector>
+              </div>
             </div>
-            <div className="pane">
-              <div id="banner">
-                <div id="banner-strip" className="bannerpart">
-                  <div id="banner1">Results</div>
+            <div className="subpane">
+              <div className="panebanner">
+                <div className=" panebanner-strip panebannerpart">
+                  <div>Results</div>
                 </div>
               </div>
-              <MonacoEditor
-                language="json"
-                theme="jsonataTheme"
-                value={this.state.result}
-                options={{
-                  lineNumbers: 'off',
-                  minimap: { enabled: false },
-                  automaticLayout: true,
-                  contextmenu: false,
-                  scrollBeyondLastLine: false,
-                  readOnly: true,
-                  extraEditorClassName: 'result-pane',
-                }}
-              />
+              <div className="paneeditor">
+                <ReactResizeDetector
+                  handleWidth
+                  handleHeight
+                  onResize={() => {
+                    if (this.resultsEditor) {
+                      this.resultsEditor.layout();
+                    }
+                  }}
+                >
+                  <MonacoEditor
+                    language="json"
+                    theme="jsonataTheme"
+                    value={this.state.result}
+                    options={resultsoptions}
+                    editorDidMount={this.resultsEditorDidMount.bind(this)}
+                  />
+                </ReactResizeDetector>
+              </div>
             </div>
           </SplitPane>
           <SplitPane split="horizontal" minSize={50} defaultSize={'50%'}>
             <SplitPane split="vertical" minSize={100} defaultSize={'50%'}>
-              <div className="pane">
-                <div id="banner">
-                  <div id="banner-strip" className="bannerpart">
-                    <div id="banner1">Base Configuration</div>
+              <div className="subpane">
+                <div className="panebanner">
+                  <div className=" panebanner-strip panebannerpart">
+                    <div>Base Configuration</div>
                     <div
-                      id="banner4"
-                      className="bannerlink"
+                      className="panebannerright bannerlink"
                       onClick={this.formatbaseconfig.bind(this)}
                     >
                       Format JSON
                     </div>
                   </div>
                 </div>
-                <MonacoEditor
-                  language="json"
-                  theme="jsonataTheme"
-                  value={this.state.baseconfig}
-                  options={options}
-                  onChange={this.onChangeBaseconfig.bind(this)}
-                  editorDidMount={this.baseconfigEditorDidMount.bind(this)}
-                />
+                <div className="paneeditor">
+                  <ReactResizeDetector
+                    handleWidth
+                    handleHeight
+                    onResize={() => {
+                      if (this.baseconfigEditor) {
+                        this.baseconfigEditor.layout();
+                      }
+                    }}
+                  >
+                    <MonacoEditor
+                      language="json"
+                      theme="jsonataTheme"
+                      value={this.state.baseconfig}
+                      options={options}
+                      onChange={this.onChangeBaseconfig.bind(this)}
+                      editorDidMount={this.baseconfigEditorDidMount.bind(this)}
+                    />
+                  </ReactResizeDetector>
+                </div>
               </div>
-              <div className="pane">
-                <div id="banner">
-                  <div id="banner-strip" className="bannerpart">
-                    <div id="banner1">Customer Configuration</div>
+              <div className="subpane">
+                <div className="panebanner">
+                  <div className="panebanner-strip panebannerpart">
+                    <div>Customer Configuration</div>
                     <div
-                      id="banner4"
-                      className="bannerlink"
+                      className="panebannerright bannerlink"
                       onClick={this.formatcustomerconfig.bind(this)}
                     >
                       Format JSON
                     </div>
                   </div>
                 </div>
-                <MonacoEditor
-                  language="json"
-                  theme="jsonataTheme"
-                  value={this.state.customerconfig}
-                  options={options}
-                  onChange={this.onChangeCustomerconfig.bind(this)}
-                  editorDidMount={this.customerconfigEditorDidMount.bind(this)}
-                />
-              </div>
-            </SplitPane>
-
-            <div className="pane">
-              <div id="banner">
-                <div id="banner-strip" className="bannerpart">
-                  <div id="banner1">Transform</div>
+                <div className="paneeditor">
+                  <ReactResizeDetector
+                    handleWidth
+                    handleHeight
+                    onResize={() => {
+                      if (this.customerconfigEditor) {
+                        this.customerconfigEditor.layout();
+                      }
+                    }}
+                  >
+                    <MonacoEditor
+                      language="json"
+                      theme="jsonataTheme"
+                      value={this.state.customerconfig}
+                      options={options}
+                      onChange={this.onChangeCustomerconfig.bind(this)}
+                      editorDidMount={this.customerconfigEditorDidMount.bind(this)}
+                    />
+                  </ReactResizeDetector>
                 </div>
               </div>
-              <MonacoEditor
-                language="jsonata"
-                theme="jsonataTheme"
-                value={this.state.jsonata}
-                options={options}
-                onChange={this.onChangeExpression.bind(this)}
-                editorWillMount={jsonataMode.bind(this)}
-                editorDidMount={this.jsonataEditorDidMount.bind(this)}
-              />
+            </SplitPane>
+            <div className="subpane">
+              <div className="panebanner">
+                <div className=" panebanner-strip panebannerpart">
+                  <div>Transform</div>
+                </div>
+              </div>
+              <div className="paneeditor">
+                <ReactResizeDetector
+                  handleWidth
+                  handleHeight
+                  onResize={() => {
+                    if (this.jsonataEditor) {
+                      this.jsonataEditor.layout();
+                    }
+                  }}
+                >
+                  <MonacoEditor
+                    language="jsonata"
+                    theme="jsonataTheme"
+                    value={this.state.jsonata}
+                    options={options}
+                    onChange={this.onChangeExpression.bind(this)}
+                    editorWillMount={jsonataMode.bind(this)}
+                    editorDidMount={this.jsonataEditorDidMount.bind(this)}
+                  />
+                </ReactResizeDetector>
+              </div>
             </div>
           </SplitPane>
         </SplitPane>
