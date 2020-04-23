@@ -16,7 +16,7 @@ export default class EditorNav extends Component {
   }
 
   render() {
-    const { label, formatEnabled, formatLabel } = this.props;
+    const { label, formatEnabled, formatLabel, className } = this.props;
 
     let formatlink;
     if (formatEnabled) {
@@ -28,14 +28,14 @@ export default class EditorNav extends Component {
     }
 
     return (
-      <Navbar expand="lg" bg="light" variant="light">
-        <Navbar.Brand>{label}</Navbar.Brand>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="mr-auto"></Nav>
+      <div className={className}>
+        <Navbar className="py-0 mt-0" bg="light" variant="light">
+          <Nav className="mr-auto">
+            <Navbar.Text className="">{<strong>{label}</strong>}</Navbar.Text>
+          </Nav>
           {formatlink}
-        </Navbar.Collapse>
-      </Navbar>
+        </Navbar>
+      </div>
     );
   }
 }
@@ -45,6 +45,7 @@ EditorNav.propTypes = {
   formatEnabled: PropTypes.bool,
   formatLabel: PropTypes.string,
   onFormatClick: PropTypes.func,
+  className: PropTypes.string,
 };
 
 EditorNav.defaultProps = {
@@ -52,4 +53,5 @@ EditorNav.defaultProps = {
   formatEnabled: true,
   formatLabel: 'Format',
   onFormatClick: function () {},
+  className: 'editor-nav',
 };

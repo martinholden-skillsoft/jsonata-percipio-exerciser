@@ -157,27 +157,38 @@ export default class EnhancedEditor extends Component {
   };
 
   render() {
-    const { width, height, readOnly, value, options = {}, editorDidMount, ...other } = this.props;
+    const {
+      width,
+      height,
+      readOnly,
+      value,
+      options = {},
+      editorDidMount,
+      className,
+      ...other
+    } = this.props;
 
     return (
-      <ReactResizeDetector
-        handleWidth
-        handleHeight
-        onResize={() => {
-          this.layout();
-        }}
-      >
-        <MonacoEditor
-          width={width || '100%'}
-          height={height || '100%'}
-          value={value}
-          options={{
-            ...options,
+      <div className={className}>
+        <ReactResizeDetector
+          handleWidth
+          handleHeight
+          onResize={() => {
+            this.layout();
           }}
-          {...other}
-          editorDidMount={this.editorDidMount}
-        />
-      </ReactResizeDetector>
+        >
+          <MonacoEditor
+            width={width || '100%'}
+            height={height || '100%'}
+            value={value}
+            options={{
+              ...options,
+            }}
+            {...other}
+            editorDidMount={this.editorDidMount}
+          />
+        </ReactResizeDetector>
+      </div>
     );
   }
 }
@@ -189,4 +200,8 @@ EnhancedEditor.propTypes = {
   options: PropTypes.object,
   value: PropTypes.string,
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+};
+
+EnhancedEditor.defaultProps = {
+  className: 'enhanced-editor',
 };

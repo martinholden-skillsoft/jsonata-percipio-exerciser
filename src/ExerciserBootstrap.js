@@ -2,24 +2,34 @@
  * © Copyright IBM Corp. 2016, 2020 All Rights Reserved
  *   Project name: JSONata
  *   This project is licensed under the MIT License, see LICENSE
+ *
+ * Enhanced by Martin Holden
  */
 
 import React from 'react';
-import SplitPane from 'react-split-pane';
-import sample from './sample';
+import sources from './data/sources';
+import sampledata from './data/sampledata';
 import _ from 'lodash';
-import EnhancedMonacoEditor from './EnhancedEditor';
-import EditorNav from './EditorNav';
+import EnhancedMonacoEditor from './components/EnhancedEditor';
+import EditorNav from './components/EditorNav';
+import MainNav from './components/MainNav';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Tabs from 'react-bootstrap/Tabs';
+import Tab from 'react-bootstrap/Tab';
+import './ExerciserBootstrap.css';
 
 class ExerciserBootstrap extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      json: JSON.stringify(sample.DegreedMetadata.json, null, 2),
-      jsonata: sample.DegreedMetadata.jsonata,
-      baseconfig: JSON.stringify(sample.DegreedMetadata.baseconfig || {}, null, 2),
-      customerconfig: JSON.stringify(sample.DegreedMetadata.customerconfig || {}, null, 2),
-      result: '',
+      json: JSON.stringify({}, null, 2),
+      jsonata: `$.{}`,
+      baseconfig: JSON.stringify({}, null, 2),
+      customerconfig: JSON.stringify({}, null, 2),
+      result: null,
     };
   }
 
@@ -76,7 +86,7 @@ class ExerciserBootstrap extends React.Component {
     this.clearMarkers();
   }
 
-  format() {
+  formatsource() {
     const formatted = JSON.stringify(JSON.parse(this.state.json), null, 2);
     this.setState({ json: formatted });
   }
@@ -105,13 +115,13 @@ class ExerciserBootstrap extends React.Component {
     head.appendChild(scriptpercipio);
   }
 
-  changeSample(event) {
-    const data = sample[event.target.value];
+  changeData(eventkey, event) {
+    const selected = sources[eventkey];
     this.setState({
-      json: JSON.stringify(data.json, null, 2),
-      jsonata: data.jsonata,
-      baseconfig: JSON.stringify(data.baseconfig || {}, null, 2),
-      customerconfig: JSON.stringify(data.customerconfig || {}, null, 2),
+      json: JSON.stringify(sampledata[selected.type], null, 2),
+      jsonata: selected.jsonata,
+      baseconfig: JSON.stringify(selected.baseconfig || {}, null, 2),
+      customerconfig: JSON.stringify(selected.customerconfig || {}, null, 2),
     });
     clearTimeout(this.timer);
     this.timer = setTimeout(this.eval.bind(this), 100);
@@ -261,12 +271,13 @@ class ExerciserBootstrap extends React.Component {
     };
 
     return (
-      <div>
-        <SplitPane split="vertical" minSize={100} defaultSize={'50%'}>
-          <SplitPane split="horizontal" minSize={50} defaultSize={'50%'}>
-            <div className="subpane">
-              <EditorNav label="Transform" formatEnabled={false} />
-              <div className="paneeditor">
+      <Container fluid>
+        <MainNav sources={sources} onSourceSelect={this.changeData.bind(this)} />
+        <Row>
+          <Col>
+            <Tabs defaultActiveKey="transform" transition={false} id="transform-config">
+              <Tab eventKey="transform" title="Transform" className="border">
+                <EditorNav label="Transform" formatEnabled={false} />
                 <EnhancedMonacoEditor
                   language="jsonata"
                   theme="jsonataTheme"
@@ -275,27 +286,49 @@ class ExerciserBootstrap extends React.Component {
                   onChange={this.onChangeExpression.bind(this)}
                   editorDidMount={this.jsonataEditorDidMount.bind(this)}
                 />
-              </div>
-            </div>
-            <div className="subpane">
-              <div className="panebanner">
-                <div className=" panebanner-strip panebannerpart">
-                  <div>Source Data</div>
-                  <div className="panebannerright bannerlink">
-                    <select id="sample-data" onChange={this.changeSample.bind(this)}>
-                      <option value="DegreedMetadata">Degreed - Metadata</option>
-                      <option value="SabaCloudMetadata">SabaCloud - Metadata</option>
-                      <option value="SuccessFactorsMetadata">Successfactors - Metadata</option>
-                      <option value="Metadata">Metadata</option>
-                      <option value="LearnerActivity">Learner Activity</option>
-                    </select>
-                  </div>
-                  <div className="panebannerright bannerlink" onClick={this.format.bind(this)}>
-                    Format JSON
-                  </div>
-                </div>
-              </div>
-              <div className="paneeditor">
+              </Tab>
+              <Tab eventKey="baseconfig" title="Base Configuration" className="border">
+                <EditorNav
+                  label="Base Configuration"
+                  formatEnabled={true}
+                  onFormatClick={this.formatbaseconfig.bind(this)}
+                />
+                <EnhancedMonacoEditor
+                  language="json"
+                  theme="jsonataTheme"
+                  value={this.state.baseconfig}
+                  options={options}
+                  onChange={this.onChangeBaseconfig.bind(this)}
+                  editorDidMount={this.baseconfigEditorDidMount.bind(this)}
+                />
+              </Tab>
+              <Tab eventKey="customerconfig" title="Customer Configuration" className="border">
+                <EditorNav
+                  label="Customer Configuration"
+                  formatEnabled={true}
+                  onFormatClick={this.formatcustomerconfig.bind(this)}
+                />
+                <EnhancedMonacoEditor
+                  language="json"
+                  theme="jsonataTheme"
+                  value={this.state.customerconfig}
+                  options={options}
+                  onChange={this.onChangeCustomerconfig.bind(this)}
+                  editorDidMount={this.customerconfigEditorDidMount.bind(this)}
+                />
+              </Tab>
+            </Tabs>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Tabs defaultActiveKey="results" transition={false} id="transform-data">
+              <Tab eventKey="source" title="Source Data" className="border">
+                <EditorNav
+                  label="Source Data"
+                  formatEnabled={true}
+                  onFormatClick={this.formatsource.bind(this)}
+                />
                 <EnhancedMonacoEditor
                   language="json"
                   theme="jsonataTheme"
@@ -304,49 +337,9 @@ class ExerciserBootstrap extends React.Component {
                   onChange={this.onChangeData.bind(this)}
                   editorDidMount={this.jsonEditorDidMount.bind(this)}
                 />
-              </div>
-            </div>
-          </SplitPane>
-          <SplitPane split="horizontal" minSize={50} defaultSize={'50%'}>
-            <SplitPane split="vertical" minSize={100} defaultSize={'50%'}>
-              <div className="subpane">
-                <EditorNav
-                  label="Base Configuration"
-                  formatEnabled={true}
-                  onFormatClick={this.formatbaseconfig.bind(this)}
-                />
-                <div className="paneeditor">
-                  <EnhancedMonacoEditor
-                    language="json"
-                    theme="jsonataTheme"
-                    value={this.state.baseconfig}
-                    options={options}
-                    onChange={this.onChangeBaseconfig.bind(this)}
-                    editorDidMount={this.baseconfigEditorDidMount.bind(this)}
-                  />
-                </div>
-              </div>
-              <div className="subpane">
-                <EditorNav
-                  label="Customer Configuration"
-                  formatEnabled={true}
-                  onFormatClick={this.formatcustomerconfig.bind(this)}
-                />
-                <div className="paneeditor">
-                  <EnhancedMonacoEditor
-                    language="json"
-                    theme="jsonataTheme"
-                    value={this.state.customerconfig}
-                    options={options}
-                    onChange={this.onChangeCustomerconfig.bind(this)}
-                    editorDidMount={this.customerconfigEditorDidMount.bind(this)}
-                  />
-                </div>
-              </div>
-            </SplitPane>
-            <div className="subpane">
-              <EditorNav label="Results" formatEnabled={false} />
-              <div className="paneeditor">
+              </Tab>
+              <Tab eventKey="results" title="Results" className="border">
+                <EditorNav label="Results" formatEnabled={false} />
                 <EnhancedMonacoEditor
                   language="json"
                   theme="jsonataTheme"
@@ -354,11 +347,11 @@ class ExerciserBootstrap extends React.Component {
                   options={resultsoptions}
                   editorDidMount={this.resultsEditorDidMount.bind(this)}
                 />
-              </div>
-            </div>
-          </SplitPane>
-        </SplitPane>
-      </div>
+              </Tab>
+            </Tabs>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }
