@@ -27,7 +27,7 @@ export default class MainNav extends Component {
       results.push(this.createSourceItem(value));
     });
     return (
-      <NavDropdown title="Select Example" id="nav-selectexample" onSelect={this.onSelect}>
+      <NavDropdown title="Select Base Data" id="nav-selectdata" onSelect={this.onSelect}>
         {results}
       </NavDropdown>
     );
