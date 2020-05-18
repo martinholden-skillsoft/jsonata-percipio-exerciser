@@ -125,8 +125,7 @@ export default {
       'CSFILESRELATIVEPATH': '',
       'AVAILABLEOFFLINE': '',
       'VERSION': ''
-      }
-      `,
+      }`,
     baseconfig: {
       template: 'Percipio',
       folderName: 'PERCIPIO_CONTENT',
@@ -134,7 +133,10 @@ export default {
       domainNameForInActive: 'Archive',
       descriptionType: 'NO_EXTENDED_DESCRIPTION',
       owner: 'SSADMIN',
-      titleFormat: { type: 'NONE', technology: 'PREFIX' },
+      titleFormat: {
+        type: 'NONE',
+        technology: 'PREFIX',
+      },
       types: {
         audioSummary: {
           markCompleteExternally: true,
@@ -218,7 +220,9 @@ export default {
       'REV_DTE': $fromMillis($toMillis($.lifecycle.publishDate),'[MNn,*-3]-[D01]-[Y0001] [H01]:[m01]:[s01][z]','-0500'),
       'CPNT_SRC_ID': 'SKILLSOFT',
       'CREATE_DTE': $fromMillis($toMillis($.lifecycle.publishDate),'[MNn,*-3]-[D01]-[Y0001] [H01]:[m01]:[s01][z]','-0500'),
-      'CHGBCK_METHOD': 1
+      'CHGBCK_METHOD': 1,
+      'ENABLE_MOBILE_ACCESS': 'Y',
+      'MOBILE_PRIMARY_PARAM': $.link
     }`,
     baseconfig: {
       catalog: 'EXTERNAL',
@@ -282,8 +286,54 @@ export default {
     },
     customerconfig: {},
   },
-  genericalearningactivity: {
-    id: 'genericalearningactivity',
+  degreedlearningactivity: {
+    id: 'degreedlearningactivity',
+    name: 'Degreed Learning Activity',
+    type: 'learneractivity',
+    jsonata: `$.{ 
+      'UserID': $trim($lowercase(userId)),
+      'CourseID': $generateXapiIdForCompletions($),
+      'CompletionDate': ($datewithdash:=$substringBefore(completedDate,'T');$replace($datewithdash,'-','')),
+      'ContentType': $deriveContentTypeForCompletions($types, $)
+    }`,
+    baseconfig: {
+      types: {
+        audioSummary: {
+          name: 'Book',
+        },
+        audioBook: {
+          name: 'Book',
+        },
+        bookSummary: {
+          name: 'Book',
+        },
+        book: {
+          name: 'Book',
+        },
+        channel: {
+          name: 'Course',
+        },
+        course: {
+          name: 'Course',
+        },
+        video: {
+          name: 'Video',
+        },
+        journey: {
+          name: 'Course',
+        },
+        linkedContent: {
+          name: 'Course',
+        },
+        default: {
+          name: 'Course',
+        },
+      },
+    },
+    customerconfig: {},
+  },
+  genericlearningactivity: {
+    id: 'genericlearningactivity',
     name: 'Generic Learning Activity',
     type: 'learneractivity',
     jsonata: `$.(
