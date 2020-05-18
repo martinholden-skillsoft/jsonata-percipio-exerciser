@@ -176,9 +176,9 @@ class ExerciserBootstrap extends React.Component {
 
   clearMarkers() {
     this.jsonataEditor.clearDecorations();
-    this.jsonEditor.clearDecorations();
     this.baseconfigEditor.clearDecorations();
     this.customerconfigEditor.clearDecorations();
+    this.jsonEditor.clearDecorations();
   }
 
   evalJsonata(input, binding) {

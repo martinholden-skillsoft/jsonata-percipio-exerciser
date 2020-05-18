@@ -122,8 +122,8 @@ export default class EnhancedEditor extends Component {
    * @memberof EnhancedEditor
    */
   componentWillUnmount() {
-    this.monacoEditor = null;
-    this.monaco = null;
+    this.monacoEditor && this.monacoEditor.dispose();
+    this.monaco && this.monaco.dispose();
   }
 
   /**
@@ -133,9 +133,8 @@ export default class EnhancedEditor extends Component {
    */
   editorDidMount = (editor, monaco) => {
     editor.decorations = [];
-    registerJsonataLanguage(monaco);
-
     if (this.props.language === 'jsonata') {
+      registerJsonataLanguage(monaco);
       monaco.editor.setModelLanguage(editor.getModel(), 'jsonata');
       editor.addAction({
         id: 'jsonata-lambda',
