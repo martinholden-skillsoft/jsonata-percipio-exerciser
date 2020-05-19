@@ -18,6 +18,7 @@ import Col from 'react-bootstrap/Col';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import './exerciserbootstrap.css';
+import { version } from '../package.json';
 
 class ExerciserBootstrap extends React.Component {
   constructor(props) {
@@ -60,28 +61,28 @@ class ExerciserBootstrap extends React.Component {
   onChangeData(newValue, e) {
     this.setState({ json: newValue });
     clearTimeout(this.timer);
-    this.timer = setTimeout(this.eval.bind(this), 500);
+    this.timer = setTimeout(this.eval.bind(this), 750);
     this.clearMarkers();
   }
 
   onChangeExpression(newValue, e) {
     this.setState({ jsonata: newValue });
     clearTimeout(this.timer);
-    this.timer = setTimeout(this.eval.bind(this), 500);
+    this.timer = setTimeout(this.eval.bind(this), 750);
     this.clearMarkers();
   }
 
   onChangeBaseconfig(newValue, e) {
     this.setState({ baseconfig: newValue });
     clearTimeout(this.timer);
-    this.timer = setTimeout(this.eval.bind(this), 500);
+    this.timer = setTimeout(this.eval.bind(this), 750);
     this.clearMarkers();
   }
 
   onChangeCustomerconfig(newValue, e) {
     this.setState({ customerconfig: newValue });
     clearTimeout(this.timer);
-    this.timer = setTimeout(this.eval.bind(this), 500);
+    this.timer = setTimeout(this.eval.bind(this), 750);
     this.clearMarkers();
   }
 
@@ -115,10 +116,8 @@ class ExerciserBootstrap extends React.Component {
   eval() {
     let input, jsonataResult, baseconfig, customerconfig, binding;
 
-    const test = this.jsonataEditor.getEditorConfig();
-
     if (typeof window.jsonataExtended === 'undefined') {
-      this.timer = setTimeout(this.eval.bind(this), 500);
+      this.timer = setTimeout(this.eval.bind(this), 750);
       return;
     }
 
@@ -175,7 +174,7 @@ class ExerciserBootstrap extends React.Component {
     });
 
     if (!this.local) {
-      this.timeboxExpression(expr, 3000, 500);
+      this.timeboxExpression(expr, 3000, 750);
     }
 
     let pathresult = expr.evaluate(input, binding);
@@ -258,7 +257,7 @@ class ExerciserBootstrap extends React.Component {
 
     return (
       <Container fluid>
-        <MainNav sources={sources} onSourceSelect={this.changeData.bind(this)} />
+        <MainNav sources={sources} onSourceSelect={this.changeData.bind(this)} version={version} />
         <Row>
           <Col>
             <Tabs defaultActiveKey="transform" transition={false} id="transform-config">

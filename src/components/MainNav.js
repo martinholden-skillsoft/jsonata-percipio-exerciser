@@ -40,27 +40,36 @@ export default class MainNav extends Component {
   }
 
   render() {
+    const { version } = this.props;
+
     return (
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-        <Navbar.Brand>JSONata Percipio Excerciser</Navbar.Brand>
+        <Navbar.Brand>JSONata Percipio Excerciser</Navbar.Brand>{' '}
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">{this.createSourceItems()}</Nav>
           <Nav>
-            <Nav.Link
-              eventKey="percipiojsonata"
-              href="https://skillsoftdev.atlassian.net/wiki/spaces/INTROC/pages/1100219620/Percipio+JSONata+Transform+Library"
-              target="_blank"
-            >
-              <img src={docspercipio} alt="JSONata Percipio Documentation" />
-            </Nav.Link>
-            <Nav.Link
-              eventKey="corejsonata"
-              href="https://docs.jsonata.org/overview"
-              target="_blank"
-            >
-              <img src={docs} alt="JSONata Documentation" />
-            </Nav.Link>
+            <Nav.Item>
+              <Nav.Link
+                eventKey="percipiojsonata"
+                href="https://skillsoftdev.atlassian.net/wiki/spaces/INTROC/pages/1100219620/Percipio+JSONata+Transform+Library"
+                target="_blank"
+              >
+                <img src={docspercipio} alt="JSONata Percipio Documentation" />
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link
+                eventKey="corejsonata"
+                href="https://docs.jsonata.org/overview"
+                target="_blank"
+              >
+                <img src={docs} alt="JSONata Documentation" />
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Navbar.Text className="text-muted">{` v${version}`}</Navbar.Text>
+            </Nav.Item>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
@@ -71,9 +80,11 @@ export default class MainNav extends Component {
 MainNav.propTypes = {
   onSourceSelect: PropTypes.func,
   sources: PropTypes.object,
+  version: PropTypes.string,
 };
 
 MainNav.defaultProps = {
   onSourceSelect: function () {},
   sources: {},
+  version: '',
 };
