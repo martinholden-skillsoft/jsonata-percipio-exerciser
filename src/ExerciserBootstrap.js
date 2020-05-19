@@ -10,15 +10,14 @@ import React from 'react';
 import sources from './data/sources';
 import sampledata from './data/sampledata';
 import _ from 'lodash';
-import EnhancedMonacoEditor from './components/EnhancedEditor';
-import EditorNav from './components/EditorNav';
+import EnhancedMonacoEditorWithNav from './components/EnhancedEditorWithNav';
 import MainNav from './components/MainNav';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
-import './ExerciserBootstrap.css';
+import './exerciserbootstrap.css';
 
 class ExerciserBootstrap extends React.Component {
   constructor(props) {
@@ -86,21 +85,6 @@ class ExerciserBootstrap extends React.Component {
     this.clearMarkers();
   }
 
-  formatsource() {
-    const formatted = JSON.stringify(JSON.parse(this.state.json), null, 2);
-    this.setState({ json: formatted });
-  }
-
-  formatbaseconfig() {
-    const formatted = JSON.stringify(JSON.parse(this.state.baseconfig), null, 2);
-    this.setState({ baseconfig: formatted });
-  }
-
-  formatcustomerconfig() {
-    const formatted = JSON.stringify(JSON.parse(this.state.customerconfig), null, 2);
-    this.setState({ customerconfig: formatted });
-  }
-
   loadJSONata() {
     const head = document.getElementsByTagName('head')[0];
     const script = document.createElement('script');
@@ -130,6 +114,8 @@ class ExerciserBootstrap extends React.Component {
 
   eval() {
     let input, jsonataResult, baseconfig, customerconfig, binding;
+
+    const test = this.jsonataEditor.getEditorConfig();
 
     if (typeof window.jsonataExtended === 'undefined') {
       this.timer = setTimeout(this.eval.bind(this), 500);
@@ -277,44 +263,37 @@ class ExerciserBootstrap extends React.Component {
           <Col>
             <Tabs defaultActiveKey="transform" transition={false} id="transform-config">
               <Tab eventKey="transform" title="Transform" className="border">
-                <EditorNav label="Transform" formatEnabled={false} />
-                <EnhancedMonacoEditor
+                <EnhancedMonacoEditorWithNav
                   language="jsonata"
                   theme="jsonataTheme"
                   value={this.state.jsonata}
                   options={options}
                   onChange={this.onChangeExpression.bind(this)}
                   editorDidMount={this.jsonataEditorDidMount.bind(this)}
+                  label="Transform"
+                  formatEnabled={false}
                 />
               </Tab>
               <Tab eventKey="baseconfig" title="Base Configuration" className="border">
-                <EditorNav
-                  label="Base Configuration"
-                  formatEnabled={true}
-                  onFormatClick={this.formatbaseconfig.bind(this)}
-                />
-                <EnhancedMonacoEditor
+                <EnhancedMonacoEditorWithNav
                   language="json"
                   theme="jsonataTheme"
                   value={this.state.baseconfig}
                   options={options}
                   onChange={this.onChangeBaseconfig.bind(this)}
                   editorDidMount={this.baseconfigEditorDidMount.bind(this)}
+                  label="Base Configuration"
                 />
               </Tab>
               <Tab eventKey="customerconfig" title="Customer Configuration" className="border">
-                <EditorNav
-                  label="Customer Configuration"
-                  formatEnabled={true}
-                  onFormatClick={this.formatcustomerconfig.bind(this)}
-                />
-                <EnhancedMonacoEditor
+                <EnhancedMonacoEditorWithNav
                   language="json"
                   theme="jsonataTheme"
                   value={this.state.customerconfig}
                   options={options}
                   onChange={this.onChangeCustomerconfig.bind(this)}
                   editorDidMount={this.customerconfigEditorDidMount.bind(this)}
+                  label="Customer Configuration"
                 />
               </Tab>
             </Tabs>
@@ -324,28 +303,24 @@ class ExerciserBootstrap extends React.Component {
           <Col>
             <Tabs defaultActiveKey="results" transition={false} id="transform-data">
               <Tab eventKey="source" title="Source Data" className="border">
-                <EditorNav
-                  label="Source Data"
-                  formatEnabled={true}
-                  onFormatClick={this.formatsource.bind(this)}
-                />
-                <EnhancedMonacoEditor
+                <EnhancedMonacoEditorWithNav
                   language="json"
                   theme="jsonataTheme"
                   value={this.state.json}
                   options={options}
                   onChange={this.onChangeData.bind(this)}
                   editorDidMount={this.jsonEditorDidMount.bind(this)}
+                  label="Source Data"
                 />
               </Tab>
               <Tab eventKey="results" title="Results" className="border">
-                <EditorNav label="Results" formatEnabled={false} />
-                <EnhancedMonacoEditor
+                <EnhancedMonacoEditorWithNav
                   language="json"
                   theme="jsonataTheme"
                   value={this.state.result}
                   options={resultsoptions}
                   editorDidMount={this.resultsEditorDidMount.bind(this)}
+                  label="Results"
                 />
               </Tab>
             </Tabs>

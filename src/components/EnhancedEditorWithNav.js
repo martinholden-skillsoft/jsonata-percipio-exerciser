@@ -1,25 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import MonacoEditor from 'react-monaco-editor';
-import registerJsonataLanguage from './monacoIntegration/jsonata';
 import ReactResizeDetector from 'react-resize-detector';
+import registerJsonataLanguage from './monacoIntegration/jsonata';
+import EditorNav from './EditorNav';
 
 /**
  * A wrapper for the react-monaco-editor that adds a layout method and
  * some convenient props.
  */
-export default class EnhancedEditor extends Component {
+export default class EnhancedEditorWithNav extends Component {
   constructor(props) {
     super(props);
     this.monacoEditor = null;
     this.monaco = null;
     this.editorDidMount = this.editorDidMount.bind(this);
+    this.getEditorConfig = this.getEditorConfig.bind(this);
+    this._onFormatClick = this._onFormatClick.bind(this);
   }
 
   /**
    * Trigger layout
    *
-   * @memberof EnhancedEditor
    */
   layout() {
     if (this.monacoEditor != null) {
@@ -52,10 +54,22 @@ export default class EnhancedEditor extends Component {
     }
   }
 
+  getEditorConfig() {
+    const model = this.getModel();
+    const viewstate = this.saveViewState();
+    const { label, formatEnabled, onFormatClick } = this.props;
+    return {
+      model,
+      viewstate,
+      label,
+      formatEnabled,
+      onFormatClick,
+    };
+  }
+
   /**
    * Clear any decorations from editor
    *
-   * @memberof EnhancedEditor
    */
   clearDecorations() {
     if (this.monacoEditor != null) {
@@ -71,7 +85,6 @@ export default class EnhancedEditor extends Component {
    *
    * @param {integer} start
    * @param {integer} end
-   * @memberof EnhancedEditor
    */
   addErrorDecoration(start, end) {
     if (this.monacoEditor != null) {
@@ -112,12 +125,19 @@ export default class EnhancedEditor extends Component {
     }
   }
 
+  _onFormatClick(eventKey, event) {
+    if (this.props.formatEnabled && this.props.language === 'json') {
+      const model = this.getModel();
+      const formatted = JSON.stringify(JSON.parse(model.getValue()), null, 2);
+      model.setValue(formatted);
+    }
+  }
+
   /**
    * Add an error decoration based on extracting position from
    * err, supports json and jsonata
    *
    * @param {*} err
-   * @memberof EnhancedEditor
    */
   addErrorDecorationFromErr(err) {
     let start = 0;
@@ -144,7 +164,6 @@ export default class EnhancedEditor extends Component {
   /**
    * This method is called when a component is being removed from the DOM
    *
-   * @memberof EnhancedEditor
    */
   componentWillUnmount() {
     this.monacoEditor = null;
@@ -154,12 +173,11 @@ export default class EnhancedEditor extends Component {
   /**
    * An event emitted when the editor has been mounted (similar to componentDidMount of React).
    *
-   * @memberof EnhancedEditor
    */
-  editorDidMount = (editor, monaco) => {
+  editorDidMount(editor, monaco) {
     editor.decorations = [];
+    registerJsonataLanguage(monaco);
     if (this.props.language === 'jsonata') {
-      registerJsonataLanguage(monaco);
       monaco.editor.setModelLanguage(editor.getModel(), 'jsonata');
       editor.addAction({
         id: 'jsonata-lambda',
@@ -178,7 +196,7 @@ export default class EnhancedEditor extends Component {
     if (this.props.editorDidMount) {
       this.props.editorDidMount(this, monaco);
     }
-  };
+  }
 
   render() {
     const {
@@ -186,6 +204,8 @@ export default class EnhancedEditor extends Component {
       height,
       readOnly,
       value,
+      formatEnabled,
+      label,
       options = {},
       editorDidMount,
       className,
@@ -201,7 +221,14 @@ export default class EnhancedEditor extends Component {
             this.layout();
           }}
         >
+          <EditorNav
+            key={`nav-${label}`}
+            label={label}
+            formatEnabled={formatEnabled}
+            onFormatClick={this._onFormatClick}
+          />
           <MonacoEditor
+            key={`editor-${label}`}
             width={width || '100%'}
             height={height || '100%'}
             value={value}
@@ -217,15 +244,19 @@ export default class EnhancedEditor extends Component {
   }
 }
 
-EnhancedEditor.propTypes = {
+EnhancedEditorWithNav.propTypes = {
   editorDidMount: PropTypes.func,
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func,
   options: PropTypes.object,
   value: PropTypes.string,
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  formatEnabled: PropTypes.bool,
+  label: PropTypes.string,
 };
 
-EnhancedEditor.defaultProps = {
+EnhancedEditorWithNav.defaultProps = {
   className: 'enhanced-editor',
+  formatEnabled: true,
+  label: 'Editor',
 };
