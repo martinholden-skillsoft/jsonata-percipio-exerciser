@@ -29,44 +29,6 @@ export default class EnhancedEditorWithNav extends Component {
     }
   }
 
-  saveViewState() {
-    if (this.monacoEditor != null) {
-      return this.monacoEditor.saveViewState();
-    }
-  }
-
-  restoreViewState(newViewState) {
-    if (this.monacoEditor != null) {
-      this.monacoEditor.restoreViewState(newViewState);
-      this.layout();
-    }
-  }
-
-  getModel() {
-    if (this.monacoEditor != null) {
-      return this.monacoEditor.getModel();
-    }
-  }
-
-  setModel(newModel) {
-    if (this.monacoEditor != null) {
-      this.monacoEditor.setModel(newModel);
-    }
-  }
-
-  getEditorConfig() {
-    const model = this.getModel();
-    const viewstate = this.saveViewState();
-    const { label, formatEnabled, onFormatClick } = this.props;
-    return {
-      model,
-      viewstate,
-      label,
-      formatEnabled,
-      onFormatClick,
-    };
-  }
-
   /**
    * Clear any decorations from editor
    *
@@ -191,8 +153,8 @@ export default class EnhancedEditorWithNav extends Component {
    */
   editorDidMount(editor, monaco) {
     editor.decorations = [];
-    registerJsonataLanguage(monaco);
     if (this.props.language === 'jsonata') {
+      registerJsonataLanguage(monaco);
       monaco.editor.setModelLanguage(editor.getModel(), 'jsonata');
       editor.addAction({
         id: 'jsonata-lambda',
