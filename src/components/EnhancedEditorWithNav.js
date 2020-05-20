@@ -18,6 +18,12 @@ export default class EnhancedEditorWithNav extends Component {
     this._onFormatClick = this._onFormatClick.bind(this);
   }
 
+  getModel() {
+    if (this.monacoEditor != null) {
+      return this.monacoEditor.getModel();
+    }
+  }
+
   /**
    * Trigger layout
    *
