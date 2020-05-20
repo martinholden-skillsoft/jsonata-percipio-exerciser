@@ -15,7 +15,6 @@ export default class EnhancedEditorWithNav extends Component {
     this.monacoEditor = null;
     this.monaco = null;
     this.editorDidMount = this.editorDidMount.bind(this);
-    this.getEditorConfig = this.getEditorConfig.bind(this);
     this._onFormatClick = this._onFormatClick.bind(this);
   }
 
