@@ -125,11 +125,26 @@ export default class EnhancedEditorWithNav extends Component {
     }
   }
 
+  updateNoUndo(text) {
+    const model = this.getModel();
+    model.applyEdits([
+      {
+        range: new this.monaco.Range(
+          1,
+          1,
+          model.getLineCount(),
+          model.getLineMaxColumn(model.getLineCount())
+        ),
+        text,
+      },
+    ]);
+  }
+
   _onFormatClick(eventKey, event) {
     if (this.props.formatEnabled && this.props.language === 'json') {
       const model = this.getModel();
       const formatted = JSON.stringify(JSON.parse(model.getValue()), null, 2);
-      model.setValue(formatted);
+      this.updateNoUndo(formatted);
     }
   }
 

@@ -24,7 +24,7 @@ class ExerciserBootstrap extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
+    this.data = {
       json: JSON.stringify({}, null, 2),
       jsonata: `$.{}`,
       baseconfig: JSON.stringify({}, null, 2),
@@ -38,49 +38,68 @@ class ExerciserBootstrap extends React.Component {
     this.eval();
   }
 
+  editorOverwrite(editor, value) {
+    if (editor) {
+      editor.updateNoUndo(value);
+    }
+  }
+
+  allEditorsOverwrite() {
+    this.editorOverwrite(this.jsonEditor, this.data.json);
+    this.editorOverwrite(this.jsonataEditor, this.data.jsonata);
+    this.editorOverwrite(this.baseconfigEditor, this.data.baseconfig);
+    this.editorOverwrite(this.customerconfigEditor, this.data.customerconfig);
+    this.editorOverwrite(this.resultsEditor, this.data.results);
+  }
+
   jsonEditorDidMount(editor, monaco) {
     this.jsonEditor = editor;
+    this.editorOverwrite(this.jsonEditor, this.data.json);
   }
 
   jsonataEditorDidMount(editor, monaco) {
     this.jsonataEditor = editor;
+    this.editorOverwrite(this.jsonataEditor, this.data.jsonata);
   }
 
   baseconfigEditorDidMount(editor, monaco) {
     this.baseconfigEditor = editor;
+    this.editorOverwrite(this.baseconfigEditor, this.data.baseconfig);
   }
 
   customerconfigEditorDidMount(editor, monaco) {
     this.customerconfigEditor = editor;
+    this.editorOverwrite(this.customerconfigEditor, this.data.customerconfig);
   }
 
   resultsEditorDidMount(editor, monaco) {
     this.resultsEditor = editor;
+    this.editorOverwrite(this.resultsEditor, this.data.result);
   }
 
   onChangeData(newValue, e) {
-    this.setState({ json: newValue });
+    this.data.json = newValue;
     clearTimeout(this.timer);
     this.timer = setTimeout(this.eval.bind(this), 750);
     this.clearMarkers();
   }
 
   onChangeExpression(newValue, e) {
-    this.setState({ jsonata: newValue });
+    this.data.jsonata = newValue;
     clearTimeout(this.timer);
     this.timer = setTimeout(this.eval.bind(this), 750);
     this.clearMarkers();
   }
 
   onChangeBaseconfig(newValue, e) {
-    this.setState({ baseconfig: newValue });
+    this.data.baseconfig = newValue;
     clearTimeout(this.timer);
     this.timer = setTimeout(this.eval.bind(this), 750);
     this.clearMarkers();
   }
 
   onChangeCustomerconfig(newValue, e) {
-    this.setState({ customerconfig: newValue });
+    this.data.customerconfig = newValue;
     clearTimeout(this.timer);
     this.timer = setTimeout(this.eval.bind(this), 750);
     this.clearMarkers();
@@ -102,12 +121,13 @@ class ExerciserBootstrap extends React.Component {
 
   changeData(eventkey, event) {
     const selected = sources[eventkey];
-    this.setState({
+    this.data = {
       json: JSON.stringify(sampledata[selected.type], null, 2),
       jsonata: selected.jsonata,
       baseconfig: JSON.stringify(selected.baseconfig || {}, null, 2),
       customerconfig: JSON.stringify(selected.customerconfig || {}, null, 2),
-    });
+    };
+    this.allEditorsOverwrite();
     clearTimeout(this.timer);
     this.timer = setTimeout(this.eval.bind(this), 100);
     this.clearMarkers();
@@ -122,25 +142,25 @@ class ExerciserBootstrap extends React.Component {
     }
 
     try {
-      input = JSON.parse(this.state.json);
+      input = JSON.parse(this.data.json);
     } catch (err) {
-      this.setState({ result: 'ERROR IN INPUT JSON DATA: ' + err.message });
+      this.data.results = `ERROR IN INPUT JSON DATA: ${err.message}`;
       this.jsonEditor.addErrorDecorationFromErr(err);
       return;
     }
 
     try {
-      baseconfig = JSON.parse(this.state.baseconfig);
+      baseconfig = JSON.parse(this.data.baseconfig);
     } catch (err) {
-      this.setState({ result: 'ERROR IN BASE CONFIGURATION JSON DATA: ' + err.message });
+      this.data.results = `ERROR IN BASE CONFIGURATION JSON DATA: ${err.message}`;
       this.baseconfigEditor.addErrorDecorationFromErr(err);
       return;
     }
 
     try {
-      customerconfig = JSON.parse(this.state.customerconfig);
+      customerconfig = JSON.parse(this.data.customerconfig);
     } catch (err) {
-      this.setState({ result: 'ERROR IN CUSTOMER CONFIGURATION JSON DATA: ' + err.message });
+      this.data.results = `ERROR IN CUSTOMER CONFIGURATION JSON DATA: ${err.message}`;
       this.customerconfigEditor.addErrorDecorationFromErr(err);
       return;
     }
@@ -149,14 +169,15 @@ class ExerciserBootstrap extends React.Component {
     // binding = {};
 
     try {
-      if (this.state.jsonata !== '') {
+      if (this.data.jsonata !== '') {
         jsonataResult = this.evalJsonata(input, binding);
-        this.setState({ result: jsonataResult });
+        this.data.results = jsonataResult;
       }
     } catch (err) {
-      this.setState({ result: err.message || String(err) });
+      this.data.results = err.message || String(err);
       this.jsonataEditor.addErrorDecorationFromErr(err);
     }
+    this.editorOverwrite(this.resultsEditor, this.data.results);
   }
 
   clearMarkers() {
@@ -167,7 +188,7 @@ class ExerciserBootstrap extends React.Component {
   }
 
   evalJsonata(input, binding) {
-    const expr = window.jsonataExtended(this.state.jsonata);
+    const expr = window.jsonataExtended(this.data.jsonata);
 
     expr.assign('trace', function (arg) {
       console.log(arg);
@@ -265,7 +286,6 @@ class ExerciserBootstrap extends React.Component {
                 <EnhancedMonacoEditorWithNav
                   language="jsonata"
                   theme="jsonataTheme"
-                  value={this.state.jsonata}
                   options={options}
                   onChange={this.onChangeExpression.bind(this)}
                   editorDidMount={this.jsonataEditorDidMount.bind(this)}
@@ -277,7 +297,6 @@ class ExerciserBootstrap extends React.Component {
                 <EnhancedMonacoEditorWithNav
                   language="json"
                   theme="jsonataTheme"
-                  value={this.state.baseconfig}
                   options={options}
                   onChange={this.onChangeBaseconfig.bind(this)}
                   editorDidMount={this.baseconfigEditorDidMount.bind(this)}
@@ -288,7 +307,6 @@ class ExerciserBootstrap extends React.Component {
                 <EnhancedMonacoEditorWithNav
                   language="json"
                   theme="jsonataTheme"
-                  value={this.state.customerconfig}
                   options={options}
                   onChange={this.onChangeCustomerconfig.bind(this)}
                   editorDidMount={this.customerconfigEditorDidMount.bind(this)}
@@ -305,7 +323,6 @@ class ExerciserBootstrap extends React.Component {
                 <EnhancedMonacoEditorWithNav
                   language="json"
                   theme="jsonataTheme"
-                  value={this.state.json}
                   options={options}
                   onChange={this.onChangeData.bind(this)}
                   editorDidMount={this.jsonEditorDidMount.bind(this)}
@@ -316,7 +333,6 @@ class ExerciserBootstrap extends React.Component {
                 <EnhancedMonacoEditorWithNav
                   language="json"
                   theme="jsonataTheme"
-                  value={this.state.result}
                   options={resultsoptions}
                   editorDidMount={this.resultsEditorDidMount.bind(this)}
                   label="Results"
