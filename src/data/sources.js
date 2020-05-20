@@ -7,6 +7,22 @@ export default {
     baseconfig: {},
     customerconfig: {},
   },
+  samplemetadata: {
+    id: 'samplemetadata',
+    name: 'Sample Metadata Only',
+    type: 'metadata',
+    jsonata: `$.{}`,
+    baseconfig: {},
+    customerconfig: {},
+  },
+  samplelearningactivity: {
+    id: 'samplelearningactivity',
+    name: 'Sample Learning Activity Only',
+    type: 'learneractivity',
+    jsonata: `$.{}`,
+    baseconfig: {},
+    customerconfig: {},
+  },
   degreedmetadata: {
     id: 'degreedmetadata',
     name: 'Degreed Metadata',
