@@ -1,9 +1,15 @@
 const generic = require('./generic');
 const successfactors = require('./successfactors');
 
-const getSuggestions = (monaco) => {
-  const merged = [...generic.functions, ...successfactors.functions];
+const merged = [...generic.functions, ...successfactors.functions];
 
+/**
+ * Return array of monaco.languages.CompletionItem
+ *
+ * @param {*} monaco
+ * @returns {Array<monaco.languages.CompletionItem>}
+ */
+const getSuggestions = (monaco) => {
   const suggestions = merged.map((value, index, source) => {
     const suggestion = {};
     suggestion.label = `$${value.label}`;
@@ -75,6 +81,59 @@ const getSuggestions = (monaco) => {
   return suggestions;
 };
 
+/**
+ * Return object to use for hoverProvider lookup
+ *
+ * @returns {object}
+ */
+const getHovers = () => {
+  const hovers = merged.reduce((acc, value, index, source) => {
+    let documentation = value.description;
+    if (value.parameters) {
+      documentation += '\n\n';
+      documentation += '**Parameters**\n\n';
+      if (value.parameters && value.parameters.length !== 0) {
+        let params = '';
+        value.parameters.forEach((value, index, source) => {
+          params += `{${value.type}} ${
+            value.optional
+              ? `${value.default ? `[${value.label}=${value.default}]` : `[${value.label}]`}`
+              : value.label
+          }\n\n`;
+          params += `${value.documentation}\n\n`;
+        });
+        documentation += params.slice(0, -1);
+      }
+    }
+
+    if (value.returns) {
+      documentation += '\n\n';
+      documentation += '**Returns**\n\n';
+      documentation += `{${value.returns}}\n\n`;
+    }
+
+    let detail = `${value.label}()`;
+    if (value.parameters) {
+      let signature = value.label;
+      signature += '(';
+      if (value.parameters && value.parameters.length !== 0) {
+        let params = '';
+        value.parameters.forEach((value, index, source) => {
+          params += value.label + ',';
+        });
+        signature += params.slice(0, -1);
+      }
+      signature += ')';
+      detail = signature;
+    }
+    acc[value.label] = [{ value: `**${detail}**` }, { value: documentation }];
+    return acc;
+  }, {});
+
+  return hovers;
+};
+
 module.exports = {
   getSuggestions,
+  getHovers,
 };

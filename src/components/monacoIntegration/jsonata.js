@@ -1,6 +1,6 @@
 /* eslint-disable no-template-curly-in-string */
 import monarchDefinition from './jsonata.monarch';
-import { getSuggestions } from './functions/custom';
+import { getSuggestions, getHovers } from './functions/custom';
 
 export default function (monaco) {
   monaco.languages.register({
@@ -50,6 +50,27 @@ export default function (monaco) {
   monaco.languages.registerCompletionItemProvider('jsonata', {
     provideCompletionItems: () => {
       return { suggestions: getSuggestions(monaco) };
+    },
+  });
+
+  monaco.languages.registerHoverProvider('jsonata', {
+    provideHover: function (model, position) {
+      var word = model.getWordAtPosition(position);
+      if (word) {
+        const entry = getHovers()[word.word];
+        if (entry) {
+          return {
+            range: new monaco.Range(
+              1,
+              1,
+              model.getLineCount(),
+              model.getLineMaxColumn(model.getLineCount())
+            ),
+            contents: entry,
+          };
+        }
+      }
+      return null;
     },
   });
 }
