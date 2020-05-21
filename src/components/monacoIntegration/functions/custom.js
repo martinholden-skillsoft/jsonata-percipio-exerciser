@@ -1,14 +1,9 @@
-const generic = require('./generic');
-const successfactors = require('./successfactors');
-const degreed = require('./degreed');
-const sabacloud = require('./sabacloud');
+import generic from './generic';
+import successfactors from './successfactors';
+import degreed from './degreed';
+import sabacloud from './sabacloud';
 
-const merged = [
-  ...generic.functions,
-  ...successfactors.functions,
-  ...degreed.functions,
-  ...sabacloud.functions,
-];
+const merged = [...generic, ...successfactors, ...degreed, ...sabacloud];
 
 /**
  * Return array of monaco.languages.CompletionItem
@@ -16,7 +11,7 @@ const merged = [
  * @param {*} monaco
  * @returns {Array<monaco.languages.CompletionItem>}
  */
-const getSuggestions = (monaco, range) => {
+export function getSuggestions(monaco, range) {
   const suggestions = merged.map((value, index, source) => {
     const suggestion = {};
     suggestion.label = `$${value.label}`;
@@ -87,14 +82,14 @@ const getSuggestions = (monaco, range) => {
   });
 
   return suggestions;
-};
+}
 
 /**
  * Return object to use for hoverProvider lookup
  *
  * @returns {object}
  */
-const getHovers = () => {
+export function getHovers() {
   const hovers = merged.reduce((acc, value, index, source) => {
     let documentation = value.description;
     if (value.parameters) {
@@ -139,9 +134,4 @@ const getHovers = () => {
   }, {});
 
   return hovers;
-};
-
-module.exports = {
-  getSuggestions,
-  getHovers,
-};
+}

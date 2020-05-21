@@ -1,4 +1,4 @@
-exports.functions = [
+export default [
   {
     label: 'degreedDuration',
     description:

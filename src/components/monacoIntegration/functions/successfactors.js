@@ -1,4 +1,4 @@
-exports.functions = [
+export default [
   {
     label: 'successFactorsType',
     description: 'Get the value to use for SuccessFactors **CPNT_TYP_ID** and **DEL_MTH_ID**',

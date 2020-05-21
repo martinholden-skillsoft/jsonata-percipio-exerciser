@@ -1,6 +1,6 @@
 /* eslint-disable no-template-curly-in-string */
 import monarchDefinition from './jsonata.monarch';
-const { getHovers, getSuggestions } = require('./functions/custom');
+import { getSuggestions, getHovers } from './functions/custom';
 
 export default function (monaco) {
   monaco.languages.register({
