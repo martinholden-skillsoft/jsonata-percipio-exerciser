@@ -48,24 +48,34 @@ export default function (monaco) {
 
   // Register a completion item provider for the new language
   monaco.languages.registerCompletionItemProvider('jsonata', {
-    provideCompletionItems: () => {
-      return { suggestions: getSuggestions(monaco) };
+    provideCompletionItems: (model, position) => {
+      var word = model.getWordUntilPosition(position);
+      var range = {
+        startLineNumber: position.lineNumber,
+        endLineNumber: position.lineNumber,
+        startColumn: word.startColumn,
+        endColumn: word.endColumn,
+      };
+      return {
+        suggestions: getSuggestions(monaco, range),
+      };
     },
   });
 
   monaco.languages.registerHoverProvider('jsonata', {
-    provideHover: function (model, position) {
+    provideHover: (model, position) => {
       var word = model.getWordAtPosition(position);
       if (word) {
+        var range = {
+          startLineNumber: position.lineNumber,
+          endLineNumber: position.lineNumber,
+          startColumn: word.startColumn,
+          endColumn: word.endColumn,
+        };
         const entry = getHovers()[word.word];
         if (entry) {
           return {
-            range: new monaco.Range(
-              1,
-              1,
-              model.getLineCount(),
-              model.getLineMaxColumn(model.getLineCount())
-            ),
+            range,
             contents: entry,
           };
         }

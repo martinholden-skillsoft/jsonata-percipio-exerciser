@@ -1,7 +1,14 @@
 const generic = require('./generic');
 const successfactors = require('./successfactors');
+const degreed = require('./degreed');
+const sabacloud = require('./sabacloud');
 
-const merged = [...generic.functions, ...successfactors.functions];
+const merged = [
+  ...generic.functions,
+  ...successfactors.functions,
+  ...degreed.functions,
+  ...sabacloud.functions,
+];
 
 /**
  * Return array of monaco.languages.CompletionItem
@@ -9,7 +16,7 @@ const merged = [...generic.functions, ...successfactors.functions];
  * @param {*} monaco
  * @returns {Array<monaco.languages.CompletionItem>}
  */
-const getSuggestions = (monaco) => {
+const getSuggestions = (monaco, range) => {
   const suggestions = merged.map((value, index, source) => {
     const suggestion = {};
     suggestion.label = `$${value.label}`;
@@ -75,6 +82,7 @@ const getSuggestions = (monaco) => {
       suggestion.insertText = insertText;
     }
 
+    suggestion.range = range;
     return suggestion;
   });
 
@@ -112,9 +120,9 @@ const getHovers = () => {
       documentation += `{${value.returns}}\n\n`;
     }
 
-    let detail = `${value.label}()`;
+    let detail = `$${value.label}()`;
     if (value.parameters) {
-      let signature = value.label;
+      let signature = `$${value.label}`;
       signature += '(';
       if (value.parameters && value.parameters.length !== 0) {
         let params = '';

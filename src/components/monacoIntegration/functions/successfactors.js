@@ -10,7 +10,7 @@ exports.functions = [
         optional: false,
         default: null,
         documentation:
-          'An object containing the mapping between Percipio type and this value. This is normally the **$types** value from the configuration.',
+          'An object containing the mapping between **$.contentType** and this value. This is normally the **$types** value from the configuration.',
       },
       {
         label: 'row',
@@ -33,7 +33,7 @@ exports.functions = [
         optional: false,
         default: null,
         documentation:
-          'An object containing the mapping between Percipio type and this value. This is normally the **$types** value from the configuration.',
+          'An object containing the mapping between **$.contentType** and this value. This is normally the **$types** value from the configuration.',
       },
       {
         label: 'row',
@@ -47,7 +47,7 @@ exports.functions = [
   },
   {
     label: 'successFactorsShowInCatalog',
-    description: 'Get *Y* or *N* to use for SuccessFactors **SHOW_IN_CATALOG**',
+    description: 'Get **Y** or **N** to use for SuccessFactors **SHOW_IN_CATALOG**',
     returns: 'String',
     parameters: [
       {
@@ -56,7 +56,7 @@ exports.functions = [
         optional: false,
         default: null,
         documentation:
-          'An object containing the mapping between Percipio type and this value. This is normally the **$types** value from the configuration.',
+          'An object containing the mapping between **$.contentType** and this value. This is normally the **$types** value from the configuration.',
       },
       {
         label: 'row',
@@ -79,8 +79,7 @@ exports.functions = [
         type: 'String',
         optional: false,
         default: null,
-        documentation:
-          'The Percipio localeCode value to look up. This is normally **localizedMetadata[0].localeCode**',
+        documentation: 'The Percipio localeCode value to look up.',
       },
     ],
     signature: '(localeCode)',
