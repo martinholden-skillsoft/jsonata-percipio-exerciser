@@ -113,7 +113,7 @@ class ExerciserBootstrap extends React.Component {
 
     const scriptpercipio = document.createElement('script');
     scriptpercipio.type = 'text/javascript';
-    scriptpercipio.src = 'https://content-discovery-dev.qa.pints.io/scripts/percipio-jsonata.js';
+    scriptpercipio.src = 'https://api.percipio.com/content-discovery/scripts/percipio-jsonata.js';
     this.local = false;
     head.appendChild(script);
     head.appendChild(scriptpercipio);
