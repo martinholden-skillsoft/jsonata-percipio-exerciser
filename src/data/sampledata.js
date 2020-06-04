@@ -1715,5 +1715,51 @@ export default {
       languageCode: 'English',
     },
   ],
+  metadataone: [
+    {
+      id: '17913de0-df49-11e6-93f3-0242c0a80605',
+      code: null,
+      xapiActivityId: 'https://xapi.percipio.com/xapi/channel/17913de0-df49-11e6-93f3-0242c0a80605',
+      xapiActivityTypeId: 'https://xapi.percipio.com/xapi/activity-type/channel',
+      contentType: {
+        percipioType: 'CHANNEL',
+        category: 'CHANNEL',
+        displayLabel: 'Channel',
+        source: null,
+      },
+      localeCodes: ['en-US'],
+      localizedMetadata: [
+        {
+          localeCode: 'en-US',
+          title: 'Cloud Basics',
+          description:
+            '<p>Explore the core concepts of the Cloud, including the basics of cloud computing, why it&#39;s so popular, and where to begin.</p>',
+        },
+      ],
+      lifecycle: {
+        status: 'ACTIVE',
+        publishDate: '2017-02-10T18:58:24Z',
+        lastUpdatedDate: '2020-04-20T00:36:43Z',
+      },
+      link: 'https://share.percipio.com/cd/HJiKNsvTV2mV',
+      imageUrl:
+        'https://cdn2.percipio.com/public/c/channel/images/saved/17913de0-df49-11e6-93f3-0242c0a80605.jpg',
+      keywords: [],
+      duration: null,
+      by: [],
+      publication: null,
+      credentials: null,
+      expertiseLevels: [],
+      modalities: [],
+      technologies: [],
+      associations: {
+        areas: ['Cloud Services'],
+        subjects: ['Cloud Basics'],
+        channels: [],
+        parent: null,
+        translationGroupId: null,
+      },
+    },
+  ],
   empty: {},
 };

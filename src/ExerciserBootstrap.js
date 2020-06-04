@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import sources from './data/sources';
 import sampledata from './data/sampledata';
 import _ from 'lodash';
 import EnhancedMonacoEditorWithNav from './components/EnhancedEditorWithNav';
@@ -23,6 +22,77 @@ import { version } from '../package.json';
 class ExerciserBootstrap extends React.Component {
   constructor(props) {
     super(props);
+
+    // Get transforms and configurations from window object
+    const dataexamples = window.jsonatatransforms;
+
+    this.configurations = dataexamples.configurations.reduce(
+      (accumulator, currentValue, index, sourcearray) => {
+        accumulator[currentValue.transformId] = currentValue;
+        return accumulator;
+      },
+      {}
+    );
+
+    // Remove Workday
+    this.sources = dataexamples.transforms
+      .filter((value, index, sourceArray) => {
+        const systemName = value.systemName.toLowerCase();
+        return systemName !== 'workday' && systemName !== 'accenture';
+      })
+      .map((value, index, sourceArray) => {
+        const newObj = {};
+        newObj.id = value.id;
+        newObj.name = `${value.name} - ${value.type}`;
+        newObj.type =
+          value.type === 'CONTENT_EXPORT'
+            ? 'metadata'
+            : value.type === 'LEARNER_ACTIVITY_REPORT'
+            ? 'learneractivity'
+            : 'metadata';
+        newObj.jsonata = `${value.transform}`;
+        newObj.baseconfig = this.configurations[value.id]
+          ? this.configurations[value.id].configuration
+          : {};
+        newObj.customerconfig = {};
+        return newObj;
+      })
+      .reduce((accumulator, currentValue, index, sourcearray) => {
+        accumulator[currentValue.id] = currentValue;
+        return accumulator;
+      }, {});
+
+    this.defaults = {
+      empty: {
+        id: 'empty',
+        name: 'Empty',
+        type: 'empty',
+        jsonata: `$.{}`,
+        baseconfig: {},
+        customerconfig: {},
+      },
+      samplemetadata: {
+        id: 'samplemetadata',
+        name: 'Empty - CONTENT_EXPORT',
+        type: 'metadata',
+        jsonata: `$.{}`,
+        baseconfig: {},
+        customerconfig: {},
+      },
+      samplelearningactivity: {
+        id: 'samplelearningactivity',
+        name: 'Empty - LEARNER_ACTIVITY_REPORT',
+        type: 'learneractivity',
+        jsonata: `$.{}`,
+        baseconfig: {},
+        customerconfig: {},
+      },
+    };
+
+    this.sources = {
+      ...this.defaults,
+      ...this.sources,
+    };
 
     this.data = {
       json: JSON.stringify({}, null, 2),
@@ -120,7 +190,7 @@ class ExerciserBootstrap extends React.Component {
   }
 
   changeData(eventkey, event) {
-    const selected = sources[eventkey];
+    const selected = this.sources[eventkey];
     this.data = {
       json: JSON.stringify(sampledata[selected.type], null, 2),
       jsonata: selected.jsonata,
@@ -278,7 +348,11 @@ class ExerciserBootstrap extends React.Component {
 
     return (
       <Container fluid>
-        <MainNav sources={sources} onSourceSelect={this.changeData.bind(this)} version={version} />
+        <MainNav
+          sources={this.sources}
+          onSourceSelect={this.changeData.bind(this)}
+          version={version}
+        />
         <Row>
           <Col>
             <Tabs defaultActiveKey="transform" transition={false} id="transform-config">
