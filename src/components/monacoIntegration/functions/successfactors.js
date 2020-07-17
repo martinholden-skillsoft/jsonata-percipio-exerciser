@@ -60,7 +60,7 @@ export default [
         label: 'types',
         type: 'Object',
         optional: false,
-        default: '\\$types',
+        default: '$types',
         documentation:
           'An object containing the mapping between **$.contentType** and this value. The default is **$types** value from the configuration.',
       },
@@ -68,7 +68,7 @@ export default [
         label: 'row',
         type: 'Object',
         optional: false,
-        default: '\\$',
+        default: '$',
         documentation:
           'The current Percipio data we are processing. The default is **$** to represent current record.',
       },

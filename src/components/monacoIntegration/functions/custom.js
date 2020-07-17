@@ -73,9 +73,9 @@ export function getSuggestions(monaco, range) {
         let params = '';
         value.parameters.forEach((value, index, source) => {
           const defaultVal = value.defaultIsJSONata ? '\\' + value.default : value.default;
-          params += `$\{${index + 1}:${value.default ? defaultVal : value.label}},`;
+          params += `$\{${index + 1}:${value.default ? defaultVal : value.label}}, `;
         });
-        insertText += params.slice(0, -1);
+        insertText += params.slice(0, -2);
       }
       insertText += ')';
       suggestion.insertText = insertText;

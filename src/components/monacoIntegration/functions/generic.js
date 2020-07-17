@@ -241,7 +241,7 @@ export default [
         label: 'titleFormat',
         type: 'Object',
         optional: false,
-        default: null,
+        default: "{'type': 'PREFIX', 'technology': 'PREFIX'}",
         documentation:
           'An object with two attributes, **type** and **technology**\n\n * *type* can be: NONE, PREFIX, or POSTFIX\n\n * *technology* can be: NONE, PREFIX, or POSTFIX',
       },
@@ -250,7 +250,8 @@ export default [
         type: 'String',
         optional: false,
         default: null,
-        documentation: 'The string that represents the display label for the LMS',
+        documentation:
+          'The string that represents the display label for the LMS. This could use the function *$externalLmsType($types,$)*',
       },
       {
         label: 'limit',
@@ -366,7 +367,7 @@ export default [
     parameters: [
       {
         label: 'summaryFormat',
-        type: 'Object',
+        type: 'String',
         optional: false,
         default: "'NO_DISPLAY_LABEL'",
         documentation:
