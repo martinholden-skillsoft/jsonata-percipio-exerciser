@@ -1,7 +1,8 @@
 export default [
   {
     label: 'shortenUuid',
-    description: 'Shorten the supplied UUID string, by converting to basen string',
+    description:
+      'Shorten the supplied UUID string, by converting to base*x* string. For more details on characters used in each base*x* encoding see [https://www.npmjs.com/package/uuid-encoder#encoding](https://www.npmjs.com/package/uuid-encoder#encoding)',
     returns: 'String',
     parameters: [
       {
@@ -15,9 +16,9 @@ export default [
         label: 'encoding',
         type: 'String',
         optional: true,
-        default: 'base62',
+        default: "'base62'",
         documentation:
-          'A string with two possible values.\n\n * base64url\n\n * base64\n\n * base62\n\n * base58\n\n * base36\n\n * base32\n\n * base16\n\n * base10\n\n * base2\n\n',
+          'A string with one of these possible values.\n\n * base64url\n\n * base64\n\n * base62\n\n * base58\n\n * base36\n\n * base32\n\n * base16\n\n * base10\n\n * base2\n\n',
       },
     ],
     signature: '(uuid,encoding)',
@@ -39,8 +40,10 @@ export default [
         label: 'row',
         type: 'Object',
         optional: false,
-        default: null,
-        documentation: 'The current Percipio data we are processing. This is normally **$**.',
+        default: '$',
+        defaultIsJSONata: true,
+        documentation:
+          'The current Percipio data we are processing. The default is **$** to represent current record.',
       },
     ],
     signature: '(title,row)',
@@ -62,14 +65,14 @@ export default [
         label: 'limit',
         type: 'number',
         optional: true,
-        default: '500',
+        default: 500,
         documentation: 'The maximum number of characters (including the terminator if used)',
       },
       {
         label: 'terminator',
         type: 'string',
         optional: true,
-        default: '"..."',
+        default: "'...'",
         documentation: 'The string to use to indicate the string has been truncated.',
       },
     ],
@@ -78,15 +81,17 @@ export default [
   {
     label: 'getContentType',
     description:
-      'Normalise the content type.\n\n  * If **$.contentType.displayLabel** is *Book Summary* or *Book Review* return **BOOK SUMMARY**\n  * If **$.contentType.displayLabel** is *Audiobook Summary* return **AUDIO SUMMARY**\n  * If **$.contentType.displayLabel** is *LINKED_CONTENT* return **LINKED_CONTENT**\n  * For all others return **$.contentType.percipioType**\n',
+      'Normalise the contentType from a *Content Export* record.\n\n  * If **$.contentType.displayLabel** is *Book Summary* or *Book Review* return **BOOK SUMMARY**\n  * If **$.contentType.displayLabel** is *Audiobook Summary* return **AUDIO SUMMARY**\n  * If **$.contentType.displayLabel** is *LINKED_CONTENT* return **LINKED_CONTENT**\n  * For all others return **$.contentType.percipioType**\n',
     returns: 'String',
     parameters: [
       {
         label: 'row',
         type: 'Object',
         optional: false,
-        default: null,
-        documentation: 'The current Percipio data we are processing. This is normally **$**.',
+        default: '$',
+        defaultIsJSONata: true,
+        documentation:
+          'The current Percipio data we are processing. The default is **$** to represent current record.',
       },
     ],
     signature: '(row)',
@@ -219,7 +224,7 @@ export default [
         label: 'limit',
         type: 'number',
         optional: true,
-        default: '500',
+        default: 500,
         documentation:
           'The maximum number of characters including the "..." indicator that the string as been truncated',
       },
@@ -259,8 +264,10 @@ export default [
         label: 'row',
         type: 'Object',
         optional: false,
-        default: null,
-        documentation: 'The current Percipio data we are processing. This is normally **$**.',
+        default: '$',
+        defaultIsJSONata: true,
+        documentation:
+          'The current Percipio data we are processing. The default is **$** to represent current record.',
       },
     ],
     signature: '(titleFormat, lmsType, limit, row)',
@@ -275,7 +282,7 @@ export default [
         label: 'limit',
         type: 'number',
         optional: true,
-        default: '500',
+        default: 500,
         documentation:
           'The maximum number of characters including the "..." indicator that the string as been truncated',
       },
@@ -283,8 +290,10 @@ export default [
         label: 'row',
         type: 'Object',
         optional: false,
-        default: null,
-        documentation: 'The current Percipio data we are processing. This is normally **$**.',
+        default: '$',
+        defaultIsJSONata: true,
+        documentation:
+          'The current Percipio data we are processing. The default is **$** to represent current record.',
       },
     ],
     signature: '(limit, row)',
@@ -306,61 +315,44 @@ export default [
   },
   {
     label: 'generateXapiIdForCompletions',
-    description: 'Create the Percipio xAPIActivityId from a *Learner Activity* record',
+    description: 'Create the Percipio xAPIActivityId from a *Learner Activity Report* record',
     returns: 'String',
     parameters: [
       {
         label: 'row',
         type: 'Object',
         optional: false,
-        default: null,
-        documentation: 'The current Percipio data we are processing. This is normally **$**.',
+        default: '$',
+        defaultIsJSONata: true,
+        documentation:
+          'The current Percipio data we are processing. The default is **$** to represent current record.',
       },
     ],
     signature: '(row)',
   },
   {
-    label: 'getExternalLmsTypeForReporting',
-    description: 'Normalises the Percipio types, and return the **$types** object',
-    returns: 'Object',
-    parameters: [
-      {
-        label: 'types',
-        type: 'Object',
-        optional: false,
-        default: null,
-        documentation:
-          'An object containing the mapping between Percipio type and this value. This is normally the **$types** value from the configuration.',
-      },
-      {
-        label: 'row',
-        type: 'Object',
-        optional: false,
-        default: null,
-        documentation: 'The current Percipio data we are processing. This is normally **$**.',
-      },
-    ],
-    signature: '(types, row)',
-  },
-  {
     label: 'deriveContentTypeForCompletions',
-    description: 'Normalises the Percipio types, and return the **$types.name** value',
+    description:
+      'Normalises the Percipio contentType from a *Learner Activity Report* record, and return the **$types.name** value.',
     returns: 'String',
     parameters: [
       {
         label: 'types',
         type: 'Object',
         optional: false,
-        default: null,
+        default: '$types',
+        defaultIsJSONata: true,
         documentation:
-          'An object containing the mapping between Percipio type and this value. This is normally the **$types** value from the configuration.',
+          'An object containing the mapping between Percipio *Learner Activity Report* export contentType and this value. The default is **$types** value from the configuration.',
       },
       {
         label: 'row',
         type: 'Object',
         optional: false,
-        default: null,
-        documentation: 'The current Percipio data we are processing. This is normally **$**.',
+        default: '$',
+        defaultIsJSONata: true,
+        documentation:
+          'The current Percipio data we are processing. The default is **$** to represent current record.',
       },
     ],
     signature: '(types, row)',
@@ -376,7 +368,7 @@ export default [
         label: 'summaryFormat',
         type: 'Object',
         optional: false,
-        default: null,
+        default: "'NO_DISPLAY_LABEL'",
         documentation:
           'A string with two possible values.\n\n * NO_DISPLAY_LABEL\n\n * PREFIX_DISPLAY_LABEL\n\n',
       },
@@ -392,14 +384,16 @@ export default [
         label: 'row',
         type: 'Object',
         optional: false,
-        default: null,
-        documentation: 'The current Percipio data we are processing. This is normally **$**.',
+        default: '$',
+        defaultIsJSONata: true,
+        documentation:
+          'The current Percipio data we are processing. The default is **$** to represent current record.',
       },
     ],
     signature: '(summaryFormat, limit, row)',
   },
   {
-    label: 'getExternalLmsType',
+    label: 'externalLmsType',
     description:
       'Normalises the Percipio types, and return the **$types** object based on **$.contentType**',
     returns: 'Object',
@@ -408,40 +402,19 @@ export default [
         label: 'types',
         type: 'Object',
         optional: false,
-        default: null,
+        default: '$types',
+        defaultIsJSONata: true,
         documentation:
-          'An object containing the mapping between Percipio type and this value. This is normally the **$types** value from the configuration.',
+          'An object containing the mapping between Percipio type and this value. The default is **$types** value from the configuration.',
       },
       {
         label: 'row',
         type: 'Object',
         optional: false,
-        default: null,
-        documentation: 'The current Percipio data we are processing. This is normally **$**.',
-      },
-    ],
-    signature: '(types, row)',
-  },
-  {
-    label: 'externalLmsType',
-    description:
-      'Normalises the Percipio types, and return the **$types.name** string based on **$.contentType**',
-    returns: 'String',
-    parameters: [
-      {
-        label: 'types',
-        type: 'Object',
-        optional: false,
-        default: null,
+        default: '$',
+        defaultIsJSONata: true,
         documentation:
-          'An object containing the mapping between Percipio type and this value. This is normally the **$types** value from the configuration.',
-      },
-      {
-        label: 'row',
-        type: 'Object',
-        optional: false,
-        default: null,
-        documentation: 'The current Percipio data we are processing. This is normally **$**.',
+          'The current Percipio data we are processing. The default is **$** to represent current record.',
       },
     ],
     signature: '(types, row)',

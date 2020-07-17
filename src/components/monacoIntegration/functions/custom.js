@@ -20,6 +20,7 @@ export function getSuggestions(monaco, range) {
     suggestion.insertTextRules = monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet;
     suggestion.documentation = {};
     suggestion.documentation.value = value.description;
+
     if (value.parameters) {
       let documentation = suggestion.documentation.value;
       documentation += '\n\n';
@@ -27,11 +28,13 @@ export function getSuggestions(monaco, range) {
       if (value.parameters && value.parameters.length !== 0) {
         let params = '';
         value.parameters.forEach((value, index, source) => {
+          const defaultVal = value.defaultIsJSONata ? '\\' + value.default : value.default;
           params += `{${value.type}} ${
             value.optional
-              ? `${value.default ? `[${value.label}=${value.default}]` : `[${value.label}]`}`
-              : value.label
-          }\n\n`;
+              ? `${value.default ? `[${value.label}=${defaultVal}]` : `[${value.label}]`}`
+              : `${value.default ? `${value.label}=${defaultVal}` : `${value.label}`}`
+          }`;
+          params += value.optional ? ' *OPTIONAL*\n\n' : '\n\n';
           params += `${value.documentation}\n\n`;
         });
         documentation += params.slice(0, -1);
@@ -54,7 +57,7 @@ export function getSuggestions(monaco, range) {
       if (value.parameters && value.parameters.length !== 0) {
         let params = '';
         value.parameters.forEach((value, index, source) => {
-          params += value.label + ',';
+          params += `${value.label},`;
         });
         signature += params.slice(0, -1);
       }
@@ -69,7 +72,8 @@ export function getSuggestions(monaco, range) {
       if (value.parameters && value.parameters.length !== 0) {
         let params = '';
         value.parameters.forEach((value, index, source) => {
-          params += `$\{${index + 1}:${value.label}},`;
+          const defaultVal = value.defaultIsJSONata ? '\\' + value.default : value.default;
+          params += `$\{${index + 1}:${value.default ? defaultVal : value.label}},`;
         });
         insertText += params.slice(0, -1);
       }
@@ -98,11 +102,13 @@ export function getHovers() {
       if (value.parameters && value.parameters.length !== 0) {
         let params = '';
         value.parameters.forEach((value, index, source) => {
+          const defaultVal = value.defaultIsJSONata ? '\\' + value.default : value.default;
           params += `{${value.type}} ${
             value.optional
-              ? `${value.default ? `[${value.label}=${value.default}]` : `[${value.label}]`}`
-              : value.label
-          }\n\n`;
+              ? `${value.default ? `[${value.label}=${defaultVal}]` : `[${value.label}]`}`
+              : `${value.default ? `${value.label}=${defaultVal}` : `${value.label}`}`
+          }`;
+          params += value.optional ? ' *OPTIONAL*\n\n' : '\n\n';
           params += `${value.documentation}\n\n`;
         });
         documentation += params.slice(0, -1);
@@ -122,7 +128,7 @@ export function getHovers() {
       if (value.parameters && value.parameters.length !== 0) {
         let params = '';
         value.parameters.forEach((value, index, source) => {
-          params += value.label + ',';
+          params += `${value.label},`;
         });
         signature += params.slice(0, -1);
       }
