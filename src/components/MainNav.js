@@ -7,6 +7,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import docs from './images/docs-white-32.png';
 import docspercipio from './images/docs-white-percipio.png';
+import github from './images/github.png';
 import _ from 'lodash';
 
 export default class MainNav extends Component {
@@ -65,7 +66,6 @@ export default class MainNav extends Component {
                 </Nav.Link>
               </OverlayTrigger>
             </Nav.Item>
-
             <Nav.Item>
               <OverlayTrigger
                 placement="bottom"
@@ -81,7 +81,32 @@ export default class MainNav extends Component {
               </OverlayTrigger>
             </Nav.Item>
             <Nav.Item>
-              <Navbar.Text className="text-muted">{` v${version}`}</Navbar.Text>
+              <OverlayTrigger
+                placement="bottom"
+                overlay={<Tooltip id={`tooltip-bottom`}>Source</Tooltip>}
+              >
+                <Nav.Link
+                  eventKey="github"
+                  href="https://github.com/martinholden-skillsoft/jsonata-percipio-exerciser"
+                  target="_blank"
+                >
+                  <img src={github} alt="Source" />
+                </Nav.Link>
+              </OverlayTrigger>
+            </Nav.Item>
+            <Nav.Item>
+              <OverlayTrigger
+                placement="bottom"
+                overlay={<Tooltip id={`tooltip-bottom`}>View CHANGELOG</Tooltip>}
+              >
+                <Nav.Link
+                  eventKey="changelog"
+                  href="https://github.com/martinholden-skillsoft/jsonata-percipio-exerciser/blob/master/CHANGELOG.md"
+                  target="_blank"
+                >
+                  <Navbar.Text className="text-muted">{` v${version}`}</Navbar.Text>
+                </Nav.Link>
+              </OverlayTrigger>
             </Nav.Item>
           </Nav>
         </Navbar.Collapse>
