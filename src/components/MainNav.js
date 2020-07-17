@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 import docs from './images/docs-white-32.png';
 import docspercipio from './images/docs-white-percipio.png';
 import _ from 'lodash';
@@ -50,22 +52,33 @@ export default class MainNav extends Component {
           <Nav className="mr-auto">{this.createSourceItems()}</Nav>
           <Nav>
             <Nav.Item>
-              <Nav.Link
-                eventKey="percipiojsonata"
-                href="https://skillsoftdev.atlassian.net/wiki/spaces/INTROC/pages/1100219620/Percipio+JSONata+Transform+Library"
-                target="_blank"
+              <OverlayTrigger
+                placement="bottom"
+                overlay={<Tooltip id={`tooltip-bottom`}>JSONata Percipio Documentation.</Tooltip>}
               >
-                <img src={docspercipio} alt="JSONata Percipio Documentation" />
-              </Nav.Link>
+                <Nav.Link
+                  eventKey="percipiojsonata"
+                  href="https://skillsoftdev.atlassian.net/wiki/spaces/INTROC/pages/1100219620/Percipio+JSONata+Transform+Library"
+                  target="_blank"
+                >
+                  <img src={docspercipio} alt="JSONata Percipio Documentation" />
+                </Nav.Link>
+              </OverlayTrigger>
             </Nav.Item>
+
             <Nav.Item>
-              <Nav.Link
-                eventKey="corejsonata"
-                href="https://docs.jsonata.org/overview"
-                target="_blank"
+              <OverlayTrigger
+                placement="bottom"
+                overlay={<Tooltip id={`tooltip-bottom`}>Core JSONata Documentation</Tooltip>}
               >
-                <img src={docs} alt="JSONata Documentation" />
-              </Nav.Link>
+                <Nav.Link
+                  eventKey="corejsonata"
+                  href="https://docs.jsonata.org/overview"
+                  target="_blank"
+                >
+                  <img src={docs} alt="Core JSONata Documentation" />
+                </Nav.Link>
+              </OverlayTrigger>
             </Nav.Item>
             <Nav.Item>
               <Navbar.Text className="text-muted">{` v${version}`}</Navbar.Text>
