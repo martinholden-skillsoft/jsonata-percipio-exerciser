@@ -23,7 +23,6 @@
         "babel-loader": "8.1.0",
         "babel-plugin-named-asset-import": "^0.3.6",
         "babel-preset-react-app": "^9.1.2",
-        "bootstrap": "^4.5.1",
         "camelcase": "^6.0.0",
         "case-sensitive-paths-webpack-plugin": "2.3.0",
         "css-loader": "^3.6.0",
@@ -84,8 +83,8 @@
     },
     "scripts": {
         "lint": "eslint . --ignore",
-        "preversion": "npm run lint && npm run build",
-        "postversion": "git push && git push --tags && npm run changelog && git push",
+        "preversion": "npm run lint",
+        "postversion": "npm run build && git push && git push --tags && npm run changelog && git push",
         "changelog": "rimraf CHANGELOG.md && auto-changelog --template keepachangelog && git add . && git commit . -m changelog && git push",
         "start": "node scripts/start.js",
         "build": "node scripts/build.js",
