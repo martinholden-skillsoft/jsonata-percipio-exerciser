@@ -85,7 +85,7 @@
     "scripts": {
         "lint": "eslint . --ignore",
         "preversion": "npm run lint && npm run build",
-        "postversion": "git push && git push --tags && npm run changelog && git push && npm run deploy",
+        "postversion": "git push && git push --tags && npm run changelog && git push",
         "changelog": "rimraf CHANGELOG.md && auto-changelog --template keepachangelog && git add . && git commit . -m changelog && git push",
         "start": "node scripts/start.js",
         "build": "node scripts/build.js",

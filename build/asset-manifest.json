@@ -1,0 +1,34 @@
+{
+  "files": {
+    "main.css": "./static/css/main.e3e1b685.chunk.css",
+    "main.js": "./static/js/main.4b2efb8d.chunk.js",
+    "main.js.map": "./static/js/main.4b2efb8d.chunk.js.map",
+    "runtime-main.js": "./static/js/runtime-main.7fa9625f.js",
+    "runtime-main.js.map": "./static/js/runtime-main.7fa9625f.js.map",
+    "static/css/2.3f16f1f3.chunk.css": "./static/css/2.3f16f1f3.chunk.css",
+    "static/js/2.89a945f1.chunk.js": "./static/js/2.89a945f1.chunk.js",
+    "static/js/2.89a945f1.chunk.js.map": "./static/js/2.89a945f1.chunk.js.map",
+    "static/js/3.d720a5ec.chunk.js": "./static/js/3.d720a5ec.chunk.js",
+    "static/js/3.d720a5ec.chunk.js.map": "./static/js/3.d720a5ec.chunk.js.map",
+    "editor.worker.js": "./editor.worker.js",
+    "editor.worker.js.map": "./editor.worker.js.map",
+    "index.html": "./index.html",
+    "json.worker.js": "./json.worker.js",
+    "json.worker.js.map": "./json.worker.js.map",
+    "service-worker.js": "./service-worker.js",
+    "service-worker.js.map": "./service-worker.js.map",
+    "static/css/2.3f16f1f3.chunk.css.map": "./static/css/2.3f16f1f3.chunk.css.map",
+    "static/css/main.e3e1b685.chunk.css.map": "./static/css/main.e3e1b685.chunk.css.map",
+    "static/js/2.89a945f1.chunk.js.LICENSE.txt": "./static/js/2.89a945f1.chunk.js.LICENSE.txt",
+    "static/media/codicon.css": "./static/media/codicon.9242107d.ttf",
+    "workbox-dce9cbc5.js": "./workbox-dce9cbc5.js",
+    "workbox-dce9cbc5.js.map": "./workbox-dce9cbc5.js.map"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7fa9625f.js",
+    "static/css/2.3f16f1f3.chunk.css",
+    "static/js/2.89a945f1.chunk.js",
+    "static/css/main.e3e1b685.chunk.css",
+    "static/js/main.4b2efb8d.chunk.js"
+  ]
+}
