@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  web:
+    image: jsonata-percipio-excerciser
+    build: .
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      NGINX_ENTRYPOINT_QUIET_LOGS: 1
