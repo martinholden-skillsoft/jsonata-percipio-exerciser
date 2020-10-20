@@ -8,8 +8,8 @@ window.jsonatatransforms = {
       description: 'JSONata transform for Accenture content export',
       type: 'CONTENT_EXPORT',
       isActive: true,
-      createdAt: '2019-12-23T20:05:56.394Z',
-      updatedAt: '2020-08-31T09:31:45.422Z',
+      createdAt: '2019-12-18T08:00:22.319Z',
+      updatedAt: '2020-10-19T14:19:32.481Z',
       systemName: 'Accenture',
       category: 'BASE',
     },
@@ -21,22 +21,9 @@ window.jsonatatransforms = {
       description: 'JSONata transform for CSOD',
       type: 'CONTENT_EXPORT',
       isActive: true,
-      createdAt: '2019-12-23T20:05:56.394Z',
-      updatedAt: '2020-08-31T09:31:45.422Z',
+      createdAt: '2019-12-18T08:00:22.319Z',
+      updatedAt: '2020-10-19T14:19:32.481Z',
       systemName: 'CSOD',
-      category: 'BASE',
-    },
-    {
-      id: '9fb05dd9-9441-4d47-aef8-ed84f3371bf1',
-      name: 'Degreed',
-      transform:
-        "$.(\n    $transformed_data := (\n      $.{\n      'UserID': $trim($lowercase(userId)),\n      'CourseID': $generateXapiIdForCompletions($),\n      'CompletionDate': ($datewithdash:=$substringBefore(completedDate,'T');$replace($datewithdash,'-','')),\n      'ContentType': $deriveContentTypeForCompletions($types, $)\n    });\n  $merge([$transformed_data, $extraColumns]);\n ) ",
-      description: 'JSONata transform for Degreed learner activity report',
-      type: 'LEARNER_ACTIVITY_REPORT',
-      isActive: true,
-      createdAt: '2020-05-06T14:53:39.020Z',
-      updatedAt: '2020-08-31T09:31:45.422Z',
-      systemName: 'Degreed',
       category: 'BASE',
     },
     {
@@ -47,8 +34,21 @@ window.jsonatatransforms = {
       description: 'JSONata transform for Degreed',
       type: 'CONTENT_EXPORT',
       isActive: true,
-      createdAt: '2019-12-23T20:05:56.394Z',
-      updatedAt: '2020-08-31T09:31:45.422Z',
+      createdAt: '2019-12-18T08:00:22.319Z',
+      updatedAt: '2020-10-19T14:19:32.481Z',
+      systemName: 'Degreed',
+      category: 'BASE',
+    },
+    {
+      id: '9fb05dd9-9441-4d47-aef8-ed84f3371bf1',
+      name: 'Degreed',
+      transform:
+        "$.(\n    $transformed_data := (\n      $.{\n      'UserID': $trim($lowercase(userId)),\n      'CourseID': $generateXapiIdForCompletions($),\n      'CompletionDate': ($datewithdash:=$substringBefore(completedDate,'T');$replace($datewithdash,'-','')),\n      'ContentType': $deriveContentTypeForCompletions($types, $)\n    });\n  $merge([$transformed_data, $extraColumns]);\n ) ",
+      description: 'JSONata transform for Degreed learner activity report',
+      type: 'LEARNER_ACTIVITY_REPORT',
+      isActive: true,
+      createdAt: '2020-05-06T15:37:10.268Z',
+      updatedAt: '2020-10-19T14:19:32.481Z',
       systemName: 'Degreed',
       category: 'BASE',
     },
@@ -60,8 +60,8 @@ window.jsonatatransforms = {
       description: 'JSONata transform for Saba',
       type: 'CONTENT_EXPORT',
       isActive: true,
-      createdAt: '2019-12-23T20:05:56.394Z',
-      updatedAt: '2020-08-31T09:31:45.422Z',
+      createdAt: '2019-12-18T08:00:22.319Z',
+      updatedAt: '2020-10-19T14:19:32.481Z',
       systemName: 'Saba',
       category: 'BASE',
     },
@@ -69,12 +69,12 @@ window.jsonatatransforms = {
       id: '6a0c21d2-eedf-42e0-afb8-2126ad7b9070',
       name: 'SuccessFactors',
       transform:
-        "$.(\r\n    $transformed_data :=\r\n      $.{\r\n        'CPNT_ID': $componentIdPrefix ? $join([$componentIdPrefix, id],'-') : id,\r\n        'CPNT_TYP_ID': $successFactorsType($types, $),\r\n        'NOTACTIVE': $.lifecycle.status = 'ACTIVE' ? 'N' : 'Y',\r\n        'CPNT_TITLE': $formatTitle($titleFormat, $successFactorsType($types, $), 300, $),\r\n        'DEL_MTH_ID':  $successFactorsType($types, $),\r\n        'HTML_CPNT_DESC': $plainString($.localizedMetadata[0].description, 3500),\r\n        'CMPL_STAT_ID': $successFactorsCompletionStat($types, $),\r\n        'CREDIT_HRS':  $isoDurationToHours($.duration),\r\n        'SHOW_IN_CATALOG': $successFactorsShowInCatalog($types, $),\r\n        'CATALOG_1': $catalog,\r\n        'APP_ID': $.id,\r\n        'BUILD_COMPANY': $buildCompany,\r\n        'CONTENT_ONLINE': 'Y',\r\n        'LAUNCH_TYPE': 3,\r\n        'PRIMARY_PARAM': $.link,\r\n        'ITEM_ONLINE': 'Y',\r\n        'MODULE_NAME': $formatTitle($titleFormat, $successFactorsType($types, $), 300, $),\r\n        'THUMBNAIL_URI': imageUrl ? $stripQueryStringandHash(imageUrl) : '',\r\n        'LAUNCH_IN_A_NEW_BWSR_WINDOW': 'Y',\r\n        'LOCALE': $successFactorsLocale($.localizedMetadata[0].localeCode),\r\n        'REV_DTE': $fromMillis($toMillis($.lifecycle.publishDate),'[MNn,*-3]-[D01]-[Y0001] [H01]:[m01]:[s01][z]','-0500'),\r\n        'CPNT_SRC_ID': 'SKILLSOFT',\r\n        'CREATE_DTE': $fromMillis($toMillis($.lifecycle.publishDate),'[MNn,*-3]-[D01]-[Y0001] [H01]:[m01]:[s01][z]','-0500'),\r\n        'CHGBCK_METHOD': 1,\r\n        'ENABLE_MOBILE_ACCESS': 'Y',\r\n        'MOBILE_PRIMARY_PARAM': $.link,\r\n        'DMN_ID': $domainId ? $domainId\r\n      };\r\n      $merge([$transformed_data, $extraColumns])\r\n) \r\n",
+        "$.(\r\n    $transformed_data :=\r\n      $.{\r\n        'CPNT_ID': $componentIdPrefix ? $join([$componentIdPrefix, id],'-') : id,\r\n        'CPNT_TYP_ID': $successFactorsType($types, $),\r\n        'NOTACTIVE': $.lifecycle.status = 'ACTIVE' ? 'N' : 'Y',\r\n        'CPNT_TITLE': $formatTitle($titleFormat, $successFactorsType($types, $), 300, $),\r\n        'DEL_MTH_ID':  $successFactorsType($types, $),\r\n        'HTML_CPNT_DESC': $plainString($.localizedMetadata[0].description, 3500),\r\n        'CMPL_STAT_ID': $successFactorsCompletionStat($types, $),\r\n        'CREDIT_HRS':  $isoDurationToHours($.duration),\r\n        'SHOW_IN_CATALOG': $successFactorsShowInCatalog($types, $),\r\n        'CATALOG_1': $catalog,\r\n        'APP_ID': $.id,\r\n        'BUILD_COMPANY': $buildCompany,\r\n        'CONTENT_ONLINE': 'Y',\r\n        'LAUNCH_TYPE': 3,\r\n        'PRIMARY_PARAM': $.link,\r\n        'ITEM_ONLINE': 'Y',\r\n        'MODULE_NAME': $formatTitle($titleFormat, $successFactorsType($types, $), 300, $),\r\n        'THUMBNAIL_URI': imageUrl ? $stripQueryStringandHash(imageUrl) : '',\r\n        'LAUNCH_IN_A_NEW_BWSR_WINDOW': 'Y',\r\n        'LOCALE': $successFactorsLocale($.localizedMetadata[0].localeCode),\r\n        'REV_DTE': $fromMillis($toMillis($.lifecycle.publishDate),'[MNn,*-3]-[D01]-[Y0001] [H01]:[m01]:[s01][z]','-0500'),\r\n        'CPNT_SRC_ID': 'SKILLSOFT',\r\n        'CREATE_DTE': $fromMillis($toMillis($.lifecycle.publishDate),'[MNn,*-3]-[D01]-[Y0001] [H01]:[m01]:[s01][z]','-0500'),\r\n        'CHGBCK_METHOD': 1,\r\n        'ENABLE_MOBILE_ACCESS': 'Y',\r\n        'MOBILE_PRIMARY_PARAM': $.link,\r\n        'DMN_ID': $domainId ? $domainId,\r\n        'SKIP_CONTENT_STRUCTURE_PAGE': $skipContentPage\r\n      };\r\n      $merge([$transformed_data, $extraColumns])\r\n) \r\n",
       description: 'JSONata transform for SuccessFactors',
       type: 'CONTENT_EXPORT',
       isActive: true,
-      createdAt: '2019-12-23T20:05:56.394Z',
-      updatedAt: '2020-08-31T09:31:45.422Z',
+      createdAt: '2019-12-18T08:00:22.319Z',
+      updatedAt: '2020-10-19T14:19:32.481Z',
       systemName: 'SuccessFactors',
       category: 'BASE',
     },
@@ -86,30 +86,13 @@ window.jsonatatransforms = {
       description: 'JSONata transform for Workday content export',
       type: 'CONTENT_EXPORT',
       isActive: true,
-      createdAt: '2019-12-23T20:05:56.394Z',
-      updatedAt: '2020-08-31T09:31:45.422Z',
+      createdAt: '2019-12-18T08:00:22.319Z',
+      updatedAt: '2020-10-19T14:19:32.481Z',
       systemName: 'Workday',
       category: 'BASE',
     },
   ],
   configurations: [
-    {
-      id: 'd616abe1-162b-4589-9cd0-7bb47019d01d',
-      transformId: '92238422-d9ad-4523-9541-fd485f153d28',
-      name: 'SumTotal',
-      description: 'JSONata transform config for SumTotal',
-      type: 'CONTENT_EXPORT',
-      configuration: {
-        titleFormat: {
-          type: 'NONE',
-          technology: 'PREFIX',
-        },
-      },
-      isActive: true,
-      createdAt: '2020-04-30T22:27:44.447Z',
-      updatedAt: '2020-08-31T09:31:45.500Z',
-      systemName: 'SumTotal',
-    },
     {
       id: '17d0d3b5-1f1c-4e22-9952-299ffdd68ecc',
       transformId: '962f94ef-d5a1-4e2d-997c-342594c5f3bb',
@@ -182,9 +165,134 @@ window.jsonatatransforms = {
         },
       },
       isActive: true,
-      createdAt: '2020-04-03T17:05:37.490Z',
-      updatedAt: '2020-08-31T09:31:45.500Z',
+      createdAt: '2020-04-07T14:50:39.020Z',
+      updatedAt: '2020-10-19T14:19:32.556Z',
       systemName: 'Saba',
+    },
+    {
+      id: '34fa748b-ded5-4b33-884c-932c6894eee3',
+      transformId: '1876b115-f790-4470-a72e-ca9e41fe839f',
+      name: 'Degreed',
+      description: 'JSONata transform config for Degreed',
+      type: 'CONTENT_EXPORT',
+      configuration: {
+        titleFormat: {
+          technology: 'PREFIX',
+          type: 'NONE',
+        },
+        summaryFormat: 'NO_DISPLAY_LABEL',
+        provider: 'Skillsoft',
+        extraColumns: {},
+        types: {
+          audioSummary: {
+            name: 'Book',
+            durationFormat: 'NONE',
+          },
+          audioBook: {
+            name: 'Book',
+            durationFormat: 'NONE',
+          },
+          bookSummary: {
+            name: 'Book',
+            durationFormat: 'NONE',
+          },
+          book: {
+            name: 'Book',
+            durationFormat: 'NONE',
+          },
+          channel: {
+            name: 'Course',
+            durationFormat: 'NONE',
+          },
+          course: {
+            name: 'Course',
+            durationFormat: 'HOURS',
+          },
+          video: {
+            name: 'Video',
+            durationFormat: 'MINUTES',
+          },
+          journey: {
+            name: 'Course',
+            durationFormat: 'NONE',
+          },
+          linkedContent: {
+            name: 'Course',
+            durationFormat: 'NONE',
+          },
+          default: {
+            name: 'Course',
+            durationFormat: 'NONE',
+          },
+        },
+      },
+      isActive: true,
+      createdAt: '2020-05-06T15:37:10.276Z',
+      updatedAt: '2020-10-19T14:19:32.556Z',
+      systemName: 'Degreed',
+    },
+    {
+      id: '14d7ee4f-15a8-462e-8f7c-d358d0958152',
+      transformId: '9fb05dd9-9441-4d47-aef8-ed84f3371bf1',
+      name: 'Degreed',
+      description: 'JSONata transform config for Degreed Learner Activity Report',
+      type: 'LEARNER_ACTIVITY_REPORT',
+      configuration: {
+        types: {
+          audioSummary: {
+            name: 'Book',
+          },
+          audioBook: {
+            name: 'Book',
+          },
+          bookSummary: {
+            name: 'Book',
+          },
+          book: {
+            name: 'Book',
+          },
+          channel: {
+            name: 'Course',
+          },
+          course: {
+            name: 'Course',
+          },
+          video: {
+            name: 'Video',
+          },
+          journey: {
+            name: 'Course',
+          },
+          linkedContent: {
+            name: 'Course',
+          },
+          default: {
+            name: 'Course',
+          },
+        },
+        extraColumns: {},
+      },
+      isActive: true,
+      createdAt: '2020-05-18T13:07:25.552Z',
+      updatedAt: '2020-10-19T14:19:32.556Z',
+      systemName: 'Degreed',
+    },
+    {
+      id: 'd616abe1-162b-4589-9cd0-7bb47019d01d',
+      transformId: '92238422-d9ad-4523-9541-fd485f153d28',
+      name: 'SumTotal',
+      description: 'JSONata transform config for SumTotal',
+      type: 'CONTENT_EXPORT',
+      configuration: {
+        titleFormat: {
+          type: 'NONE',
+          technology: 'NONE',
+        },
+      },
+      isActive: true,
+      createdAt: '2020-05-04T15:53:32.293Z',
+      updatedAt: '2020-10-19T14:19:32.556Z',
+      systemName: 'SumTotal',
     },
     {
       id: '3dc53ede-2641-11ea-978f-2e728ce88125',
@@ -201,6 +309,7 @@ window.jsonatatransforms = {
         },
         componentIdPrefix: null,
         domainId: null,
+        skipContentPage: 'Y',
         extraColumns: {},
         types: {
           audioSummary: {
@@ -256,8 +365,8 @@ window.jsonatatransforms = {
         },
       },
       isActive: true,
-      createdAt: '2020-02-19T19:06:38.103Z',
-      updatedAt: '2020-08-31T09:31:45.500Z',
+      createdAt: '2020-02-21T16:12:23.530Z',
+      updatedAt: '2020-10-19T14:19:32.556Z',
       systemName: 'SuccessFactors',
     },
     {
@@ -324,117 +433,9 @@ window.jsonatatransforms = {
         },
       },
       isActive: true,
-      createdAt: '2020-03-26T18:21:38.552Z',
-      updatedAt: '2020-08-31T09:31:45.500Z',
+      createdAt: '2020-04-07T14:50:39.018Z',
+      updatedAt: '2020-10-19T14:19:32.556Z',
       systemName: 'SuccessFactors',
-    },
-    {
-      id: '34fa748b-ded5-4b33-884c-932c6894eee3',
-      transformId: '1876b115-f790-4470-a72e-ca9e41fe839f',
-      name: 'Degreed',
-      description: 'JSONata transform config for Degreed',
-      type: 'CONTENT_EXPORT',
-      configuration: {
-        titleFormat: {
-          technology: 'PREFIX',
-          type: 'NONE',
-        },
-        summaryFormat: 'NO_DISPLAY_LABEL',
-        provider: 'Skillsoft',
-        extraColumns: {},
-        types: {
-          audioSummary: {
-            name: 'Book',
-            durationFormat: 'NONE',
-          },
-          audioBook: {
-            name: 'Book',
-            durationFormat: 'NONE',
-          },
-          bookSummary: {
-            name: 'Book',
-            durationFormat: 'NONE',
-          },
-          book: {
-            name: 'Book',
-            durationFormat: 'NONE',
-          },
-          channel: {
-            name: 'Course',
-            durationFormat: 'NONE',
-          },
-          course: {
-            name: 'Course',
-            durationFormat: 'HOURS',
-          },
-          video: {
-            name: 'Video',
-            durationFormat: 'MINUTES',
-          },
-          journey: {
-            name: 'Course',
-            durationFormat: 'NONE',
-          },
-          linkedContent: {
-            name: 'Course',
-            durationFormat: 'NONE',
-          },
-          default: {
-            name: 'Course',
-            durationFormat: 'NONE',
-          },
-        },
-      },
-      isActive: true,
-      createdAt: '2020-05-06T14:53:39.033Z',
-      updatedAt: '2020-08-31T09:31:45.500Z',
-      systemName: 'Degreed',
-    },
-    {
-      id: '14d7ee4f-15a8-462e-8f7c-d358d0958152',
-      transformId: '9fb05dd9-9441-4d47-aef8-ed84f3371bf1',
-      name: 'Degreed',
-      description: 'JSONata transform config for Degreed Learner Activity Report',
-      type: 'LEARNER_ACTIVITY_REPORT',
-      configuration: {
-        types: {
-          audioSummary: {
-            name: 'Book',
-          },
-          audioBook: {
-            name: 'Book',
-          },
-          bookSummary: {
-            name: 'Book',
-          },
-          book: {
-            name: 'Book',
-          },
-          channel: {
-            name: 'Course',
-          },
-          course: {
-            name: 'Course',
-          },
-          video: {
-            name: 'Video',
-          },
-          journey: {
-            name: 'Course',
-          },
-          linkedContent: {
-            name: 'Course',
-          },
-          default: {
-            name: 'Course',
-          },
-        },
-        extraColumns: {},
-      },
-      isActive: true,
-      createdAt: '2020-05-06T14:53:39.035Z',
-      updatedAt: '2020-08-31T09:31:45.500Z',
-      systemName: 'Degreed',
     },
   ],
 };

@@ -1,5 +1,5 @@
 export default {
-  metadata: [
+  CONTENT_EXPORT: [
     {
       by: ['Morela Hernandez'],
       id: '12d80a43-f55e-4a09-abd0-ecc018096a5f',
@@ -6927,7 +6927,7 @@ export default {
       xapiActivityTypeId: 'https://xapi.percipio.com/xapi/activity-type/channel',
     },
   ],
-  learneractivity: [
+  LEARNER_ACTIVITY_REPORT: [
     {
       userId: 'olivertwist',
       firstName: 'Oliver',
@@ -7442,67 +7442,1558 @@ export default {
       languageCode: 'English',
     },
   ],
-  metadataone: [
+  TRACKING_CONNECTOR: [
     {
-      by: [],
-      id: '0006d023-6fcd-46ca-8b40-822312b60e2e',
-      code: 'ds_mswin8_05_frfr',
-      link: 'https://share.percipio.com/cd/GPbEo4UrM',
-      duration: 'PT21M48S',
-      imageUrl:
-        'https://cdn2.percipio.com/public/b/d9e615e8-0066-4fe1-817f-0a8913f76a54/image001.jpg',
-      keywords: [],
-      lifecycle: {
-        status: 'ACTIVE',
-        publishDate: '2019-05-31T10:29:12Z',
-        lastUpdatedDate: '2020-01-07T17:19:34Z',
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: 'dcf301e7-7319-4078-8c48-2e2083bc6fc7',
       },
-      modalities: ['WATCH'],
-      contentType: {
-        source: null,
-        category: 'COURSE',
-        displayLabel: 'Course',
-        percipioType: 'COURSE',
-      },
-      credentials: {
-        cpeCredits: null,
-        nasbaReady: false,
-        pduCredits: null,
-      },
-      localeCodes: ['fr-FR'],
-      publication: null,
-      associations: {
-        areas: ['Productivity & Collaboration Tools'],
-        parent: null,
-        channels: [
-          {
-            id: 'dc64ce30-e24a-11e6-93f3-0242c0a80605',
-            title: 'Windows End User',
-            link: 'https://share.percipio.com/cd/gkafXshtMI2ya',
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'video',
+          uuid: 'f9b19e10-2902-11e7-9844-0242c0a8080b',
+          title: 'Positive Atmosphere: How Organizational Learning Drives Positive Change',
+          parentCourse: {
+            type: 'course',
+            uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+            title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
           },
-        ],
-        subjects: ['Browsers & Operating Systems'],
-        translationGroupId: '44d4a321-3e21-4a10-915d-493a21987684',
-        journeys: [],
+        },
+        action: 'started',
+        status: {
+          percentComplete: 15.38,
+          firstAccess: '2020-05-28T19:54:36.682Z',
+          lastAccess: '2020-05-28T19:54:36.682Z',
+          totalDuration: 'PT4S',
+        },
+        timestamp: '2020-05-28T19:54:36.682Z',
       },
-      technologies: [
-        {
-          title: 'Windows',
-          version: '8',
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '8c3563eb-4459-447d-8a72-7175b36c594c',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
         },
-      ],
-      xapiActivityId: 'https://xapi.percipio.com/xapi/course/0006d023-6fcd-46ca-8b40-822312b60e2e',
-      expertiseLevels: ['INTERMEDIATE'],
-      localizedMetadata: [
-        {
-          title: "Utilisation des outils de capture d'écran",
-          localeCode: 'fr-FR',
-          description:
-            '<p>Il est facile de créer une image de ce qui est affiché sur votre écran. Découvrez comment utiliser et personnaliser l&#39;outil de capture de Windows 8.1, éditer et utiliser des captures d&#39;écran et créer un didacticiel à l&#39;aide de l&#39;outil Steps Recorder.</p>',
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
         },
-      ],
-      xapiActivityTypeId: 'http://adlnet.gov/expapi/activities/course',
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'started',
+        status: {
+          firstAccess: '2020-05-28T19:54:36.682Z',
+          lastAccess: '2020-05-28T19:54:36.682Z',
+          totalDuration: 'PT4S',
+        },
+        timestamp: '2020-05-28T19:54:36.682Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '7351632b-9e27-4161-9877-e569431b35d5',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'video',
+          uuid: 'f9b19e10-2902-11e7-9844-0242c0a8080b',
+          title: 'Positive Atmosphere: How Organizational Learning Drives Positive Change',
+          parentCourse: {
+            type: 'course',
+            uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+            title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+          },
+        },
+        action: 'completed',
+        status: {
+          percentComplete: 50,
+          firstAccess: '2020-05-28T19:54:36.682Z',
+          lastAccess: '2020-05-28T19:54:45.426Z',
+          completed: '2020-05-28T19:54:45.426Z',
+          totalDuration: 'PT13S',
+        },
+        timestamp: '2020-05-28T19:54:45.426Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '8a6a86ab-c780-4a01-b7e9-9f8bd8aba7fe',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'progressed',
+        status: {
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T19:54:45.426Z',
+          totalDuration: 'PT13S',
+        },
+        timestamp: '2020-05-28T19:54:45.426Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: 'f1374689-e319-456f-a8fc-503f56b781bb',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'progressed',
+        status: {
+          percentComplete: 0,
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T19:54:45.426Z',
+          totalDuration: 'PT13S',
+        },
+        timestamp: '2020-05-28T19:54:45.426Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '5e6a8643-7c1f-4dd9-889d-4c571e96a13b',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'video',
+          uuid: '24f2b911-e4b1-11e6-a792-0242c0a80b09',
+          title: 'What Levels of Learning Are in Your Organization?',
+          parentCourse: {
+            type: 'course',
+            uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+            title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+          },
+        },
+        action: 'started',
+        status: {
+          percentComplete: 16.5,
+          firstAccess: '2020-05-28T19:55:16.871Z',
+          lastAccess: '2020-05-28T19:55:16.871Z',
+          totalDuration: 'PT17S',
+        },
+        timestamp: '2020-05-28T19:55:16.871Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '375dc730-0799-4c39-af57-efa64a1c2a77',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'progressed',
+        status: {
+          percentComplete: 0,
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T19:55:16.871Z',
+          totalDuration: 'PT42S',
+        },
+        timestamp: '2020-05-28T19:55:16.871Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '903355b8-1d4c-46bd-b34c-98b3ca30c5aa',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'progressed',
+        status: {
+          percentComplete: 0,
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T19:55:16.871Z',
+          totalDuration: 'PT42S',
+        },
+        timestamp: '2020-05-28T19:55:16.871Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: 'e22d911f-cbb0-4f77-93c4-f54a7296bf35',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'video',
+          uuid: '24f2b911-e4b1-11e6-a792-0242c0a80b09',
+          title: 'What Levels of Learning Are in Your Organization?',
+          parentCourse: {
+            type: 'course',
+            uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+            title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+          },
+        },
+        action: 'completed',
+        status: {
+          percentComplete: 50,
+          firstAccess: '2020-05-28T19:55:16.871Z',
+          lastAccess: '2020-05-28T19:55:51.267Z',
+          completed: '2020-05-28T19:55:51.267Z',
+          totalDuration: 'PT51S',
+        },
+        timestamp: '2020-05-28T19:55:51.267Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '65fdde9c-4091-476d-bbde-f6dee770fd7c',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'progressed',
+        status: {
+          percentComplete: 0,
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T19:55:51.267Z',
+          totalDuration: 'PT1M16S',
+        },
+        timestamp: '2020-05-28T19:55:51.267Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '815645d6-3f4c-46a9-967b-732fc9c5f0ba',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'progressed',
+        status: {
+          percentComplete: 0,
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T19:55:51.267Z',
+          totalDuration: 'PT1M16S',
+        },
+        timestamp: '2020-05-28T19:55:51.267Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '8ff8fa32-4cc4-47c5-82e9-6e58bf4b1f78',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'progressed',
+        status: {
+          percentComplete: 0,
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T19:56:25.715Z',
+          totalDuration: 'PT1M50S',
+        },
+        timestamp: '2020-05-28T19:56:25.715Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '85835488-d988-4b0f-96b3-5c2163a64031',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'video',
+          uuid: '24f2b913-e4b1-11e6-a792-0242c0a80b09',
+          title: 'The Difference Between Training and Learning',
+          parentCourse: {
+            type: 'course',
+            uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+            title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+          },
+        },
+        action: 'started',
+        status: {
+          percentComplete: 16.43,
+          firstAccess: '2020-05-28T19:57:01.793Z',
+          lastAccess: '2020-05-28T19:57:01.793Z',
+          totalDuration: 'PT17S',
+        },
+        timestamp: '2020-05-28T19:57:01.793Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '4168bb34-e8f5-4d7c-b481-68cd3606a544',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'progressed',
+        status: {
+          percentComplete: 0,
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T19:57:01.793Z',
+          totalDuration: 'PT2M25S',
+        },
+        timestamp: '2020-05-28T19:57:01.793Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: 'f3a5db83-7d11-45e8-b1c0-25ed22c8f40d',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'progressed',
+        status: {
+          percentComplete: 0,
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T19:57:19.099Z',
+          totalDuration: 'PT2M42S',
+        },
+        timestamp: '2020-05-28T19:57:19.099Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '724e8a4e-73fe-4aac-8b72-2fc4d64d0e1e',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'video',
+          uuid: '24f2b913-e4b1-11e6-a792-0242c0a80b09',
+          title: 'The Difference Between Training and Learning',
+          parentCourse: {
+            type: 'course',
+            uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+            title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+          },
+        },
+        action: 'completed',
+        status: {
+          percentComplete: 66.67,
+          firstAccess: '2020-05-28T19:57:01.793Z',
+          lastAccess: '2020-05-28T19:57:53.666Z',
+          completed: '2020-05-28T19:57:53.666Z',
+          totalDuration: 'PT1M9S',
+        },
+        timestamp: '2020-05-28T19:57:53.666Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '6e1acbe3-dc61-4197-a0bd-86a97287f812',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'progressed',
+        status: {
+          percentComplete: 0,
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T19:57:53.666Z',
+          totalDuration: 'PT3M17S',
+        },
+        timestamp: '2020-05-28T19:57:53.666Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '9c2ec592-83aa-428e-b006-df78df7b15eb',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'progressed',
+        status: {
+          percentComplete: 0,
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T19:57:53.666Z',
+          totalDuration: 'PT3M17S',
+        },
+        timestamp: '2020-05-28T19:57:53.666Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '0a38cc9f-0719-4d65-acc7-f0d8659c180d',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'progressed',
+        status: {
+          percentComplete: 0,
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T19:58:28.508Z',
+          totalDuration: 'PT3M51S',
+        },
+        timestamp: '2020-05-28T19:58:28.508Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '523e5592-778d-4b79-b743-3923ae86b4f4',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'video',
+          uuid: '24f2b915-e4b1-11e6-a792-0242c0a80b09',
+          title: 'How to Make Your Knowledge Management Effective',
+          parentCourse: {
+            type: 'course',
+            uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+            title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+          },
+        },
+        action: 'started',
+        status: {
+          percentComplete: 16.51,
+          firstAccess: '2020-05-28T19:58:47.121Z',
+          lastAccess: '2020-05-28T19:58:47.121Z',
+          totalDuration: 'PT17S',
+        },
+        timestamp: '2020-05-28T19:58:47.121Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '2806834f-65a2-4707-8692-40dc13a72824',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'progressed',
+        status: {
+          percentComplete: 0,
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T19:58:47.121Z',
+          totalDuration: 'PT4M8S',
+        },
+        timestamp: '2020-05-28T19:58:47.121Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '4ebab1e0-3656-4728-bf1a-d133cded0229',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'video',
+          uuid: '24f2b915-e4b1-11e6-a792-0242c0a80b09',
+          title: 'How to Make Your Knowledge Management Effective',
+          parentCourse: {
+            type: 'course',
+            uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+            title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+          },
+        },
+        action: 'completed',
+        status: {
+          percentComplete: 50,
+          firstAccess: '2020-05-28T19:58:47.121Z',
+          lastAccess: '2020-05-28T19:59:22.464Z',
+          completed: '2020-05-28T19:59:22.464Z',
+          totalDuration: 'PT53S',
+        },
+        timestamp: '2020-05-28T19:59:22.464Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '7d60c6cc-abfd-4247-a312-673f3ee49102',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'progressed',
+        status: {
+          percentComplete: 0,
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T19:59:22.464Z',
+          totalDuration: 'PT4M44S',
+        },
+        timestamp: '2020-05-28T19:59:22.464Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '7d16b368-ccee-4413-8a67-964e8b376d78',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'progressed',
+        status: {
+          percentComplete: 0,
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T19:59:22.464Z',
+          totalDuration: 'PT4M44S',
+        },
+        timestamp: '2020-05-28T19:59:22.464Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: 'f2638828-5e6b-45d3-b202-ad04cf4dc424',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'progressed',
+        status: {
+          percentComplete: 0,
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T20:00:16.034Z',
+          totalDuration: 'PT5M37S',
+        },
+        timestamp: '2020-05-28T20:00:16.034Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '20601e5b-4901-4733-9f5d-f3dd2737034b',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'video',
+          uuid: '24f2e020-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Applying Holistic Thinking and Integration',
+          parentCourse: {
+            type: 'course',
+            uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+            title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+          },
+        },
+        action: 'started',
+        status: {
+          percentComplete: 16.3,
+          firstAccess: '2020-05-28T20:00:32.357Z',
+          lastAccess: '2020-05-28T20:00:32.357Z',
+          totalDuration: 'PT15S',
+        },
+        timestamp: '2020-05-28T20:00:32.357Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '76838fd0-bbc5-49bd-908b-20ebc1435cda',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'progressed',
+        status: {
+          percentComplete: 0,
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T20:00:32.357Z',
+          totalDuration: 'PT5M52S',
+        },
+        timestamp: '2020-05-28T20:00:32.357Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '6463bf30-ecaa-4cec-a718-9259b8ef1579',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'video',
+          uuid: '24f2e020-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Applying Holistic Thinking and Integration',
+          parentCourse: {
+            type: 'course',
+            uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+            title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+          },
+        },
+        action: 'completed',
+        status: {
+          percentComplete: 50,
+          firstAccess: '2020-05-28T20:00:32.357Z',
+          lastAccess: '2020-05-28T20:01:03.080Z',
+          completed: '2020-05-28T20:01:03.080Z',
+          totalDuration: 'PT46S',
+        },
+        timestamp: '2020-05-28T20:01:03.080Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '5701cba2-805e-4ed8-bb3c-d49c09910c51',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'progressed',
+        status: {
+          percentComplete: 0,
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T20:01:03.080Z',
+          totalDuration: 'PT6M23S',
+        },
+        timestamp: '2020-05-28T20:01:03.080Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '8abb9c15-7f17-471f-bfdf-76c3ef34fd28',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'progressed',
+        status: {
+          percentComplete: 0,
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T20:01:03.080Z',
+          totalDuration: 'PT6M23S',
+        },
+        timestamp: '2020-05-28T20:01:03.080Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: 'd7d359d9-4309-48e5-ba21-dd1c6fc1c9b3',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'progressed',
+        status: {
+          percentComplete: 0,
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T20:01:18.428Z',
+          totalDuration: 'PT6M38S',
+        },
+        timestamp: '2020-05-28T20:01:18.428Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '3eddf777-2564-4736-9d07-88a8d7351e09',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'video',
+          uuid: '24f2e022-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Promoting Change and Collaboration',
+          parentCourse: {
+            type: 'course',
+            uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+            title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+          },
+        },
+        action: 'started',
+        status: {
+          percentComplete: 16.58,
+          firstAccess: '2020-05-28T20:02:07.388Z',
+          lastAccess: '2020-05-28T20:02:07.388Z',
+          totalDuration: 'PT16S',
+        },
+        timestamp: '2020-05-28T20:02:07.388Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '4412d916-c611-4b8b-b78a-fc7212f92ddd',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'progressed',
+        status: {
+          percentComplete: 0,
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T20:02:07.388Z',
+          totalDuration: 'PT7M25S',
+        },
+        timestamp: '2020-05-28T20:02:07.388Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: 'b0c40a3c-f3ab-4fe3-bdda-897df0c6e7a3',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'progressed',
+        status: {
+          percentComplete: 0,
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T20:02:24.002Z',
+          totalDuration: 'PT7M42S',
+        },
+        timestamp: '2020-05-28T20:02:24.002Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '87931a0d-62e6-49cc-932a-47aca91a9333',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'video',
+          uuid: '24f2e022-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Promoting Change and Collaboration',
+          parentCourse: {
+            type: 'course',
+            uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+            title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+          },
+        },
+        action: 'completed',
+        status: {
+          percentComplete: 66.33,
+          firstAccess: '2020-05-28T20:02:07.388Z',
+          lastAccess: '2020-05-28T20:02:57.240Z',
+          completed: '2020-05-28T20:02:57.240Z',
+          totalDuration: 'PT1M6S',
+        },
+        timestamp: '2020-05-28T20:02:57.240Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '0d359a43-a084-4bd1-9a2d-70b0fe50a0f5',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'progressed',
+        status: {
+          percentComplete: 0,
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T20:02:57.240Z',
+          totalDuration: 'PT8M15S',
+        },
+        timestamp: '2020-05-28T20:02:57.240Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '373107f5-bf60-440a-b6b6-c6be9d867a60',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'progressed',
+        status: {
+          percentComplete: 0,
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T20:02:57.240Z',
+          totalDuration: 'PT8M15S',
+        },
+        timestamp: '2020-05-28T20:02:57.240Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: 'ad5ae274-4640-4740-aca7-a2704c9ff3f6',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'progressed',
+        status: {
+          percentComplete: 0,
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T20:03:13.857Z',
+          totalDuration: 'PT8M31S',
+        },
+        timestamp: '2020-05-28T20:03:13.857Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '5a4d2db6-bc7e-46e4-be9d-4727ac44364d',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'video',
+          uuid: '24f2e024-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Getting Employees to Commit to Learning',
+          parentCourse: {
+            type: 'course',
+            uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+            title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+          },
+        },
+        action: 'started',
+        status: {
+          percentComplete: 16.57,
+          firstAccess: '2020-05-28T20:03:45.856Z',
+          lastAccess: '2020-05-28T20:03:45.856Z',
+          totalDuration: 'PT14S',
+        },
+        timestamp: '2020-05-28T20:03:45.856Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: 'b351f428-0de9-4406-8d41-b2e263999d96',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'progressed',
+        status: {
+          percentComplete: 0,
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T20:03:45.856Z',
+          totalDuration: 'PT9M2S',
+        },
+        timestamp: '2020-05-28T20:03:45.856Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: 'b4a6f6b7-0ffc-4875-a9ff-878a60f8a46a',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'video',
+          uuid: '24f2e024-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Getting Employees to Commit to Learning',
+          parentCourse: {
+            type: 'course',
+            uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+            title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+          },
+        },
+        action: 'completed',
+        status: {
+          percentComplete: 66.27,
+          firstAccess: '2020-05-28T20:03:45.856Z',
+          lastAccess: '2020-05-28T20:04:28.161Z',
+          completed: '2020-05-28T20:04:28.161Z',
+          totalDuration: 'PT56S',
+        },
+        timestamp: '2020-05-28T20:04:28.161Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '04117cb8-8fa0-44d8-b746-56c25d290618',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'progressed',
+        status: {
+          percentComplete: 0,
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T20:04:28.161Z',
+          totalDuration: 'PT9M44S',
+        },
+        timestamp: '2020-05-28T20:04:28.161Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '5b1523ba-3378-47e5-b51a-26d3b4279de3',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'progressed',
+        status: {
+          percentComplete: 0,
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T20:04:28.161Z',
+          totalDuration: 'PT9M44S',
+        },
+        timestamp: '2020-05-28T20:04:28.161Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '98c59c56-1010-4364-ae50-f499ff11ef92',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'progressed',
+        status: {
+          percentComplete: 0,
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T20:04:56.518Z',
+          totalDuration: 'PT10M12S',
+        },
+        timestamp: '2020-05-28T20:04:56.518Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: 'e86d488b-874f-4307-8284-6a4473a9aabd',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'completed',
+        status: {
+          score: 80,
+          percentComplete: 100,
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T20:07:41.000Z',
+          completed: '2020-05-28T20:07:41.000Z',
+          totalDuration: 'PT10M12S',
+        },
+        timestamp: '2020-05-28T20:07:41.000Z',
+      },
+    },
+    {
+      msgSchema: 'content-integration-action-message-schema-v1.0',
+      orgUuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+      source: {
+        type: 'Kafka Topic',
+        name: 'dev-user-asset-status-events',
+        id: '4070ccf8-660f-4936-9da6-85204b347ee4',
+      },
+      message: {
+        org: {
+          uuid: 'afcd55b5-6e11-47ee-8f9b-a92c96cfd4f8',
+        },
+        user: {
+          uuid: '65fe93c1-acba-492a-b5a5-6fcffb68a2af',
+          externalUserId: '6CDA0255-EAB6-4363-BEBD-6DABB2B18FBD',
+          email: 'oliver.twist@charlesdickens.co.uk',
+        },
+        asset: {
+          type: 'course',
+          uuid: '24f2b910-e4b1-11e6-a792-0242c0a80b09',
+          title: 'Positive Atmosphere:  How Organizational Learning Drives Positive Change',
+        },
+        action: 'reviewed',
+        status: {
+          score: 80,
+          percentComplete: 100,
+          firstAccess: '2020-05-28T19:54:36.000Z',
+          lastAccess: '2020-05-28T20:08:03.120Z',
+          completed: '2020-05-28T20:07:41.000Z',
+          totalDuration: 'PT10M26S',
+        },
+        timestamp: '2020-05-28T20:08:03.120Z',
+      },
     },
   ],
-  empty: {},
+  EMPTY: {},
 };
