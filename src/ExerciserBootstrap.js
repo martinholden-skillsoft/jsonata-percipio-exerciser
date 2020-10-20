@@ -9,6 +9,7 @@
 import React from 'react';
 import sampledata from './data/sampledata';
 import _ from 'lodash';
+import moment from 'moment';
 import EnhancedMonacoEditorWithNav from './components/EnhancedEditorWithNav';
 import MainNav from './components/MainNav';
 import Container from 'react-bootstrap/Container';
@@ -34,28 +35,41 @@ class ExerciserBootstrap extends React.Component {
       {}
     );
 
-    // Remove Workday
+    // Remove Workday, Accenture and Sumtotal
+    // Then only keep CONTENT_EXPORT and LEARNER_ACTIVITY_REPORT
     this.sources = dataexamples.transforms
       .filter((value, index, sourceArray) => {
-        const systemName = value.systemName.toLowerCase();
-        return systemName !== 'workday' && systemName !== 'accenture';
+        const systemName = value.systemName.toUpperCase();
+        return systemName !== 'WORKDAY' && systemName !== 'ACCENTURE' && systemName !== 'SUMTOTAL';
+      })
+      .filter((value, index, sourceArray) => {
+        const typeName = value.type.toUpperCase();
+        return typeName === 'CONTENT_EXPORT' || typeName === 'LEARNER_ACTIVITY_REPORT';
       })
       .map((value, index, sourceArray) => {
         const newObj = {};
         newObj.id = value.id;
         newObj.name = `${value.name} - ${value.type}`;
-        newObj.type =
-          value.type === 'CONTENT_EXPORT'
-            ? 'metadata'
-            : value.type === 'LEARNER_ACTIVITY_REPORT'
-            ? 'learneractivity'
-            : 'metadata';
+        newObj.type = value.type.toUpperCase();
         newObj.jsonata = `${value.transform}`;
         newObj.baseconfig = this.configurations[value.id]
           ? this.configurations[value.id].configuration
           : {};
         newObj.customerconfig = {};
         return newObj;
+      })
+      .sort((a, b) => {
+        const nameA = a.name.toUpperCase(); // ignore upper and lowercase
+        const nameB = b.name.toUpperCase(); // ignore upper and lowercase
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+
+        // names must be equal
+        return 0;
       })
       .reduce((accumulator, currentValue, index, sourcearray) => {
         accumulator[currentValue.id] = currentValue;
@@ -66,7 +80,7 @@ class ExerciserBootstrap extends React.Component {
       empty: {
         id: 'empty',
         name: 'Empty',
-        type: 'empty',
+        type: 'EMPTY',
         jsonata: `$.{}`,
         baseconfig: {},
         customerconfig: {},
@@ -74,7 +88,7 @@ class ExerciserBootstrap extends React.Component {
       samplemetadata: {
         id: 'samplemetadata',
         name: 'Empty - CONTENT_EXPORT',
-        type: 'metadata',
+        type: 'CONTENT_EXPORT',
         jsonata: `$.{}`,
         baseconfig: {},
         customerconfig: {},
@@ -82,7 +96,7 @@ class ExerciserBootstrap extends React.Component {
       samplelearningactivity: {
         id: 'samplelearningactivity',
         name: 'Empty - LEARNER_ACTIVITY_REPORT',
-        type: 'learneractivity',
+        type: 'LEARNER_ACTIVITY_REPORT',
         jsonata: `$.{}`,
         baseconfig: {},
         customerconfig: {},
@@ -259,6 +273,10 @@ class ExerciserBootstrap extends React.Component {
 
   evalJsonata(input, binding) {
     const expr = window.jsonataExtended(this.data.jsonata);
+
+    // Adding the moment to the expression as it is being referred in reporting transforms.
+    // PER-4477
+    expr.assign('moment', (arg1, arg2, arg3, arg4) => moment(arg1, arg2, arg3, arg4));
 
     expr.assign('trace', function (arg) {
       console.log(arg);
