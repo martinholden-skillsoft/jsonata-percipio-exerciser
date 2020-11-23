@@ -1,4 +1,4 @@
-export default [
+const genericDocs = [
   {
     label: 'shortenUuid',
     description:
@@ -421,3 +421,5 @@ export default [
     signature: '(types, row)',
   },
 ];
+
+export default genericDocs;

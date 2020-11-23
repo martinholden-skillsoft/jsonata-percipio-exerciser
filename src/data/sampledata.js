@@ -1,4 +1,4 @@
-export default {
+const sampleData = {
   CONTENT_EXPORT: [
     {
       id: '000380a7-8ecd-46da-84e4-e97ebaa64c47',
@@ -9349,3 +9349,5 @@ export default {
   ],
   EMPTY: {},
 };
+
+export default sampleData;

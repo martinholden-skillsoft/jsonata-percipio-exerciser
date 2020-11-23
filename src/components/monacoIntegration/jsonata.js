@@ -2,7 +2,7 @@
 import monarchDefinition from './jsonata.monarch';
 import { getSuggestions, getHovers } from './functions/custom';
 
-export default function (monaco) {
+const jsonataIntegration = (monaco) => {
   monaco.languages.register({
     id: 'jsonata',
   });
@@ -83,4 +83,6 @@ export default function (monaco) {
       return null;
     },
   });
-}
+};
+
+export default jsonataIntegration;

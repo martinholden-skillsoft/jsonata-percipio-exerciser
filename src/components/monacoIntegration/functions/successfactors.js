@@ -1,4 +1,4 @@
-export default [
+const successFactorsDocs = [
   {
     label: 'successFactorsType',
     description: 'Get the value to use for SuccessFactors **CPNT_TYP_ID** and **DEL_MTH_ID**',
@@ -92,3 +92,5 @@ export default [
     signature: '(localeCode)',
   },
 ];
+
+export default successFactorsDocs;

@@ -1,4 +1,4 @@
-export default [
+const sabaDocs = [
   {
     label: 'sabaMarkCompletion',
     description:
@@ -145,3 +145,5 @@ export default [
     signature: '(localeCode)',
   },
 ];
+
+export default sabaDocs;

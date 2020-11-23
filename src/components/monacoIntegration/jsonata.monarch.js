@@ -1,4 +1,4 @@
-export default {
+const jsonataTokenizer = {
   tokenizer: {
     root: [
       [/\/\*.*\*\//, 'jsonata-comment'],
@@ -9,3 +9,5 @@ export default {
     ],
   },
 };
+
+export default jsonataTokenizer;

@@ -1,4 +1,4 @@
-export default [
+const degreedDocs = [
   {
     label: 'degreedDuration',
     description:
@@ -96,3 +96,5 @@ export default [
     signature: '(row)',
   },
 ];
+
+export default degreedDocs;
