@@ -40,7 +40,12 @@ class ExerciserBootstrap extends React.Component {
     this.sources = dataexamples.transforms
       .filter((value, index, sourceArray) => {
         const systemName = value.systemName.toUpperCase();
-        return systemName !== 'WORKDAY' && systemName !== 'ACCENTURE' && systemName !== 'SUMTOTAL';
+        return (
+          systemName !== 'WORKDAY' &&
+          systemName !== 'ACCENTURE' &&
+          systemName !== 'SUMTOTAL' &&
+          systemName !== 'CSOD'
+        );
       })
       .filter((value, index, sourceArray) => {
         const typeName = value.type.toUpperCase();

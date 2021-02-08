@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import MonacoEditor from 'react-monaco-editor';
 import ReactResizeDetector from 'react-resize-detector';
+import FileDownload from 'react-file-download';
+import Delve from 'dlv';
 import registerJsonataLanguage from './monacoIntegration/jsonata';
 import EditorNav from './EditorNav';
 
@@ -16,6 +18,7 @@ export default class EnhancedEditorWithNav extends Component {
     this.monaco = null;
     this.editorDidMount = this.editorDidMount.bind(this);
     this._onFormatClick = this._onFormatClick.bind(this);
+    this._onDownloadClick = this._onDownloadClick.bind(this);
   }
 
   getModel() {
@@ -115,6 +118,19 @@ export default class EnhancedEditorWithNav extends Component {
     }
   }
 
+  _onDownloadClick(eventKey, event) {
+    if (this.props.downloadEnabled) {
+      const filename = `${Delve(this, 'props.label', 'filename')}.${Delve(
+        this,
+        'props.language',
+        'json'
+      )}`;
+      const model = this.getModel();
+      const data = model.getValue();
+      FileDownload(data, filename.toLowerCase(), 'text/plain');
+    }
+  }
+
   /**
    * Add an error decoration based on extracting position from
    * err, supports json and jsonata
@@ -187,6 +203,7 @@ export default class EnhancedEditorWithNav extends Component {
       readOnly,
       value,
       formatEnabled,
+      downloadEnabled,
       label,
       options = {},
       editorDidMount,
@@ -207,7 +224,9 @@ export default class EnhancedEditorWithNav extends Component {
             key={`nav-${label}`}
             label={label}
             formatEnabled={formatEnabled}
+            downloadEnabled={downloadEnabled}
             onFormatClick={this._onFormatClick}
+            onDownloadClick={this._onDownloadClick}
           />
           <MonacoEditor
             key={`editor-${label}`}
@@ -234,11 +253,13 @@ EnhancedEditorWithNav.propTypes = {
   value: PropTypes.string,
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   formatEnabled: PropTypes.bool,
+  downloadEnabled: PropTypes.bool,
   label: PropTypes.string,
 };
 
 EnhancedEditorWithNav.defaultProps = {
   className: 'enhanced-editor',
   formatEnabled: true,
+  downloadEnabled: true,
   label: 'Editor',
 };

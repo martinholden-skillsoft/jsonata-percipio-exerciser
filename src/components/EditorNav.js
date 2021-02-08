@@ -7,6 +7,7 @@ export default class EditorNav extends Component {
   constructor(props) {
     super(props);
     this.onFormatClick = this.onFormatClick.bind(this);
+    this.onDownloadClick = this.onDownloadClick.bind(this);
   }
 
   onFormatClick(eventKey, event) {
@@ -15,14 +16,36 @@ export default class EditorNav extends Component {
     }
   }
 
+  onDownloadClick(eventKey, event) {
+    if (this.props.downloadEnabled && this.props.onDownloadClick) {
+      this.props.onDownloadClick(eventKey, event);
+    }
+  }
+
   render() {
-    const { label, formatEnabled, formatLabel, className } = this.props;
+    const {
+      label,
+      formatEnabled,
+      formatLabel,
+      downloadEnabled,
+      downloadLabel,
+      className,
+    } = this.props;
 
     let formatlink;
     if (formatEnabled) {
       formatlink = (
         <Nav>
           <Nav.Link onClick={this.onFormatClick}>{formatLabel}</Nav.Link>
+        </Nav>
+      );
+    }
+
+    let downloadlink;
+    if (downloadEnabled) {
+      downloadlink = (
+        <Nav>
+          <Nav.Link onClick={this.onDownloadClick}>{downloadLabel}</Nav.Link>
         </Nav>
       );
     }
@@ -34,6 +57,7 @@ export default class EditorNav extends Component {
             <Navbar.Text className="">{<strong>{label}</strong>}</Navbar.Text>
           </Nav>
           {formatlink}
+          {downloadlink}
         </Navbar>
       </div>
     );
@@ -45,6 +69,9 @@ EditorNav.propTypes = {
   formatEnabled: PropTypes.bool,
   formatLabel: PropTypes.string,
   onFormatClick: PropTypes.func,
+  downloadEnabled: PropTypes.bool,
+  downloadLabel: PropTypes.string,
+  onDownloadClick: PropTypes.func,
   className: PropTypes.string,
 };
 
@@ -53,5 +80,8 @@ EditorNav.defaultProps = {
   formatEnabled: true,
   formatLabel: 'Format',
   onFormatClick: function () {},
+  downloadEnabled: true,
+  downloadLabel: 'Download',
+  onDownloadClick: function () {},
   className: 'editor-nav',
 };
