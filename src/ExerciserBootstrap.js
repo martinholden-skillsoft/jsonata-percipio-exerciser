@@ -41,10 +41,10 @@ class ExerciserBootstrap extends React.Component {
       .filter((value, index, sourceArray) => {
         const systemName = value.systemName.toUpperCase();
         return (
-          systemName !== 'WORKDAY' &&
-          systemName !== 'ACCENTURE' &&
-          systemName !== 'SUMTOTAL' &&
-          systemName !== 'CSOD'
+          !_.includes(systemName, 'WORKDAY') &&
+          !_.includes(systemName, 'ACCENTURE') &&
+          !_.includes(systemName, 'SUMTOTAL') &&
+          !_.includes(systemName, 'CSOD')
         );
       })
       .filter((value, index, sourceArray) => {
