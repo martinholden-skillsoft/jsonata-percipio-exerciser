@@ -4,6 +4,8 @@ import MonacoEditor from 'react-monaco-editor';
 import ReactResizeDetector from 'react-resize-detector';
 import FileDownload from 'react-file-download';
 import Delve from 'dlv';
+import PapaParse from 'papaparse';
+
 import registerJsonataLanguage from './monacoIntegration/jsonata';
 import EditorNav from './EditorNav';
 
@@ -19,6 +21,7 @@ export default class EnhancedEditorWithNav extends Component {
     this.editorDidMount = this.editorDidMount.bind(this);
     this._onFormatClick = this._onFormatClick.bind(this);
     this._onDownloadClick = this._onDownloadClick.bind(this);
+    this._onDownloadCSVClick = this._onDownloadCSVClick.bind(this);
   }
 
   getModel() {
@@ -131,6 +134,29 @@ export default class EnhancedEditorWithNav extends Component {
     }
   }
 
+  _onDownloadCSVClick(eventKey, event) {
+    if (this.props.downloadCSVEnabled) {
+      const lang = Delve(this, 'props.language', null);
+      const filename = `${Delve(this, 'props.label', 'filename')}.csv`;
+
+      if (lang.toLowerCase() === 'json') {
+        const papaparseConfig = {
+          quotes: true,
+          quoteChar: '"',
+          escapeChar: '"',
+          delimiter: ',',
+          header: true,
+          newline: '\r\n',
+        };
+
+        const model = this.getModel();
+        const data = model.getValue();
+        const csv = PapaParse.unparse(data, papaparseConfig);
+        FileDownload(csv, filename.toLowerCase(), 'text/plain');
+      }
+    }
+  }
+
   /**
    * Add an error decoration based on extracting position from
    * err, supports json and jsonata
@@ -204,6 +230,7 @@ export default class EnhancedEditorWithNav extends Component {
       value,
       formatEnabled,
       downloadEnabled,
+      downloadCSVEnabled,
       label,
       options = {},
       editorDidMount,
@@ -225,8 +252,10 @@ export default class EnhancedEditorWithNav extends Component {
             label={label}
             formatEnabled={formatEnabled}
             downloadEnabled={downloadEnabled}
+            downloadCSVEnabled={downloadCSVEnabled}
             onFormatClick={this._onFormatClick}
             onDownloadClick={this._onDownloadClick}
+            onDownloadCSVClick={this._onDownloadCSVClick}
           />
           <MonacoEditor
             key={`editor-${label}`}
@@ -254,6 +283,7 @@ EnhancedEditorWithNav.propTypes = {
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   formatEnabled: PropTypes.bool,
   downloadEnabled: PropTypes.bool,
+  downloadCSVEnabled: PropTypes.bool,
   label: PropTypes.string,
 };
 
@@ -261,5 +291,6 @@ EnhancedEditorWithNav.defaultProps = {
   className: 'enhanced-editor',
   formatEnabled: true,
   downloadEnabled: true,
+  downloadCSVEnabled: false,
   label: 'Editor',
 };
