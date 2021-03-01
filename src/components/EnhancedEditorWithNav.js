@@ -5,9 +5,11 @@ import ReactResizeDetector from 'react-resize-detector';
 import FileDownload from 'react-file-download';
 import Delve from 'dlv';
 import PapaParse from 'papaparse';
+import _ from 'lodash';
 
 import registerJsonataLanguage from './monacoIntegration/jsonata';
 import EditorNav from './EditorNav';
+import Notification from './Notification';
 
 /**
  * A wrapper for the react-monaco-editor that adds a layout method and
@@ -22,6 +24,7 @@ export default class EnhancedEditorWithNav extends Component {
     this._onFormatClick = this._onFormatClick.bind(this);
     this._onDownloadClick = this._onDownloadClick.bind(this);
     this._onDownloadCSVClick = this._onDownloadCSVClick.bind(this);
+    this.notificationElement = React.createRef();
   }
 
   getModel() {
@@ -150,9 +153,26 @@ export default class EnhancedEditorWithNav extends Component {
         };
 
         const model = this.getModel();
-        const data = model.getValue();
-        const csv = PapaParse.unparse(data, papaparseConfig);
-        FileDownload(csv, filename.toLowerCase(), 'text/plain');
+        const text = model.getValue();
+        let data = JSON.parse(text);
+        if (!_.isArray(data)) {
+          data = [data];
+        }
+        try {
+          const csv = PapaParse.unparse(data, papaparseConfig);
+          if (!_.isEmpty(csv)) {
+            FileDownload(csv, filename.toLowerCase(), 'text/csv');
+          } else {
+            this.notificationElement.current.setMessage(
+              'The JSON parsed to CSV was an empty file.'
+            );
+          }
+        } catch (error) {
+          this.notificationElement.current.setMessage(
+            `There was a problem parsing the JSON to CSV. Err: ${error.message}`,
+            'danger'
+          );
+        }
       }
     }
   }
@@ -240,6 +260,17 @@ export default class EnhancedEditorWithNav extends Component {
 
     return (
       <div className={className}>
+        <Notification ref={this.notificationElement} autodismiss={true} delay={3000}></Notification>
+        <EditorNav
+          key={`nav-${label}`}
+          label={label}
+          formatEnabled={formatEnabled}
+          downloadEnabled={downloadEnabled}
+          downloadCSVEnabled={downloadCSVEnabled}
+          onFormatClick={this._onFormatClick}
+          onDownloadClick={this._onDownloadClick}
+          onDownloadCSVClick={this._onDownloadCSVClick}
+        />
         <ReactResizeDetector
           handleWidth
           handleHeight
@@ -247,16 +278,6 @@ export default class EnhancedEditorWithNav extends Component {
             this.layout();
           }}
         >
-          <EditorNav
-            key={`nav-${label}`}
-            label={label}
-            formatEnabled={formatEnabled}
-            downloadEnabled={downloadEnabled}
-            downloadCSVEnabled={downloadCSVEnabled}
-            onFormatClick={this._onFormatClick}
-            onDownloadClick={this._onDownloadClick}
-            onDownloadCSVClick={this._onDownloadCSVClick}
-          />
           <MonacoEditor
             key={`editor-${label}`}
             width={width || '100%'}
