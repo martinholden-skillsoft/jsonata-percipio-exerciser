@@ -6,8 +6,8 @@ export default class Notification extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      message: null,
-      alertVisible: false,
+      message: this.props.message,
+      alertVisible: this.props.isVisible,
       variant: this.props.variant,
     };
   }
@@ -32,9 +32,12 @@ export default class Notification extends Component {
   };
 
   render() {
-    let notification;
-    if (this.state.alertVisible) {
-      notification = (
+    if (!this.state.alertVisible) {
+      return null;
+    }
+
+    return (
+      <div>
         <Alert
           variant={this.state.variant}
           onClose={() => this.setAlertVisible(false)}
@@ -43,10 +46,8 @@ export default class Notification extends Component {
         >
           {this.state.message}
         </Alert>
-      );
-    }
-
-    return <div>{notification}</div>;
+      </div>
+    );
   }
 }
 
@@ -54,10 +55,14 @@ Notification.propTypes = {
   autodismiss: PropTypes.bool.isRequired,
   delay: PropTypes.number.isRequired,
   variant: PropTypes.string.isRequired,
+  message: PropTypes.string,
+  alertVisible: PropTypes.bool.isRequired,
 };
 
 Notification.defaultProps = {
   autodismiss: false,
   delay: 2000,
   variant: 'warning',
+  message: '',
+  alertVisible: false,
 };

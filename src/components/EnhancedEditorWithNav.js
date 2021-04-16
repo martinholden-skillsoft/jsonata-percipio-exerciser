@@ -25,8 +25,34 @@ export default class EnhancedEditorWithNav extends Component {
     this._onDownloadClick = this._onDownloadClick.bind(this);
     this._onDownloadCSVClick = this._onDownloadCSVClick.bind(this);
     this.notificationElement = React.createRef();
+
+    this.papaparseConfig = {
+      quotes: true,
+      quoteChar: '"',
+      escapeChar: '"',
+      delimiter: ',',
+      header: true,
+      newline: '\r\n',
+    };
+
+    this.state = {
+      width: props.width || '100%',
+      height: props.height || '100%',
+      filename: `${Delve(this, 'props.label', 'filename')}.${Delve(
+        this,
+        'props.language',
+        'json'
+      )}`.toLowerCase(),
+      csvfilename: `${Delve(this, 'props.label', 'filename')}.csv`.toLowerCase(),
+    };
   }
 
+  /**
+   * Get the Monaco Editor model if it exists.
+   *
+   * @return {ITextModel|null}
+   * @memberof EnhancedEditor
+   */
   getModel() {
     if (this.monacoEditor != null) {
       return this.monacoEditor.getModel();
@@ -34,12 +60,44 @@ export default class EnhancedEditorWithNav extends Component {
   }
 
   /**
-   * Trigger layout
+   * Get the text stored in the Monaco Editor model .
    *
+   * @return {*}
+   * @memberof EnhancedEditor
    */
-  layout() {
-    if (this.monacoEditor != null) {
-      this.monacoEditor.layout();
+  getValue() {
+    const model = this.getModel();
+    if (model != null) {
+      return model.getValue();
+    }
+  }
+
+  /**
+   * Set the text in the Monaco Editor model.
+   *
+   * @param {*} value
+   * @param {boolean} [undo=false]
+   * @memberof EnhancedEditor
+   */
+  setValue(value, undo = false) {
+    const model = this.getModel();
+    if (model != null) {
+      const edits = [];
+      edits.push({
+        range: new this.monaco.Range(
+          1,
+          1,
+          model.getLineCount(),
+          model.getLineMaxColumn(model.getLineCount())
+        ),
+        text: value,
+      });
+      if (undo) {
+        model.pushEditOperations([], edits, null);
+        model.pushStackElement();
+      } else {
+        model.applyEdits(edits);
+      }
     }
   }
 
@@ -56,6 +114,20 @@ export default class EnhancedEditorWithNav extends Component {
     }
   }
 
+  onResize = (width, height) => {
+    this.setState({
+      width,
+      height,
+    });
+    this.layout();
+  };
+
+  layout() {
+    if (this.monacoEditor != null) {
+      this.monacoEditor.layout();
+    }
+  }
+
   /**
    * Add an error decoration based on start and end position
    *
@@ -64,7 +136,7 @@ export default class EnhancedEditorWithNav extends Component {
    */
   addErrorDecoration(start, end) {
     if (this.monacoEditor != null) {
-      const buffer = this.monacoEditor.getModel().getValue();
+      const buffer = this.getValue();
       const resolve = (offset) => {
         let line = 1;
         let column = 1;
@@ -101,78 +173,49 @@ export default class EnhancedEditorWithNav extends Component {
     }
   }
 
-  updateNoUndo(text) {
-    const model = this.getModel();
-    model.applyEdits([
-      {
-        range: new this.monaco.Range(
-          1,
-          1,
-          model.getLineCount(),
-          model.getLineMaxColumn(model.getLineCount())
-        ),
-        text,
-      },
-    ]);
+  /**
+   * Set the value of the model without undo
+   *
+   * @param {*} value
+   * @memberof EnhancedEditor
+   */
+  updateNoUndo(value) {
+    this.setState({ value });
+    this.setValue(value, false);
   }
 
   _onFormatClick(eventKey, event) {
-    if (this.props.formatEnabled && this.props.language === 'json') {
-      const model = this.getModel();
-      const formatted = JSON.stringify(JSON.parse(model.getValue()), null, 2);
+    if (this.props.language === 'json') {
+      const value = this.getValue();
+      const formatted = JSON.stringify(JSON.parse(value), null, 2);
       this.updateNoUndo(formatted);
     }
   }
 
   _onDownloadClick(eventKey, event) {
-    if (this.props.downloadEnabled) {
-      const filename = `${Delve(this, 'props.label', 'filename')}.${Delve(
-        this,
-        'props.language',
-        'json'
-      )}`;
-      const model = this.getModel();
-      const data = model.getValue();
-      FileDownload(data, filename.toLowerCase(), 'text/plain');
-    }
+    FileDownload(this.getValue(), this.state.filename, 'text/plain');
   }
 
   _onDownloadCSVClick(eventKey, event) {
-    if (this.props.downloadCSVEnabled) {
-      const lang = Delve(this, 'props.language', null);
-      const filename = `${Delve(this, 'props.label', 'filename')}.csv`;
+    const lang = Delve(this, 'props.language', null);
 
-      if (lang.toLowerCase() === 'json') {
-        const papaparseConfig = {
-          quotes: true,
-          quoteChar: '"',
-          escapeChar: '"',
-          delimiter: ',',
-          header: true,
-          newline: '\r\n',
-        };
-
-        const model = this.getModel();
-        const text = model.getValue();
-        let data = JSON.parse(text);
-        if (!_.isArray(data)) {
-          data = [data];
+    if (lang.toLowerCase() === 'json') {
+      let data = JSON.parse(this.getValue());
+      if (!_.isArray(data)) {
+        data = [data];
+      }
+      try {
+        const csv = PapaParse.unparse(data, this.papaparseConfig);
+        if (!_.isEmpty(csv)) {
+          FileDownload(csv, this.state.csvfilename, 'text/csv');
+        } else {
+          this.notificationElement.current.setMessage('The JSON parsed to CSV was an empty file.');
         }
-        try {
-          const csv = PapaParse.unparse(data, papaparseConfig);
-          if (!_.isEmpty(csv)) {
-            FileDownload(csv, filename.toLowerCase(), 'text/csv');
-          } else {
-            this.notificationElement.current.setMessage(
-              'The JSON parsed to CSV was an empty file.'
-            );
-          }
-        } catch (error) {
-          this.notificationElement.current.setMessage(
-            `There was a problem parsing the JSON to CSV. Err: ${error.message}`,
-            'danger'
-          );
-        }
+      } catch (error) {
+        this.notificationElement.current.setMessage(
+          `There was a problem parsing the JSON to CSV. Err: ${error.message}`,
+          'danger'
+        );
       }
     }
   }
@@ -244,10 +287,6 @@ export default class EnhancedEditorWithNav extends Component {
 
   render() {
     const {
-      width,
-      height,
-      readOnly,
-      value,
       formatEnabled,
       downloadEnabled,
       downloadCSVEnabled,
@@ -255,33 +294,47 @@ export default class EnhancedEditorWithNav extends Component {
       options = {},
       editorDidMount,
       className,
+      value,
       ...other
     } = this.props;
 
     return (
-      <div className={className}>
-        <Notification ref={this.notificationElement} autodismiss={true} delay={3000}></Notification>
-        <EditorNav
-          key={`nav-${label}`}
-          label={label}
-          formatEnabled={formatEnabled}
-          downloadEnabled={downloadEnabled}
-          downloadCSVEnabled={downloadCSVEnabled}
-          onFormatClick={this._onFormatClick}
-          onDownloadClick={this._onDownloadClick}
-          onDownloadCSVClick={this._onDownloadCSVClick}
-        />
-        <ReactResizeDetector
-          handleWidth
-          handleHeight
-          onResize={() => {
-            this.layout();
-          }}
-        >
+      <ReactResizeDetector handleWidth={true} handleHeight={true} onResize={this.onResize}>
+        <div className={className}>
+          <Notification
+            ref={this.notificationElement}
+            autodismiss={true}
+            delay={3000}
+          ></Notification>
+          <EditorNav
+            key={`nav-${label}`}
+            label={label}
+            navLinks={[
+              {
+                enabled: formatEnabled,
+                label: 'Format',
+                tooltip: 'Format the editor contents',
+                onClick: this._onFormatClick,
+              },
+              {
+                enabled: downloadEnabled,
+                label: 'Download',
+                tooltip: 'Download the editor contents',
+                onClick: this._onDownloadClick,
+              },
+              {
+                enabled: downloadCSVEnabled,
+                label: 'Download CSV',
+                tooltip: 'Download the editor contents as CSV (UTF-8)',
+                onClick: this._onDownloadCSVClick,
+              },
+            ]}
+          />
+
           <MonacoEditor
             key={`editor-${label}`}
-            width={width || '100%'}
-            height={height || '100%'}
+            width={this.state.width}
+            height={this.state.height}
             value={value}
             options={{
               ...options,
@@ -289,8 +342,8 @@ export default class EnhancedEditorWithNav extends Component {
             {...other}
             editorDidMount={this.editorDidMount}
           />
-        </ReactResizeDetector>
-      </div>
+        </div>
+      </ReactResizeDetector>
     );
   }
 }
