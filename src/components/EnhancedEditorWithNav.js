@@ -159,13 +159,13 @@ export default class EnhancedEditorWithNav extends Component {
         [
           {
             range: new this.monaco.Range(from.line, from.column, to.line, to.column),
-            options: { inlineClassName: 'jsonataErrorMarker' },
+            options: { inlineClassName: 'errorMarker' },
           },
           {
             range: new this.monaco.Range(from.line, 1, to.line, 1),
             options: {
               isWholeLine: true,
-              linesDecorationsClassName: 'jsonataErrorMargin',
+              linesDecorationsClassName: 'errorMargin',
             },
           },
         ]
