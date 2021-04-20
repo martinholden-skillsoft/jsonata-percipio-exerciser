@@ -7,22 +7,28 @@
  */
 
 import React from 'react';
-import sampledata from './data/sampledata';
 import _ from 'lodash';
 import moment from 'moment';
-import EnhancedMonacoEditorWithNav from './components/EnhancedEditorWithNav';
-import MainNav from './components/MainNav';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
+
+import JSONEditorWithNav from './components/JSONEditorWithNav';
+import JSONATAEditorWithNav from './components/JSONATAEditorWithNav';
+
+import MainNav from './components/MainNav';
 import './exerciserbootstrap.css';
+
+import sampledata from './data/sampledata';
 import { version } from '../package.json';
 
 class ExerciserBootstrap extends React.Component {
   constructor(props) {
     super(props);
+
+    this.tabsOnSelect = this.tabsOnSelect.bind(this);
 
     // Get transforms and configurations from window object
     const dataexamples = window.jsonatatransforms;
@@ -127,9 +133,18 @@ class ExerciserBootstrap extends React.Component {
     this.eval();
   }
 
+  tabsOnSelect(eventKey, event) {
+    this.jsonEditor.layout();
+    this.jsonataEditor.layout();
+    this.baseconfigEditor.layout();
+    this.customerconfigEditor.layout();
+    this.resultsEditor.layout();
+    console.log(eventKey);
+  }
+
   editorOverwrite(editor, value) {
     if (editor) {
-      editor.updateNoUndo(value);
+      editor.setValue(value);
     }
   }
 
@@ -378,9 +393,14 @@ class ExerciserBootstrap extends React.Component {
         />
         <Row>
           <Col>
-            <Tabs defaultActiveKey="transform" transition={false} id="transform-config">
+            <Tabs
+              defaultActiveKey="transform"
+              transition={false}
+              id="transform-config"
+              onSelect={this.tabsOnSelect}
+            >
               <Tab eventKey="transform" title="Transform" className="border">
-                <EnhancedMonacoEditorWithNav
+                <JSONATAEditorWithNav
                   language="jsonata"
                   theme="jsonataTheme"
                   options={options}
@@ -391,7 +411,7 @@ class ExerciserBootstrap extends React.Component {
                 />
               </Tab>
               <Tab eventKey="baseconfig" title="Base Configuration" className="border">
-                <EnhancedMonacoEditorWithNav
+                <JSONEditorWithNav
                   language="json"
                   theme="jsonataTheme"
                   options={options}
@@ -401,7 +421,7 @@ class ExerciserBootstrap extends React.Component {
                 />
               </Tab>
               <Tab eventKey="customerconfig" title="Customer Configuration" className="border">
-                <EnhancedMonacoEditorWithNav
+                <JSONEditorWithNav
                   language="json"
                   theme="jsonataTheme"
                   options={options}
@@ -417,7 +437,7 @@ class ExerciserBootstrap extends React.Component {
           <Col>
             <Tabs defaultActiveKey="results" transition={false} id="transform-data">
               <Tab eventKey="source" title="Source Data" className="border">
-                <EnhancedMonacoEditorWithNav
+                <JSONEditorWithNav
                   language="json"
                   theme="jsonataTheme"
                   options={options}
@@ -427,7 +447,7 @@ class ExerciserBootstrap extends React.Component {
                 />
               </Tab>
               <Tab eventKey="results" title="Results" className="border">
-                <EnhancedMonacoEditorWithNav
+                <JSONEditorWithNav
                   language="json"
                   theme="jsonataTheme"
                   options={resultsoptions}
