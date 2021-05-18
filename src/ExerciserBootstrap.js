@@ -58,14 +58,14 @@ class ExerciserBootstrap extends React.Component {
         return typeName === 'CONTENT_EXPORT' || typeName === 'LEARNER_ACTIVITY_REPORT';
       })
       .map((value, index, sourceArray) => {
-        const newObj = {};
-        newObj.id = value.id;
+        const newObj = _.cloneDeep(value);
         newObj.name = `${value.name} - ${value.type}`;
         newObj.type = value.type.toUpperCase();
-        newObj.jsonata = `${value.transform}`;
+        // newObj.jsonata = `${value.transform}`;
         newObj.baseconfig = this.configurations[value.id]
           ? this.configurations[value.id].configuration
           : {};
+        newObj.configuration = this.configurations[value.id] ? this.configurations[value.id] : {};
         newObj.customerconfig = {};
         return newObj;
       })
@@ -92,7 +92,7 @@ class ExerciserBootstrap extends React.Component {
         id: 'empty',
         name: 'Empty',
         type: 'EMPTY',
-        jsonata: `$.{}`,
+        transform: `$.{}`,
         baseconfig: {},
         customerconfig: {},
       },
@@ -100,7 +100,7 @@ class ExerciserBootstrap extends React.Component {
         id: 'samplemetadata',
         name: 'Empty - CONTENT_EXPORT',
         type: 'CONTENT_EXPORT',
-        jsonata: `$.{}`,
+        transform: `$.{}`,
         baseconfig: {},
         customerconfig: {},
       },
@@ -108,7 +108,7 @@ class ExerciserBootstrap extends React.Component {
         id: 'samplelearningactivity',
         name: 'Empty - LEARNER_ACTIVITY_REPORT',
         type: 'LEARNER_ACTIVITY_REPORT',
-        jsonata: `$.{}`,
+        transform: `$.{}`,
         baseconfig: {},
         customerconfig: {},
       },
@@ -121,10 +121,11 @@ class ExerciserBootstrap extends React.Component {
 
     this.data = {
       json: JSON.stringify({}, null, 2),
-      jsonata: `$.{}`,
+      transform: `$.{}`,
       baseconfig: JSON.stringify({}, null, 2),
       customerconfig: JSON.stringify({}, null, 2),
       result: null,
+      jsonataInfo: null,
     };
   }
 
@@ -148,12 +149,27 @@ class ExerciserBootstrap extends React.Component {
     }
   }
 
+  editorInfoUpdated(editor, value) {
+    const { createdAt, updatedAt, description } = value;
+
+    let info = createdAt ? `Created: ${createdAt}\u000D` : '';
+    info += updatedAt ? `Updated: ${updatedAt}\u000D` : '';
+    info += description ? `\u000D${description}\u000D` : '';
+
+    if (editor) {
+      editor.setInfo(info);
+    }
+  }
+
   allEditorsOverwrite() {
     this.editorOverwrite(this.jsonEditor, this.data.json);
-    this.editorOverwrite(this.jsonataEditor, this.data.jsonata);
+    this.editorOverwrite(this.jsonataEditor, this.data.transform);
     this.editorOverwrite(this.baseconfigEditor, this.data.baseconfig);
     this.editorOverwrite(this.customerconfigEditor, this.data.customerconfig);
     this.editorOverwrite(this.resultsEditor, this.data.results);
+
+    this.editorInfoUpdated(this.jsonataEditor, this.data.jsonataInfo);
+    this.editorInfoUpdated(this.baseconfigEditor, this.data.jsonataInfo.configuration);
   }
 
   jsonEditorDidMount(editor, monaco) {
@@ -163,7 +179,7 @@ class ExerciserBootstrap extends React.Component {
 
   jsonataEditorDidMount(editor, monaco) {
     this.jsonataEditor = editor;
-    this.editorOverwrite(this.jsonataEditor, this.data.jsonata);
+    this.editorOverwrite(this.jsonataEditor, this.data.transform);
   }
 
   baseconfigEditorDidMount(editor, monaco) {
@@ -189,7 +205,7 @@ class ExerciserBootstrap extends React.Component {
   }
 
   onChangeExpression(newValue, e) {
-    this.data.jsonata = newValue;
+    this.data.transform = newValue;
     clearTimeout(this.timer);
     this.timer = setTimeout(this.eval.bind(this), 750);
     this.clearMarkers();
@@ -227,9 +243,10 @@ class ExerciserBootstrap extends React.Component {
     const selected = this.sources[eventkey];
     this.data = {
       json: JSON.stringify(sampledata[selected.type], null, 2),
-      jsonata: selected.jsonata,
+      transform: selected.transform,
       baseconfig: JSON.stringify(selected.baseconfig || {}, null, 2),
       customerconfig: JSON.stringify(selected.customerconfig || {}, null, 2),
+      jsonataInfo: selected || null,
     };
     this.allEditorsOverwrite();
     clearTimeout(this.timer);
@@ -273,7 +290,7 @@ class ExerciserBootstrap extends React.Component {
     // binding = {};
 
     try {
-      if (this.data.jsonata !== '') {
+      if (this.data.transform !== '') {
         jsonataResult = this.evalJsonata(input, binding);
         this.data.results = jsonataResult;
       }
@@ -292,7 +309,7 @@ class ExerciserBootstrap extends React.Component {
   }
 
   evalJsonata(input, binding) {
-    const expr = window.jsonataExtended(this.data.jsonata);
+    const expr = window.jsonataExtended(this.data.transform);
 
     // Adding the moment to the expression as it is being referred in reporting transforms.
     // PER-4477

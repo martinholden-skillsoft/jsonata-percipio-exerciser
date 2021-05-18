@@ -24,6 +24,7 @@ export default class JSONATAEditorWithNav extends Component {
       width: props.width || '100%',
       height: props.height || '100%',
       filename: `${accessSafe(() => this.props.label, 'filename')}.jsonata`.toLowerCase(),
+      info: props.info || null,
     };
 
     this.editor = null;
@@ -57,6 +58,18 @@ export default class JSONATAEditorWithNav extends Component {
    */
   setValue(value) {
     return this.editor.setValue(value);
+  }
+
+  /**
+   * Set the info in the Navbar.
+   *
+   * @param {*} text
+   * @memberof EnhancedEditor
+   */
+  setInfo(info) {
+    return this.setState({
+      info,
+    });
   }
 
   /**
@@ -157,6 +170,7 @@ export default class JSONATAEditorWithNav extends Component {
             id={id}
             key={id + '-editor-nav'}
             label={label}
+            info={this.state.info}
             navLinks={[
               {
                 enabled: downloadEnabled,
@@ -194,6 +208,7 @@ JSONATAEditorWithNav.propTypes = {
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   downloadEnabled: PropTypes.bool,
   label: PropTypes.string,
+  info: PropTypes.string,
   className: PropTypes.string,
   id: PropTypes.string,
 };
@@ -202,5 +217,6 @@ JSONATAEditorWithNav.defaultProps = {
   className: 'resizable-editor-withnav',
   downloadEnabled: true,
   label: 'JSONata Editor with Nav',
+  info: null,
   id: uuidv4(),
 };

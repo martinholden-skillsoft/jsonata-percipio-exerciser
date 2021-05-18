@@ -38,6 +38,7 @@ export default class JSONEditorWithNav extends Component {
       height: props.height || '100%',
       filename: `${accessSafe(() => this.props.label, 'filename')}.json`.toLowerCase(),
       csvfilename: `${accessSafe(() => this.props.label, 'filename')}.csv`.toLowerCase(),
+      info: props.info || null,
     };
 
     this.editor = null;
@@ -71,6 +72,18 @@ export default class JSONEditorWithNav extends Component {
    */
   setValue(value) {
     return this.editor.setValue(value);
+  }
+
+  /**
+   * Set the info in the Navbar.
+   *
+   * @param {*} text
+   * @memberof EnhancedEditor
+   */
+  setInfo(info) {
+    return this.setState({
+      info,
+    });
   }
 
   /**
@@ -197,6 +210,7 @@ export default class JSONEditorWithNav extends Component {
             id={id}
             key={id + '-editor-nav'}
             label={label}
+            info={this.state.info}
             navLinks={[
               {
                 enabled: formatEnabled,
@@ -248,6 +262,7 @@ JSONEditorWithNav.propTypes = {
   downloadEnabled: PropTypes.bool,
   downloadCSVEnabled: PropTypes.bool,
   label: PropTypes.string,
+  info: PropTypes.string,
   id: PropTypes.string,
 };
 
@@ -257,5 +272,6 @@ JSONEditorWithNav.defaultProps = {
   downloadEnabled: true,
   downloadCSVEnabled: false,
   label: 'JSON Editor with Nav',
+  info: null,
   id: uuidv4(),
 };
