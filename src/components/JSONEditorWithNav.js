@@ -119,7 +119,7 @@ export default class JSONEditorWithNav extends Component {
   _onFormatClick(eventKey, event) {
     const value = this.getValue();
     const formatted = JSON.stringify(JSON.parse(value), null, 2);
-    this.updateNoUndo(formatted);
+    this.setValue(formatted);
   }
 
   _onDownloadClick(eventKey, event) {
