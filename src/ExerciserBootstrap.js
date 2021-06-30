@@ -150,7 +150,7 @@ class ExerciserBootstrap extends React.Component {
   }
 
   editorInfoUpdated(editor, value) {
-    const { createdAt, updatedAt, description } = value;
+    const { createdAt, updatedAt, description } = value || {};
 
     let info = createdAt ? `Created: ${createdAt}\u000D` : '';
     info += updatedAt ? `Updated: ${updatedAt}\u000D` : '';
