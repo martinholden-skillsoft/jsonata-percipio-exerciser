@@ -430,7 +430,6 @@ class ExerciserBootstrap extends React.Component {
               <Tab eventKey="baseconfig" title="Base Configuration" className="border">
                 <JSONEditorWithNav
                   language="json"
-                  theme="jsonataTheme"
                   options={options}
                   onChange={this.onChangeBaseconfig.bind(this)}
                   editorDidMount={this.baseconfigEditorDidMount.bind(this)}
@@ -440,7 +439,6 @@ class ExerciserBootstrap extends React.Component {
               <Tab eventKey="customerconfig" title="Customer Configuration" className="border">
                 <JSONEditorWithNav
                   language="json"
-                  theme="jsonataTheme"
                   options={options}
                   onChange={this.onChangeCustomerconfig.bind(this)}
                   editorDidMount={this.customerconfigEditorDidMount.bind(this)}
@@ -456,7 +454,6 @@ class ExerciserBootstrap extends React.Component {
               <Tab eventKey="source" title="Source Data" className="border">
                 <JSONEditorWithNav
                   language="json"
-                  theme="jsonataTheme"
                   options={options}
                   onChange={this.onChangeData.bind(this)}
                   editorDidMount={this.jsonEditorDidMount.bind(this)}
@@ -466,7 +463,6 @@ class ExerciserBootstrap extends React.Component {
               <Tab eventKey="results" title="Results" className="border">
                 <JSONEditorWithNav
                   language="json"
-                  theme="jsonataTheme"
                   options={resultsoptions}
                   editorDidMount={this.resultsEditorDidMount.bind(this)}
                   label="Results"
